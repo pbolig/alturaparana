@@ -58,8 +58,10 @@
     border:1px solid var(--line); border-radius:8px; padding:7px 10px;
   }
 
-  .grid{ display:grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap:16px; margin-bottom:14px; }
+  .grid{ display:grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap:16px; margin-bottom:14px; align-items:stretch; }
   .card + .card{ margin-top:14px; }
+  .grid > .card{ height:100%; }
+  .grid > .card + .card{ margin-top:0; }
 
   .card{
     background: var(--surface); border:1px solid var(--line);
