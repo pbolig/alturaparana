@@ -189,11 +189,12 @@
           <div class="viento-dir" id="vientoDir">--</div>
           <div class="viento-dir" id="rachaViento">Racha: --</div>
           <div class="viento-dir" id="probLluvia">Lluvia: --</div>
+          <div class="viento-dir" id="temperaturaViento">Temperatura: --</div>
         </div>
         <button class="unidad-toggle" id="toggleUnidad">nudos ⇄ km/h</button>
       </div>
       <div class="scroll">
-        <table id="tablaViento"><tr><th>Hora</th><th>Viento</th><th>Dir</th><th>Lluvia</th></tr></table>
+        <table id="tablaViento"><tr><th>Hora</th><th>Viento</th><th>Dir</th><th>Racha</th><th>Prob. lluvia</th><th>Lluvia</th><th>Temp.</th></tr></table>
       </div>
     </div>
   </div>
@@ -443,7 +444,7 @@ async function cargarViento() {
   try {
     const url = `https://api.open-meteo.com/v1/forecast?latitude=${ROSARIO_LAT}&longitude=${ROSARIO_LON}` +
       `&hourly=precipitation_probability` +
-      `&minutely_15=precipitation,wind_speed_10m,wind_direction_10m,wind_gusts_10m&wind_speed_unit=kmh` +
+      `&minutely_15=temperature_2m,precipitation,wind_speed_10m,wind_direction_10m,wind_gusts_10m&wind_speed_unit=kmh` +
       `&timezone=auto&forecast_minutely_15=96`;
     const res = await fetch(url);
     if (!res.ok) throw new Error("HTTP " + res.status);
@@ -470,11 +471,13 @@ function renderViento() {
   const dirActual = vientoCrudo.wind_direction_10m[idxActual];
   const rachaActual = vientoCrudo.wind_gusts_10m[idxActual];
   const probActual = vientoProbabilidad(idxActual);
+  const temperaturaActual = vientoCrudo.temperature_2m[idxActual];
 
   document.getElementById("vientoNum").textContent = formatearVelocidad(velActual);
   document.getElementById("vientoDir").textContent = `viene del ${direccionCardinal(dirActual)} (${dirActual}°)`;
   document.getElementById("rachaViento").textContent = `Racha: ${formatearVelocidad(rachaActual)}`;
   document.getElementById("probLluvia").textContent = `Lluvia: ${probActual ?? "s/d"}%`;
+  document.getElementById("temperaturaViento").textContent = `Temperatura: ${temperaturaActual.toFixed(1)} °C`;
   // la flecha apunta hacia donde SOPLA el viento (dirección + 180°)
   document.getElementById("agujaViento").setAttribute("transform", `rotate(${(dirActual + 180) % 360} 36 36)`);
 
@@ -489,10 +492,11 @@ function renderViento() {
       <td>${formatearVelocidad(vientoCrudo.wind_gusts_10m[i])}</td>
       <td>${vientoProbabilidad(i) ?? "s/d"}%</td>
       <td>${vientoCrudo.precipitation[i]} mm</td>
+      <td>${vientoCrudo.temperature_2m[i].toFixed(1)} °C</td>
     </tr>`;
   }
   document.getElementById("tablaViento").innerHTML =
-    "<tr><th>Hora</th><th>Viento</th><th>Dir</th><th>Racha</th><th>Prob. lluvia</th><th>Lluvia</th></tr>" + filas;
+    "<tr><th>Hora</th><th>Viento</th><th>Dir</th><th>Racha</th><th>Prob. lluvia</th><th>Lluvia</th><th>Temp.</th></tr>" + filas;
 }
 
 function vientoProbabilidad(indice) {
