@@ -23,8 +23,8 @@ async function main() {
     estaciones = await fs.readFile(path.join(outputDir, "estaciones.html"), "utf8");
   }
 
-  const ids = [...new Set([...estaciones.matchAll(/historico[^"']*id=(\d+)/gi)].map(match => match[1]))];
-  console.log(`Estaciones históricas encontradas: ${ids.length}`);
+  const ids = ["280"];
+  console.log("Actualizando histórico predeterminado: Rosario (280)");
 
   for (const id of ids) {
     const url = `${BASE}?id=${id}&page=historico&tiempo=7`;
