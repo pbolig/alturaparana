@@ -227,6 +227,7 @@
 <script>
 const ROSARIO_LAT = -32.9468, ROSARIO_LON = -60.6393;
 const PREFECTURA_BASE = "https://contenidosweb.prefecturanaval.gob.ar/alturas/";
+const GITHUB_PAGES = window.location.hostname.endsWith("github.io");
 const PREFECTURA_PROXY = window.location.port === "5500"
   ? "http://127.0.0.1:8787/api/prefectura?url="
   : "/api/prefectura?url=";
@@ -239,7 +240,12 @@ let umbralAlerta = 4;
 let umbralEvacuacion = 4.5;
 
 async function fetchConProxies(url) {
-  const res = await fetch(PREFECTURA_PROXY + encodeURIComponent(url));
+  let fuente = PREFECTURA_PROXY + encodeURIComponent(url);
+  if (GITHUB_PAGES) {
+    const historico = url.match(/[?&]id=(\d+)/);
+    fuente = historico ? `data/historico-${historico[1]}.html` : "data/estaciones.html";
+  }
+  const res = await fetch(fuente);
   if (!res.ok) throw new Error("HTTP " + res.status);
   return res.text();
 }
