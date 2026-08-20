@@ -168,7 +168,7 @@
 
     <div class="card">
       <div class="fuente">Fuente: Open-Meteo.com</div>
-      <h2>Viento ahora</h2>
+      <h2>Viento · próximas horas</h2>
       <div id="vientoError" class="banner-error"></div>
       <div class="viento-actual">
         <div class="flecha-wrap">
@@ -469,11 +469,8 @@ function renderViento() {
   document.getElementById("agujaViento").setAttribute("transform", `rotate(${(dirActual + 180) % 360} 36 36)`);
 
   let filas = "";
-  const ordenHoras = Array.from({ length: vientoCrudo.time.length }, (_, offset) =>
-    (idxActual + offset) % vientoCrudo.time.length
-  );
-  for (let posicion = 0; posicion < ordenHoras.length; posicion += 2) {
-    const i = ordenHoras[posicion];
+  const primeraHoraFutura = Math.min(idxActual + 1, vientoCrudo.time.length - 1);
+  for (let i = primeraHoraFutura; i < vientoCrudo.time.length; i++) {
     const hora = new Date(vientoCrudo.time[i]).toLocaleTimeString("es-AR", { hour: "2-digit" });
     filas += `<tr>
       <td>${hora}</td>
