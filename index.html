@@ -252,7 +252,11 @@
     </div>
   </div>
 
-  <footer>Datos abiertos + Open-Meteo + Windy · Actualiza cada 30 min · Hecho para la costa de Rosario</footer>
+  <footer>
+    <div>Datos abiertos + Open-Meteo + Windy · Actualiza cada 30 min · Hecho para la costa de Rosario</div>
+    <div>Autor: Pedro Bolig · Contacto: <a href="mailto:pedro.bolig@gmail.com">pedro.bolig@gmail.com</a> · Instagram: <a href="https://www.instagram.com/pedro.bolig" target="_blank" rel="noopener">@pedro.bolig</a></div>
+    <div>© 2026 Pedro Bolig. Todos los derechos reservados.</div>
+  </footer>
 </div>
 
 <script>
@@ -557,6 +561,7 @@ function vientoProbabilidad(indice) {
 document.getElementById("toggleUnidad").addEventListener("click", () => {
   unidadActual = unidadActual === "kmh" ? "kn" : "kmh";
   renderViento();
+  renderPronosticoDiario();
 });
 
 async function cargarTodo() {
