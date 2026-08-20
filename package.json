@@ -1,0 +1,12 @@
+{
+  "name": "alturaparana",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Mira del Parana: alturas, viento y pronostico para Rosario",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
