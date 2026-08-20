@@ -14,8 +14,14 @@ async function descargar(url) {
 
 async function main() {
   await fs.mkdir(outputDir, { recursive: true });
-  const estaciones = await descargar(BASE);
-  await fs.writeFile(path.join(outputDir, "estaciones.html"), estaciones);
+  let estaciones;
+  try {
+    estaciones = await descargar(BASE);
+    await fs.writeFile(path.join(outputDir, "estaciones.html"), estaciones);
+  } catch (error) {
+    console.warn(`No se pudo actualizar la tabla de estaciones: ${error.message}`);
+    estaciones = await fs.readFile(path.join(outputDir, "estaciones.html"), "utf8");
+  }
 
   const ids = [...new Set([...estaciones.matchAll(/historico[^"']*id=(\d+)/gi)].map(match => match[1]))];
   console.log(`Estaciones históricas encontradas: ${ids.length}`);
@@ -26,7 +32,7 @@ async function main() {
       const historico = await descargar(url);
       await fs.writeFile(path.join(outputDir, `historico-${id}.html`), historico);
     } catch (error) {
-      console.warn(`No se pudo actualizar el histórico ${id}: ${error.message}`);
+      console.warn(`Se conserva el histórico ${id}: ${error.message}`);
     }
   }
 }
