@@ -58,7 +58,8 @@
     border:1px solid var(--line); border-radius:8px; padding:7px 10px;
   }
 
-  .grid{ display:grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap:16px; margin-bottom:16px; }
+  .grid{ display:grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap:16px; margin-bottom:14px; }
+  .card + .card{ margin-top:14px; }
 
   .card{
     background: var(--surface); border:1px solid var(--line);
@@ -134,6 +135,7 @@
   .temperaturas span{ color:var(--foam-dim); font-size:19px; }
   .dia-dato{ color:var(--foam-dim); font-family:'IBM Plex Mono', monospace; font-size:10.5px; line-height:1.5; margin-top:7px; }
   .dia-dato b{ color:var(--foam); font-weight:500; }
+  .flecha-direccion{ display:inline-block; color:var(--clay-bright); font-family:Arial, sans-serif; font-size:18px; line-height:1; }
 
   @media (max-width: 760px){
     .pronostico-7-dias{ grid-template-columns:repeat(2, minmax(0, 1fr)); }
@@ -458,6 +460,9 @@ function direccionCardinal(deg) {
   const idx = Math.round(deg / 22.5) % 16;
   return puntos[idx];
 }
+function flechaDireccion(deg) {
+  return `<span class="flecha-direccion" title="Dirección: ${deg}°" style="transform:rotate(${(deg + 180) % 360}deg)">↑</span>`;
+}
 function kmhAKn(kmh) { return kmh * 0.539957; }
 
 function formatearVelocidad(kmh) {
@@ -534,7 +539,7 @@ function renderViento() {
     filas += `<tr>
       <td>${hora}</td>
       <td>${formatearVelocidad(vientoCrudo.wind_speed_10m[i])}</td>
-      <td>${direccionCardinal(vientoCrudo.wind_direction_10m[i])}</td>
+      <td>${flechaDireccion(vientoCrudo.wind_direction_10m[i])}</td>
       <td>${formatearVelocidad(vientoCrudo.wind_gusts_10m[i])}</td>
       <td>${vientoProbabilidad(i) ?? "s/d"}%</td>
       <td>${vientoCrudo.precipitation[i]} mm</td>
