@@ -119,6 +119,26 @@
 
   canvas{ max-height:280px; }
 
+  .pronostico-7-dias{
+    display:grid; grid-template-columns:repeat(7, minmax(145px, 1fr));
+    gap:8px; overflow-x:auto;
+  }
+  .dia-pronostico{
+    background:var(--surface-2); border:1px solid var(--line); border-radius:10px;
+    padding:12px 10px; min-width:145px;
+  }
+  .dia-nombre{ color:var(--clay-bright); font-family:'Fraunces', serif; font-size:18px; font-weight:600; }
+  .dia-fecha{ color:var(--foam-dim); font-family:'IBM Plex Mono', monospace; font-size:11px; margin:2px 0 12px; }
+  .temperaturas{ font-family:'Fraunces', serif; font-size:25px; color:var(--foam); margin-bottom:12px; }
+  .temperaturas strong{ color:var(--clay-bright); }
+  .temperaturas span{ color:var(--foam-dim); font-size:19px; }
+  .dia-dato{ color:var(--foam-dim); font-family:'IBM Plex Mono', monospace; font-size:10.5px; line-height:1.5; margin-top:7px; }
+  .dia-dato b{ color:var(--foam); font-weight:500; }
+
+  @media (max-width: 760px){
+    .pronostico-7-dias{ grid-template-columns:repeat(7, 145px); padding-bottom:4px; }
+  }
+
   iframe{ width:100%; height:520px; border:none; border-radius:12px; display:block; }
 
   .fuentes-libres{ display:flex; flex-wrap:wrap; gap:10px; margin-top:12px; }
@@ -200,6 +220,12 @@
   </div>
 
   <div class="card">
+    <div class="fuente">Fuente: Open-Meteo.com</div>
+    <h2>Pronóstico · próximos 7 días</h2>
+    <div id="pronostico7Dias" class="pronostico-7-dias"></div>
+  </div>
+
+  <div class="card">
     <h2>Altura · últimos 7 días</h2>
     <canvas id="grafico30d"></canvas>
   </div>
@@ -239,6 +265,7 @@ let grafico;
 let zonaActual = "ROSARIO";
 let unidadActual = "kmh"; // 'kmh' | 'kn'
 let vientoCrudo = null; // guarda datos en km/h para poder convertir sin refetch
+let pronosticoDiario = null;
 let umbralAlerta = 4;
 let umbralEvacuacion = 4.5;
 
@@ -445,6 +472,7 @@ async function cargarViento() {
     const url = `https://api.open-meteo.com/v1/forecast?latitude=${ROSARIO_LAT}&longitude=${ROSARIO_LON}` +
       `&hourly=precipitation_probability` +
       `&minutely_15=temperature_2m,precipitation,wind_speed_10m,wind_direction_10m,wind_gusts_10m&wind_speed_unit=kmh` +
+      `&daily=temperature_2m_max,temperature_2m_min,precipitation_probability_max,precipitation_sum,wind_speed_10m_min,wind_speed_10m_max` +
       `&timezone=auto&forecast_minutely_15=96`;
     const res = await fetch(url);
     if (!res.ok) throw new Error("HTTP " + res.status);
@@ -453,11 +481,29 @@ async function cargarViento() {
       [hora.slice(0, 13), json.hourly.precipitation_probability[indice]]
     ));
     vientoCrudo = { ...json.minutely_15, probabilidadPorHora };
+    pronosticoDiario = json.daily;
     renderViento();
+    renderPronosticoDiario();
   } catch (e) {
     console.error("Error viento:", e);
     mostrarError("vientoError", `No se pudo obtener el viento de Open-Meteo (${e.message}). Reintentando en el próximo ciclo.`);
   }
+}
+
+function renderPronosticoDiario() {
+  if (!pronosticoDiario) return;
+  const nombresDias = ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"];
+  const tarjetas = pronosticoDiario.time.map((fecha, indice) => {
+    const dia = new Date(`${fecha}T12:00:00`).getDay();
+    return `<article class="dia-pronostico">
+      <div class="dia-nombre">${indice === 0 ? "Hoy" : nombresDias[dia]}</div>
+      <div class="dia-fecha">${fecha.slice(8, 10)}/${fecha.slice(5, 7)}</div>
+      <div class="temperaturas"><strong>${pronosticoDiario.temperature_2m_max[indice].toFixed(0)}°</strong> <span>${pronosticoDiario.temperature_2m_min[indice].toFixed(0)}°</span></div>
+      <div class="dia-dato"><b>Lluvia</b> ${pronosticoDiario.precipitation_probability_max[indice]}% · ${pronosticoDiario.precipitation_sum[indice].toFixed(1)} mm</div>
+      <div class="dia-dato"><b>Viento</b> ${pronosticoDiario.wind_speed_10m_min[indice].toFixed(0)}–${pronosticoDiario.wind_speed_10m_max[indice].toFixed(0)} km/h</div>
+    </article>`;
+  }).join("");
+  document.getElementById("pronostico7Dias").innerHTML = tarjetas;
 }
 
 function renderViento() {
