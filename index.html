@@ -120,12 +120,12 @@
   canvas{ max-height:280px; }
 
   .pronostico-7-dias{
-    display:grid; grid-template-columns:repeat(7, minmax(145px, 1fr));
-    gap:8px; overflow-x:auto;
+    display:grid; grid-template-columns:repeat(7, minmax(0, 1fr));
+    gap:8px;
   }
   .dia-pronostico{
     background:var(--surface-2); border:1px solid var(--line); border-radius:10px;
-    padding:12px 10px; min-width:145px;
+    padding:12px 10px; min-width:0;
   }
   .dia-nombre{ color:var(--clay-bright); font-family:'Fraunces', serif; font-size:18px; font-weight:600; }
   .dia-fecha{ color:var(--foam-dim); font-family:'IBM Plex Mono', monospace; font-size:11px; margin:2px 0 12px; }
@@ -136,7 +136,7 @@
   .dia-dato b{ color:var(--foam); font-weight:500; }
 
   @media (max-width: 760px){
-    .pronostico-7-dias{ grid-template-columns:repeat(7, 145px); padding-bottom:4px; }
+    .pronostico-7-dias{ grid-template-columns:repeat(2, minmax(0, 1fr)); }
   }
 
   iframe{ width:100%; height:520px; border:none; border-radius:12px; display:block; }
@@ -500,7 +500,7 @@ function renderPronosticoDiario() {
       <div class="dia-fecha">${fecha.slice(8, 10)}/${fecha.slice(5, 7)}</div>
       <div class="temperaturas"><strong>${pronosticoDiario.temperature_2m_max[indice].toFixed(0)}°</strong> <span>${pronosticoDiario.temperature_2m_min[indice].toFixed(0)}°</span></div>
       <div class="dia-dato"><b>Lluvia</b> ${pronosticoDiario.precipitation_probability_max[indice]}% · ${pronosticoDiario.precipitation_sum[indice].toFixed(1)} mm</div>
-      <div class="dia-dato"><b>Viento</b> ${pronosticoDiario.wind_speed_10m_min[indice].toFixed(0)}–${pronosticoDiario.wind_speed_10m_max[indice].toFixed(0)} km/h</div>
+      <div class="dia-dato"><b>Viento</b> ${formatearVelocidad(pronosticoDiario.wind_speed_10m_min[indice])}–${formatearVelocidad(pronosticoDiario.wind_speed_10m_max[indice])}</div>
     </article>`;
   }).join("");
   document.getElementById("pronostico7Dias").innerHTML = tarjetas;
