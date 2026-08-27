@@ -6,6 +6,7 @@ const HOST = process.env.HOST || "0.0.0.0";
 const PORT = Number(process.env.PORT) || 8787;
 const ROOT = __dirname;
 const PREFECTURA_HOST = "https://contenidosweb.prefecturanaval.gob.ar";
+const SMN_HOST = "https://ws2.smn.gob.ar";
 
 function responder(res, status, body, type = "text/plain; charset=utf-8") {
   res.writeHead(status, {
@@ -33,6 +34,23 @@ const server = http.createServer(async (req, res) => {
       responder(res, remote.status, body, remote.headers.get("content-type") || "text/html; charset=utf-8");
     } catch (error) {
       responder(res, 502, `No se pudo consultar Prefectura: ${error.message}`);
+    }
+    return;
+  }
+
+  if (requestUrl.pathname === "/api/smn/pronostico" || requestUrl.pathname === "/api/smn/alertas") {
+    const remoteUrl = `${SMN_HOST}${requestUrl.pathname.replace("/api/smn", "")}`;
+    try {
+      const remote = await fetch(remoteUrl, {
+        headers: { "User-Agent": "Mira-del-Parana/1.0" },
+      });
+      let body = await remote.text();
+      if (remote.ok && /<head\b/i.test(body)) {
+        body = body.replace(/<head\b[^>]*>/i, "$&<base href=\"https://ws2.smn.gob.ar/\">");
+      }
+      responder(res, remote.status, body, remote.headers.get("content-type") || "text/html; charset=utf-8");
+    } catch (error) {
+      responder(res, 502, `No se pudo consultar el SMN: ${error.message}`);
     }
     return;
   }
