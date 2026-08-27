@@ -4,6 +4,7 @@
   "private": true,
   "description": "Mira del Parana: alturas, viento y pronostico para Rosario",
   "scripts": {
+    "build": "node scripts/update-data.js",
     "start": "node server.js"
   },
   "engines": {

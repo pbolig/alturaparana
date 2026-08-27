@@ -281,7 +281,8 @@ async function fetchConProxies(url) {
   let fuente = PREFECTURA_PROXY + encodeURIComponent(url);
   if (GITHUB_PAGES) {
     const historico = url.match(/[?&]id=(\d+)/);
-    fuente = historico ? `data/historico-${historico[1]}.html` : "data/estaciones.html";
+    const cacheBuster = `?v=${Date.now()}`;
+    fuente = historico ? `data/historico-${historico[1]}.html${cacheBuster}` : `data/estaciones.html${cacheBuster}`;
   }
   const res = await fetch(fuente);
   if (!res.ok) throw new Error("HTTP " + res.status);

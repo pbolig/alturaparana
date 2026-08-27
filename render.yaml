@@ -2,6 +2,6 @@ services:
   - type: web
     name: alturaparana
     runtime: node
-    buildCommand: npm install
+    buildCommand: npm install && npm run build
     startCommand: npm start
     autoDeploy: true

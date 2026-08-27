@@ -22,6 +22,10 @@ jobs:
     steps:
       - name: Descargar codigo
         uses: actions/checkout@v4
+      - name: Configurar Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
       - name: Generar datos de Prefectura
         run: node scripts/update-data.js
       - name: Configurar Pages
