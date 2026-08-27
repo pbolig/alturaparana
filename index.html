@@ -329,11 +329,30 @@ function listasDe(objeto) {
   return [];
 }
 
+function formatearFechaSMN(fecha) {
+  const valor = new Date(`${fecha}T12:00:00`);
+  if (Number.isNaN(valor.getTime())) return fecha;
+  const dia = valor.toLocaleDateString("es-AR", { weekday: "long" });
+  const numero = valor.toLocaleDateString("es-AR", { day: "2-digit" });
+  const mes = valor.toLocaleDateString("es-AR", { month: "short" }).replace(".", "");
+  return `${dia.charAt(0).toUpperCase() + dia.slice(1)} ${numero}/${mes}`;
+}
+
+function formatearRangoLluvia(iso) {
+  const inicio = new Date(iso);
+  if (Number.isNaN(inicio.getTime())) return "horario no disponible";
+  const fin = new Date(inicio.getTime() + 60 * 60 * 1000);
+  const opciones = { hour: "2-digit", minute: "2-digit" };
+  const fecha = inicio.toLocaleDateString("es-AR", { weekday: "long", day: "2-digit", month: "short" }).replace(/\./g, "");
+  return `${fecha} · ${inicio.toLocaleTimeString("es-AR", opciones)}-${fin.toLocaleTimeString("es-AR", opciones)}`;
+}
+
 function renderSMN(datos) {
   const nombre = datos.lugar?.nombre || "Rosario";
   const pronosticos = Array.isArray(datos.pronostico?.forecast) ? datos.pronostico.forecast : listasDe(datos.pronostico).filter(item => !Array.isArray(item));
   const dias = pronosticos.slice(0, 6).map((dia) => {
-    const fecha = primerValor(dia, ["date", "fecha", "day"]) || "Próximo período";
+    const fechaCruda = primerValor(dia, ["date", "fecha", "day"]) || "Próximo período";
+    const fecha = fechaCruda === "Próximo período" ? fechaCruda : formatearFechaSMN(fechaCruda);
     const min = primerValor(dia, ["temp_min", "temperature_min", "min"]);
     const max = primerValor(dia, ["temp_max", "temperature_max", "max"]);
     const periodos = [
@@ -351,10 +370,16 @@ function renderSMN(datos) {
 
   const maximo = pronosticos.reduce((valor, dia) => Math.max(valor, Number(dia.temp_max) || -Infinity), -Infinity);
   const minimo = pronosticos.reduce((valor, dia) => Math.min(valor, Number(dia.temp_min) || Infinity), Infinity);
-  const lluvia = Math.max(...pronosticos.flatMap(dia => [dia.morning, dia.afternoon, dia.night].filter(Boolean).map(periodo => Math.max(...(periodo.rain_prob_range || [0])))));
+  const ahora = new Date();
+  const limiteLluvia = new Date(ahora.getTime() + 24 * 60 * 60 * 1000);
+  const lluviaHoraria = vientoCrudo?.probabilidadHoraria?.filter(item => {
+    const fecha = new Date(item.time);
+    return fecha >= ahora && fecha <= limiteLluvia;
+  }) || [];
+  const lluviaMaxima = lluviaHoraria.reduce((mejor, item) => item.value > (mejor?.value ?? -1) ? item : mejor, null);
   const racha = vientoCrudo ? Math.max(...(vientoCrudo.wind_gusts_10m || [0])) : 0;
   const tarjetas = [];
-  if (lluvia >= 60) tarjetas.push(`<article class="smn-alert"><div class="smn-alert-level">Lluvia</div><strong>Probabilidad elevada: ${lluvia}%</strong><br>Indicador de Open-Meteo para ${nombre}.</article>`);
+  if (lluviaMaxima?.value >= 60) tarjetas.push(`<article class="smn-alert"><div class="smn-alert-level">Lluvia</div><strong>Probabilidad elevada: ${lluviaMaxima.value}%</strong><br>${formatearRangoLluvia(lluviaMaxima.time)}<br>Indicador de Open-Meteo para ${nombre}.</article>`);
   if (racha >= 50) tarjetas.push(`<article class="smn-alert"><div class="smn-alert-level">Viento</div><strong>Ráfagas de hasta ${racha.toFixed(0)} km/h</strong><br>Indicador de Open-Meteo para las próximas horas.</article>`);
   if (maximo >= 35 || minimo <= 0) tarjetas.push(`<article class="smn-alert"><div class="smn-alert-level">Temperatura</div><strong>${maximo >= 35 ? `Máxima de ${maximo} °C` : `Mínima de ${minimo} °C`}</strong><br>Indicador de Open-Meteo para los próximos días.</article>`);
   document.getElementById("smnAlertasStatus").textContent = "Indicadores meteorológicos · Open-Meteo";
@@ -588,10 +613,11 @@ async function cargarViento() {
     const res = await fetch(url);
     if (!res.ok) throw new Error("HTTP " + res.status);
     const json = await res.json();
+    const probabilidadHoraria = json.hourly.time.map((hora, indice) => ({ time: hora, value: json.hourly.precipitation_probability[indice] }));
     const probabilidadPorHora = new Map(json.hourly.time.map((hora, indice) =>
       [hora.slice(0, 13), json.hourly.precipitation_probability[indice]]
     ));
-    vientoCrudo = { ...json.minutely_15, probabilidadPorHora };
+    vientoCrudo = { ...json.minutely_15, probabilidadPorHora, probabilidadHoraria };
     pronosticoDiario = json.daily;
     renderViento();
     renderPronosticoDiario();
