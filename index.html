@@ -151,8 +151,6 @@
   .smn-panel:last-child .smn-frame{ height:620px; }
   .smn-reference{ color:var(--foam-dim); font-family:'IBM Plex Mono', monospace; font-size:11px; line-height:1.5; margin:10px 0 0; }
   .smn-reference a{ color:var(--clay-bright); }
-  .smn-static{ color:var(--foam-dim); font-size:13px; line-height:1.55; padding:18px; border:1px solid var(--line); border-radius:10px; background:var(--surface-2); }
-  .smn-static a{ color:var(--clay-bright); }
   @media (max-width: 760px){
     .smn-grid{ grid-template-columns:1fr; }
     .smn-frame, .smn-panel:last-child .smn-frame{ height:560px; }
@@ -274,13 +272,11 @@
       <section class="smn-panel">
         <h3>Pronóstico del tiempo</h3>
         <iframe class="smn-frame" id="smnPronostico" title="Pronóstico del tiempo del SMN" loading="lazy"></iframe>
-        <div class="smn-static" id="smnPronosticoStatic" hidden>El pronóstico interactivo está disponible en el sitio oficial del SMN: <a href="https://ws2.smn.gob.ar/pronostico" target="_blank" rel="noopener">consultar pronóstico ↗</a>.</div>
         <p class="smn-reference">Referencia: <a href="https://ws2.smn.gob.ar/pronostico" target="_blank" rel="noopener">SMN · Pronóstico a 7 días ↗</a>. Usá el selector del panel para consultar Rosario.</p>
       </section>
       <section class="smn-panel">
         <h3>Alertas meteorológicas</h3>
         <iframe class="smn-frame" id="smnAlertas" title="Alertas meteorológicas del SMN" loading="lazy"></iframe>
-        <div class="smn-static" id="smnAlertasStatic" hidden>Las alertas vigentes se consultan en el Sistema de Alerta Temprana del SMN: <a href="https://ws2.smn.gob.ar/alertas" target="_blank" rel="noopener">ver alertas oficiales ↗</a>.</div>
         <p class="smn-reference">Referencia: <a href="https://ws2.smn.gob.ar/alertas" target="_blank" rel="noopener">SMN · Sistema de Alerta Temprana ↗</a>.</p>
       </section>
     </div>
@@ -310,13 +306,15 @@ let umbralAlerta = 4;
 let umbralEvacuacion = 4.5;
 
 function configurarCardSMN() {
-  if (GITHUB_PAGES) {
-    document.querySelectorAll(".smn-frame").forEach((frame) => { frame.hidden = true; });
-    document.querySelectorAll(".smn-static").forEach((panel) => { panel.hidden = false; });
-    return;
-  }
-  document.getElementById("smnPronostico").src = "/api/smn/pronostico";
-  document.getElementById("smnAlertas").src = "/api/smn/alertas";
+  const pronostico = GITHUB_PAGES
+    ? "data/smn-pronostico.html"
+    : "/api/smn/pronostico";
+  const alertas = GITHUB_PAGES
+    ? "data/smn-alertas.html"
+    : "/api/smn/alertas";
+  const version = `?v=${Date.now()}`;
+  document.getElementById("smnPronostico").src = pronostico + version;
+  document.getElementById("smnAlertas").src = alertas + version;
 }
 
 async function fetchConProxies(url) {

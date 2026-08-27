@@ -12,6 +12,17 @@ async function descargar(url) {
   return response.text();
 }
 
+async function guardarPagina(url, nombre) {
+  try {
+    let html = await descargar(url);
+    html = html.replace(/<head\b[^>]*>/i, '$&<base href="https://ws2.smn.gob.ar/">');
+    await fs.writeFile(path.join(outputDir, nombre), html);
+    console.log(`Actualizado ${nombre}`);
+  } catch (error) {
+    console.warn(`No se pudo actualizar ${nombre}: ${error.message}`);
+  }
+}
+
 async function main() {
   await fs.mkdir(outputDir, { recursive: true });
   let estaciones;
@@ -35,6 +46,9 @@ async function main() {
       console.warn(`Se conserva el histórico ${id}: ${error.message}`);
     }
   }
+
+  await guardarPagina("https://ws2.smn.gob.ar/pronostico", "smn-pronostico.html");
+  await guardarPagina("https://ws2.smn.gob.ar/alertas", "smn-alertas.html");
 }
 
 main().catch(error => {
