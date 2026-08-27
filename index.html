@@ -152,8 +152,10 @@
   .smn-day, .smn-alert{ background:var(--surface-2); border:1px solid var(--line); border-radius:10px; padding:12px; }
   .smn-day-date, .smn-alert-level{ color:var(--clay-bright); font-family:'Fraunces', serif; font-size:16px; font-weight:600; }
   .smn-day-value{ color:var(--foam); font-family:'IBM Plex Mono', monospace; font-size:11px; line-height:1.6; margin-top:7px; }
+  .smn-period{ color:var(--foam-dim); font-size:10px; line-height:1.45; margin-top:8px; padding-top:7px; border-top:1px solid var(--line); }
   .smn-alerts{ display:grid; gap:8px; }
   .smn-alert{ color:var(--foam-dim); font-size:12px; line-height:1.45; }
+  .smn-alert strong{ color:var(--foam); }
   .smn-empty{ color:var(--foam-dim); font-size:13px; padding:14px 0; }
   .smn-reference{ color:var(--foam-dim); font-family:'IBM Plex Mono', monospace; font-size:11px; line-height:1.5; margin:10px 0 0; }
   .smn-reference a{ color:var(--clay-bright); }
@@ -329,27 +331,34 @@ function listasDe(objeto) {
 
 function renderSMN(datos) {
   const nombre = datos.lugar?.nombre || "Rosario";
-  const pronosticos = listasDe(datos.pronostico).filter(item => !Array.isArray(item));
+  const pronosticos = Array.isArray(datos.pronostico?.forecast) ? datos.pronostico.forecast : listasDe(datos.pronostico).filter(item => !Array.isArray(item));
   const dias = pronosticos.slice(0, 6).map((dia) => {
     const fecha = primerValor(dia, ["date", "fecha", "day"]) || "Próximo período";
     const min = primerValor(dia, ["temp_min", "temperature_min", "min"]);
     const max = primerValor(dia, ["temp_max", "temperature_max", "max"]);
-    const lluvia = primerValor(dia, ["prob_precip", "precipitation_probability", "probability"]);
-    const viento = primerValor(dia, ["wind", "wind_speed", "viento"]);
-    return `<article class="smn-day"><div class="smn-day-date">${fecha}</div><div class="smn-day-value">${max !== null ? `Máx. ${max} °C` : "Temperatura s/d"}<br>${min !== null ? `Mín. ${min} °C` : ""}<br>${lluvia !== null ? `Lluvia ${lluvia}%` : ""}${viento !== null ? `<br>Viento ${viento}` : ""}</div></article>`;
+    const periodos = [
+      ["Mañana", dia.morning], ["Tarde", dia.afternoon], ["Noche", dia.night]
+    ].filter(([, periodo]) => periodo);
+    const detalle = periodos.map(([titulo, periodo]) => {
+      const lluvia = periodo.rain_prob_range?.length ? `${periodo.rain_prob_range[0]}-${periodo.rain_prob_range[1]}%` : "s/d";
+      const viento = periodo.wind?.speed_range?.length ? `${periodo.wind.speed_range.join("-")} km/h ${periodo.wind.direction || ""}` : "s/d";
+      return `<div class="smn-period"><strong>${titulo}</strong> · ${periodo.weather?.description || "Sin descripción"}<br>Lluvia ${lluvia} · Viento ${viento}</div>`;
+    }).join("");
+    return `<article class="smn-day"><div class="smn-day-date">${fecha}</div><div class="smn-day-value">${max !== null ? `Máx. ${max} °C` : "Temperatura s/d"}<br>${min !== null ? `Mín. ${min} °C` : ""}</div>${detalle}</article>`;
   }).join("");
   document.getElementById("smnPronosticoStatus").textContent = `SMN · ${nombre}`;
   document.getElementById("smnPronostico").innerHTML = dias || '<div class="smn-empty">El SMN no devolvió períodos de pronóstico.</div>';
 
-  const alertas = listasDe(datos.alertas).filter(item => !Array.isArray(item));
-  const tarjetas = alertas.slice(0, 8).map((alerta) => {
-    const nivel = primerValor(alerta, ["level", "nivel", "color", "severity"]) || "Información";
-    const zona = primerValor(alerta, ["area", "area_name", "name", "nombre"]) || "Área informada por el SMN";
-    const detalle = primerValor(alerta, ["description", "descripcion", "text", "fenomeno"]) || "Consultar el detalle oficial.";
-    return `<article class="smn-alert"><div class="smn-alert-level">${nivel}</div>${zona}<br>${detalle}</article>`;
-  }).join("");
-  document.getElementById("smnAlertasStatus").textContent = "Sistema de Alerta Temprana · SMN";
-  document.getElementById("smnAlertas").innerHTML = tarjetas || '<div class="smn-empty">No hay alertas vigentes para mostrar.</div>';
+  const maximo = pronosticos.reduce((valor, dia) => Math.max(valor, Number(dia.temp_max) || -Infinity), -Infinity);
+  const minimo = pronosticos.reduce((valor, dia) => Math.min(valor, Number(dia.temp_min) || Infinity), Infinity);
+  const lluvia = Math.max(...pronosticos.flatMap(dia => [dia.morning, dia.afternoon, dia.night].filter(Boolean).map(periodo => Math.max(...(periodo.rain_prob_range || [0])))));
+  const racha = vientoCrudo ? Math.max(...(vientoCrudo.wind_gusts_10m || [0])) : 0;
+  const tarjetas = [];
+  if (lluvia >= 60) tarjetas.push(`<article class="smn-alert"><div class="smn-alert-level">Lluvia</div><strong>Probabilidad elevada: ${lluvia}%</strong><br>Indicador de Open-Meteo para ${nombre}.</article>`);
+  if (racha >= 50) tarjetas.push(`<article class="smn-alert"><div class="smn-alert-level">Viento</div><strong>Ráfagas de hasta ${racha.toFixed(0)} km/h</strong><br>Indicador de Open-Meteo para las próximas horas.</article>`);
+  if (maximo >= 35 || minimo <= 0) tarjetas.push(`<article class="smn-alert"><div class="smn-alert-level">Temperatura</div><strong>${maximo >= 35 ? `Máxima de ${maximo} °C` : `Mínima de ${minimo} °C`}</strong><br>Indicador de Open-Meteo para los próximos días.</article>`);
+  document.getElementById("smnAlertasStatus").textContent = "Indicadores meteorológicos · Open-Meteo";
+  document.getElementById("smnAlertas").innerHTML = tarjetas.join("") || '<div class="smn-empty">No se detectan condiciones destacables de lluvia, viento o temperatura.</div>';
 }
 
 async function cargarSMN(nombre) {
@@ -442,7 +451,7 @@ function completarEstaciones(estaciones) {
   });
   zonaActual = estaciones.some(e => e.nombre === "ROSARIO") ? "ROSARIO" : estaciones[0].nombre;
   select.value = zonaActual;
-  select.addEventListener("change", () => { zonaActual = select.value; cargarAltura(); });
+  select.addEventListener("change", () => { zonaActual = select.value; cargarAltura(); cargarSMN(zonaActual); });
 }
 
 async function cargarHistorico(estacion) {
@@ -470,7 +479,6 @@ async function cargarAltura() {
     completarEstaciones(estaciones);
     const estacion = estaciones.find(e => e.nombre === zonaActual);
     if (!estacion) throw new Error(`Sin registros para "${zonaActual}"`);
-    cargarSMN(estacion.nombre);
     const alturaNum = estacion.altura;
 
     document.getElementById("alturaActual").innerHTML = alturaNum.toFixed(2) + ' <span class="altura-unidad">m</span>';
@@ -661,6 +669,7 @@ document.getElementById("toggleUnidad").addEventListener("click", () => {
 async function cargarTodo() {
   document.getElementById("ultimaAct").textContent = "Actualizado: " + new Date().toLocaleString("es-AR");
   await Promise.all([cargarAltura(), cargarViento()]);
+  await cargarSMN(zonaActual);
 }
 
 cargarTodo();
