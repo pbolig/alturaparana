@@ -3,6 +3,7 @@ const path = require("path");
 
 const BASE = "https://contenidosweb.prefecturanaval.gob.ar/alturas/";
 const outputDir = path.join(__dirname, "..", "data");
+const SMN_API = "https://ws1.smn.gob.ar/v1";
 
 async function descargar(url) {
   const response = await fetch(url, {
@@ -21,6 +22,22 @@ async function guardarPagina(url, nombre) {
   } catch (error) {
     console.warn(`No se pudo actualizar ${nombre}: ${error.message}`);
   }
+}
+
+async function guardarDatosSMN() {
+  const html = await descargar("https://ws2.smn.gob.ar/pronostico");
+  const token = html.match(/localStorage\.setItem\(['"]token['"],\s*['"]([^'"]+)/i)?.[1];
+  if (!token) throw new Error("No se encontró el token del SMN");
+  const headers = { Authorization: `JWT ${token}` };
+  const lugares = await fetch(`${SMN_API}/georef/location/search?name=Rosario`, { headers }).then(r => r.json());
+  const lugar = lugares.find(item => item[1] === "Rosario" && item[3] === "Santa Fe");
+  if (!lugar) throw new Error("No se encontró Rosario en el SMN");
+  const [pronostico, alertas] = await Promise.all([
+    fetch(`${SMN_API}/forecast/location/${lugar[0]}`, { headers }).then(r => r.json()),
+    fetch(`${SMN_API}/warning/alert/area?mode=alert&compact=true`, { headers }).then(r => r.json()),
+  ]);
+  await fs.writeFile(path.join(outputDir, "smn-data.json"), JSON.stringify({ lugar: { id: lugar[0], nombre: lugar[1], provincia: lugar[3] }, pronostico, alertas }));
+  console.log("Actualizado smn-data.json");
 }
 
 async function main() {
@@ -49,6 +66,7 @@ async function main() {
 
   await guardarPagina("https://ws2.smn.gob.ar/pronostico", "smn-pronostico.html");
   await guardarPagina("https://ws2.smn.gob.ar/alertas", "smn-alertas.html");
+  try { await guardarDatosSMN(); } catch (error) { console.warn(`No se pudo actualizar smn-data.json: ${error.message}`); }
 }
 
 main().catch(error => {

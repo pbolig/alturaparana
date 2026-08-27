@@ -144,17 +144,20 @@
   }
 
   iframe{ width:100%; height:520px; border:none; border-radius:12px; display:block; }
-  .smn-grid{ display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:14px; }
+  .smn-grid{ display:grid; grid-template-columns:1.3fr 0.7fr; gap:14px; }
   .smn-panel{ min-width:0; }
   .smn-panel h3{ font-family:'Fraunces', serif; font-size:15px; font-weight:600; margin:0 0 8px; color:var(--foam); }
-  .smn-frame{ height:560px; border:1px solid var(--line); background:#fff; }
-  .smn-panel:last-child .smn-frame{ height:620px; }
+  .smn-status{ color:var(--foam-dim); font-family:'IBM Plex Mono', monospace; font-size:11px; margin:0 0 10px; }
+  .smn-days{ display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:8px; }
+  .smn-day, .smn-alert{ background:var(--surface-2); border:1px solid var(--line); border-radius:10px; padding:12px; }
+  .smn-day-date, .smn-alert-level{ color:var(--clay-bright); font-family:'Fraunces', serif; font-size:16px; font-weight:600; }
+  .smn-day-value{ color:var(--foam); font-family:'IBM Plex Mono', monospace; font-size:11px; line-height:1.6; margin-top:7px; }
+  .smn-alerts{ display:grid; gap:8px; }
+  .smn-alert{ color:var(--foam-dim); font-size:12px; line-height:1.45; }
+  .smn-empty{ color:var(--foam-dim); font-size:13px; padding:14px 0; }
   .smn-reference{ color:var(--foam-dim); font-family:'IBM Plex Mono', monospace; font-size:11px; line-height:1.5; margin:10px 0 0; }
   .smn-reference a{ color:var(--clay-bright); }
-  @media (max-width: 760px){
-    .smn-grid{ grid-template-columns:1fr; }
-    .smn-frame, .smn-panel:last-child .smn-frame{ height:560px; }
-  }
+  @media (max-width: 760px){ .smn-grid, .smn-days{ grid-template-columns:1fr; } }
 
   .fuentes-libres{ display:flex; flex-wrap:wrap; gap:10px; margin-top:12px; }
   .fuentes-libres a{
@@ -271,12 +274,14 @@
     <div class="smn-grid">
       <section class="smn-panel">
         <h3>Pronóstico del tiempo</h3>
-        <iframe class="smn-frame" id="smnPronostico" title="Pronóstico del tiempo del SMN" loading="lazy"></iframe>
+        <p class="smn-status" id="smnPronosticoStatus">Consultando Rosario...</p>
+        <div class="smn-days" id="smnPronostico"></div>
         <p class="smn-reference">Referencia: <a href="https://ws2.smn.gob.ar/pronostico" target="_blank" rel="noopener">SMN · Pronóstico a 7 días ↗</a>. Usá el selector del panel para consultar Rosario.</p>
       </section>
       <section class="smn-panel">
         <h3>Alertas meteorológicas</h3>
-        <iframe class="smn-frame" id="smnAlertas" title="Alertas meteorológicas del SMN" loading="lazy"></iframe>
+        <p class="smn-status" id="smnAlertasStatus">Consultando alertas...</p>
+        <div class="smn-alerts" id="smnAlertas"></div>
         <p class="smn-reference">Referencia: <a href="https://ws2.smn.gob.ar/alertas" target="_blank" rel="noopener">SMN · Sistema de Alerta Temprana ↗</a>.</p>
       </section>
     </div>
@@ -305,16 +310,61 @@ let pronosticoDiario = null;
 let umbralAlerta = 4;
 let umbralEvacuacion = 4.5;
 
-function configurarCardSMN() {
-  const pronostico = GITHUB_PAGES
-    ? "data/smn-pronostico.html"
-    : "/api/smn/pronostico";
-  const alertas = GITHUB_PAGES
-    ? "data/smn-alertas.html"
-    : "/api/smn/alertas";
-  const version = `?v=${Date.now()}`;
-  document.getElementById("smnPronostico").src = pronostico + version;
-  document.getElementById("smnAlertas").src = alertas + version;
+function primerValor(objeto, nombres) {
+  for (const nombre of nombres) {
+    if (objeto?.[nombre] !== undefined && objeto[nombre] !== null) return objeto[nombre];
+  }
+  return null;
+}
+
+function listasDe(objeto) {
+  if (Array.isArray(objeto)) return objeto;
+  if (!objeto || typeof objeto !== "object") return [];
+  for (const valor of Object.values(objeto)) {
+    const lista = listasDe(valor);
+    if (lista.length && typeof lista[0] === "object") return lista;
+  }
+  return [];
+}
+
+function renderSMN(datos) {
+  const nombre = datos.lugar?.nombre || "Rosario";
+  const pronosticos = listasDe(datos.pronostico).filter(item => !Array.isArray(item));
+  const dias = pronosticos.slice(0, 6).map((dia) => {
+    const fecha = primerValor(dia, ["date", "fecha", "day"]) || "Próximo período";
+    const min = primerValor(dia, ["temp_min", "temperature_min", "min"]);
+    const max = primerValor(dia, ["temp_max", "temperature_max", "max"]);
+    const lluvia = primerValor(dia, ["prob_precip", "precipitation_probability", "probability"]);
+    const viento = primerValor(dia, ["wind", "wind_speed", "viento"]);
+    return `<article class="smn-day"><div class="smn-day-date">${fecha}</div><div class="smn-day-value">${max !== null ? `Máx. ${max} °C` : "Temperatura s/d"}<br>${min !== null ? `Mín. ${min} °C` : ""}<br>${lluvia !== null ? `Lluvia ${lluvia}%` : ""}${viento !== null ? `<br>Viento ${viento}` : ""}</div></article>`;
+  }).join("");
+  document.getElementById("smnPronosticoStatus").textContent = `SMN · ${nombre}`;
+  document.getElementById("smnPronostico").innerHTML = dias || '<div class="smn-empty">El SMN no devolvió períodos de pronóstico.</div>';
+
+  const alertas = listasDe(datos.alertas).filter(item => !Array.isArray(item));
+  const tarjetas = alertas.slice(0, 8).map((alerta) => {
+    const nivel = primerValor(alerta, ["level", "nivel", "color", "severity"]) || "Información";
+    const zona = primerValor(alerta, ["area", "area_name", "name", "nombre"]) || "Área informada por el SMN";
+    const detalle = primerValor(alerta, ["description", "descripcion", "text", "fenomeno"]) || "Consultar el detalle oficial.";
+    return `<article class="smn-alert"><div class="smn-alert-level">${nivel}</div>${zona}<br>${detalle}</article>`;
+  }).join("");
+  document.getElementById("smnAlertasStatus").textContent = "Sistema de Alerta Temprana · SMN";
+  document.getElementById("smnAlertas").innerHTML = tarjetas || '<div class="smn-empty">No hay alertas vigentes para mostrar.</div>';
+}
+
+async function cargarSMN(nombre) {
+  document.getElementById("smnPronosticoStatus").textContent = `Consultando ${nombre}...`;
+  try {
+    const fuente = GITHUB_PAGES ? `data/smn-data.json?v=${Date.now()}` : `/api/smn/data?name=${encodeURIComponent(nombre)}`;
+    const res = await fetch(fuente);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    renderSMN(await res.json());
+  } catch (error) {
+    document.getElementById("smnPronosticoStatus").textContent = "No se pudo actualizar el pronóstico del SMN";
+    document.getElementById("smnAlertasStatus").textContent = "No se pudieron actualizar las alertas del SMN";
+    document.getElementById("smnPronostico").innerHTML = `<div class="smn-empty">${error.message}</div>`;
+    document.getElementById("smnAlertas").innerHTML = '<div class="smn-empty">Ver alertas oficiales en el enlace de referencia.</div>';
+  }
 }
 
 async function fetchConProxies(url) {
@@ -420,6 +470,7 @@ async function cargarAltura() {
     completarEstaciones(estaciones);
     const estacion = estaciones.find(e => e.nombre === zonaActual);
     if (!estacion) throw new Error(`Sin registros para "${zonaActual}"`);
+    cargarSMN(estacion.nombre);
     const alturaNum = estacion.altura;
 
     document.getElementById("alturaActual").innerHTML = alturaNum.toFixed(2) + ' <span class="altura-unidad">m</span>';
@@ -606,8 +657,6 @@ document.getElementById("toggleUnidad").addEventListener("click", () => {
   renderViento();
   renderPronosticoDiario();
 });
-
-configurarCardSMN();
 
 async function cargarTodo() {
   document.getElementById("ultimaAct").textContent = "Actualizado: " + new Date().toLocaleString("es-AR");
