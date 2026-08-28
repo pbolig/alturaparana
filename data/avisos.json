@@ -1,0 +1,52 @@
+{
+  "anuncios": {
+    "categorias": [
+      {
+        "nombre": "nueva actualización de esta app",
+        "anuncios": [
+          {
+            "id": "bienvenida",
+            "descripcion": "Nuevo sistema de anuncios",
+            "resena": "Ahora el Mirador Paraná puede publicar novedades y eventos destacados desde un archivo de avisos.",
+            "fecha": "28/08/2026",
+            "hora": "12:00",
+            "link": "https://www.instagram.com/",
+            "activo": "si"
+          },
+          {
+            "id": "mejora-pronostico",
+            "descripcion": "Mejoras en el pronóstico",
+            "resena": "Se incorporaron datos más claros para lluvia, viento y temperatura en las próximas horas.",
+            "fecha": "18/08/2026",
+            "hora": "10:30",
+            "link": "https://www.instagram.com/",
+            "activo": "no"
+          }
+        ]
+      },
+      {
+        "nombre": "evento en el río",
+        "anuncios": [
+          {
+            "id": "ejemplo-evento",
+            "descripcion": "Aviso archivado de ejemplo",
+            "resena": "Este anuncio permanece disponible en el historial, pero ya no se muestra como novedad principal.",
+            "fecha": "20/08/2026",
+            "hora": "18:00",
+            "link": "https://www.instagram.com/",
+            "activo": "no"
+          },
+          {
+            "id": "jornada-costera",
+            "descripcion": "Jornada junto al Paraná",
+            "resena": "Registro de una actividad realizada en la costa del río Paraná.",
+            "fecha": "10/08/2026",
+            "hora": "16:00",
+            "link": "https://www.instagram.com/",
+            "activo": "no"
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -47,6 +47,11 @@
     font-size: clamp(28px, 5vw, 42px); margin:0 0 6px;
     letter-spacing: -0.01em;
   }
+  .titulo-principal{ display:inline-flex; align-items:center; justify-content:center; gap:14px; flex-wrap:wrap; }
+  .avisos-boton{ display:none; align-items:center; gap:7px; border:1px solid #f0c36a; border-radius:999px; padding:8px 13px; background:#e0a066; color:#18302d; cursor:pointer; font-family:'IBM Plex Mono', monospace; font-size:11px; font-weight:600; box-shadow:0 4px 12px rgba(224,160,102,0.25); }
+  .avisos-boton-icon{ width:24px; height:24px; display:grid; place-items:center; border:1px solid var(--foam); border-radius:50%; background:var(--bg); color:var(--clay-bright); font-size:14px; line-height:1; }
+  .avisos-boton.visible{ display:inline-flex; }
+  .avisos-boton:hover{ background:#f0bc7d; transform:translateY(-1px); }
   .subt{ color: var(--foam-dim); font-size:13px; }
   #ultimaAct{ font-family:'IBM Plex Mono', monospace; font-size:12px; color: var(--foam-dim); margin-top:8px; }
 
@@ -182,6 +187,34 @@
   .fuentes-libres a:hover{ border-color: var(--clay); color: var(--clay-bright); }
 
   footer{ text-align:center; font-size:11px; color: var(--foam-dim); margin-top:30px; opacity:0.7; }
+  .modal-avisos[hidden]{ display:none; }
+  .modal-avisos{ position:fixed; inset:0; z-index:20; display:grid; place-items:center; padding:18px; background:rgba(5,18,17,0.78); }
+  .modal-avisos-panel{ width:min(760px, 100%); max-height:min(760px, 92vh); overflow:auto; background:var(--surface); border:1px solid var(--line); border-radius:14px; box-shadow:0 18px 50px rgba(0,0,0,0.45); padding:22px; }
+  .modal-avisos-cabecera{ display:flex; align-items:start; justify-content:space-between; gap:14px; border-bottom:1px solid var(--line); padding-bottom:14px; }
+  .modal-avisos-cabecera h2{ margin:0; }
+  .modal-cerrar{ border:1px solid var(--line); border-radius:50%; width:32px; height:32px; background:var(--surface-2); color:var(--foam); cursor:pointer; font-size:18px; line-height:1; }
+  .avisos-categorias{ display:grid; gap:8px; margin:14px 0; }
+  .aviso-categoria{ width:100%; display:flex; align-items:center; justify-content:space-between; padding:11px 13px; border:1px solid var(--line); border-radius:9px; color:var(--foam-dim); background:var(--surface-2); cursor:pointer; text-align:left; font-family:'IBM Plex Mono', monospace; font-size:11px; }
+  .aviso-categoria.destacada{ color:#18302d; background:var(--clay-bright); border-color:var(--clay-bright); }
+  .aviso-categoria:hover{ border-color:var(--clay-bright); }
+  .aviso-categoria-icon{ width:26px; height:26px; display:grid; place-items:center; flex:0 0 26px; margin-left:12px; border:1px solid var(--foam); border-radius:50%; background:var(--bg); color:var(--clay-bright); font-size:15px; line-height:1; }
+  .avisos-vista-categorias[hidden], .avisos-vista-detalle[hidden]{ display:none; }
+  .avisos-volver{ background:none; border:0; color:var(--clay-bright); cursor:pointer; font-family:'IBM Plex Mono', monospace; font-size:11px; padding:0; margin-bottom:12px; }
+  .aviso-destacado{ border:1px solid var(--clay-bright); border-radius:10px; padding:16px; background:rgba(224,160,102,0.1); margin-bottom:16px; }
+  .aviso-etiqueta{ color:var(--clay-bright); font-family:'IBM Plex Mono', monospace; font-size:10px; text-transform:uppercase; letter-spacing:0.06em; }
+  .aviso-destacado h3{ font-family:'Fraunces', serif; font-size:22px; margin:7px 0; }
+  .aviso-resena{ color:var(--foam-dim); font-size:13px; line-height:1.5; margin:0 0 12px; }
+  .aviso-meta{ color:var(--foam-dim); font-family:'IBM Plex Mono', monospace; font-size:11px; }
+  .aviso-link{ display:inline-block; margin-top:13px; color:var(--clay-bright); font-family:'IBM Plex Mono', monospace; font-size:11px; }
+  .avisos-archivo{ display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:10px; }
+  .avisos-archivo-titulo{ margin:18px 0 10px; font-family:'Fraunces', serif; font-size:16px; }
+  .aviso-registrado{ border:1px solid var(--line); border-radius:9px; padding:12px; background:var(--surface-2); }
+  .aviso-registrado.activo{ border-color:var(--clay-bright); }
+  .aviso-registrado h3{ font-family:'Fraunces', serif; font-size:16px; margin:6px 0; }
+  .aviso-registrado p{ color:var(--foam-dim); font-size:12px; line-height:1.45; margin:0; }
+  .aviso-estado{ color:var(--ok); font-family:'IBM Plex Mono', monospace; font-size:10px; text-transform:uppercase; }
+  .aviso-registrado.activo .aviso-estado{ color:var(--clay-bright); }
+  @media (max-width: 560px){ .avisos-archivo{ grid-template-columns:1fr; } .modal-avisos-panel{ padding:16px; } .aviso-categoria{ font-size:10px; padding:10px 11px; } }
 </style>
 </head>
 <body>
@@ -189,8 +222,11 @@
 
   <header>
     <div class="eyebrow">Boletín fluvial</div>
-    <h1>🌊 Mira del Paraná</h1>
-    <div class="subt">Altura, viento y pronóstico para la zona de Rosario</div>
+    <div class="titulo-principal">
+      <h1>Mirador Paraná</h1>
+      <button class="avisos-boton" id="avisosBoton" type="button" hidden><span class="avisos-boton-icon">📣</span> Nuevo anuncio</button>
+    </div>
+    <div class="subt">Altura, viento, pronóstico y más para la zona de Rosario</div>
     <div id="ultimaAct">Actualizando…</div>
     <div class="zona-select">
       <label for="zonaSelect">Estación:</label>
@@ -306,6 +342,24 @@
   </footer>
 </div>
 
+<div class="modal-avisos" id="modalAvisos" hidden>
+  <section class="modal-avisos-panel" role="dialog" aria-modal="true" aria-labelledby="avisosTitulo">
+    <div class="modal-avisos-cabecera">
+      <h2 id="avisosTitulo">Anuncios</h2>
+      <button class="modal-cerrar" id="cerrarAvisos" type="button" aria-label="Cerrar anuncios">×</button>
+    </div>
+    <div class="avisos-vista-categorias" id="avisosVistaCategorias">
+      <div class="avisos-categorias" id="avisosCategorias"></div>
+    </div>
+    <div class="avisos-vista-detalle" id="avisosVistaDetalle" hidden>
+      <button class="avisos-volver" id="volverCategorias" type="button">← Todas las categorías</button>
+      <div id="avisoActivo"></div>
+      <h3 class="avisos-archivo-titulo">Anuncios archivados</h3>
+      <div class="avisos-archivo" id="avisosArchivados"></div>
+    </div>
+  </section>
+</div>
+
 <script>
 const ROSARIO_LAT = -32.9468, ROSARIO_LON = -60.6393;
 const PREFECTURA_BASE = "https://contenidosweb.prefecturanaval.gob.ar/alturas/";
@@ -321,6 +375,78 @@ let vientoCrudo = null; // guarda datos en km/h para poder convertir sin refetch
 let pronosticoDiario = null;
 let umbralAlerta = 4;
 let umbralEvacuacion = 4.5;
+let avisosPorCategoria = new Map();
+
+function escaparHTML(valor) {
+  return String(valor ?? "").replace(/[&<>"']/g, caracter => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[caracter]));
+}
+
+function enlaceAviso(valor) {
+  try {
+    const url = new URL(valor);
+    return ["http:", "https:"].includes(url.protocol) ? url.href : "";
+  } catch { return ""; }
+}
+
+function fechaAviso(aviso) {
+  const [dia, mes, anio] = String(aviso.fecha || "").split(/[\/-]/).map(Number);
+  const [hora, minuto] = String(aviso.hora || "00:00").split(":").map(Number);
+  return Date.UTC(anio || 1970, (mes || 1) - 1, dia || 1, hora || 0, minuto || 0);
+}
+
+function tarjetaAviso(aviso, destacado = false) {
+  const link = enlaceAviso(aviso.link);
+  const estado = String(aviso.activo).toLowerCase() === "si";
+  const contenido = `<div class="aviso-etiqueta">${escaparHTML(aviso.categoria)}</div><h3>${escaparHTML(aviso.descripcion)}</h3><p class="aviso-resena">${escaparHTML(aviso.resena)}</p><div class="aviso-meta">${escaparHTML(aviso.fecha)} · ${escaparHTML(aviso.hora)}</div>${!destacado ? `<div class="aviso-estado">${estado ? "Activo" : "Archivado"}</div>` : ""}${link ? `<a class="aviso-link" href="${escaparHTML(link)}" target="_blank" rel="noopener">Abrir enlace del anuncio ↗</a>` : ""}`;
+  return `<article class="${destacado ? "aviso-destacado" : "aviso-registrado"}${estado ? " activo" : ""}">${contenido}</article>`;
+}
+
+function renderAvisos(datos) {
+  const categorias = Array.isArray(datos.anuncios?.categorias) ? datos.anuncios.categorias : [];
+  const avisos = categorias.flatMap(categoria => (Array.isArray(categoria.anuncios) ? categoria.anuncios : []).map(aviso => ({ ...aviso, categoria: categoria.nombre })));
+  avisos.sort((a, b) => fechaAviso(b) - fechaAviso(a));
+  const activos = avisos.filter(aviso => String(aviso.activo).toLowerCase() === "si");
+  const boton = document.getElementById("avisosBoton");
+  boton.hidden = !activos.length;
+  boton.classList.toggle("visible", Boolean(activos.length));
+  avisosPorCategoria = new Map(categorias.map(categoria => [categoria.nombre, avisos.filter(aviso => aviso.categoria === categoria.nombre)]));
+  document.getElementById("avisosCategorias").innerHTML = categorias.map(categoria => {
+    const tieneActivo = avisosPorCategoria.get(categoria.nombre)?.some(aviso => String(aviso.activo).toLowerCase() === "si");
+    return `<button class="aviso-categoria ${tieneActivo ? "destacada" : ""}" type="button" data-categoria="${escaparHTML(categoria.nombre)}">${escaparHTML(categoria.nombre)}${tieneActivo ? '<span class="aviso-categoria-icon">📣</span>' : ""}</button>`;
+  }).join("");
+}
+
+function mostrarCategoria(nombre) {
+  const avisos = avisosPorCategoria.get(nombre) || [];
+  const activo = avisos.find(aviso => String(aviso.activo).toLowerCase() === "si");
+  const archivados = avisos.filter(aviso => String(aviso.activo).toLowerCase() !== "si");
+  document.getElementById("avisosVistaCategorias").hidden = true;
+  document.getElementById("avisosVistaDetalle").hidden = false;
+  document.getElementById("avisoActivo").innerHTML = activo ? tarjetaAviso(activo, true) : '<p class="smn-empty">Esta categoría no tiene anuncios activos.</p>';
+  document.getElementById("avisosArchivados").innerHTML = archivados.length ? archivados.map(aviso => tarjetaAviso(aviso)).join("") : '<p class="smn-empty">No hay anuncios archivados en esta categoría.</p>';
+}
+
+function mostrarCategorias() {
+  document.getElementById("avisosVistaCategorias").hidden = false;
+  document.getElementById("avisosVistaDetalle").hidden = true;
+}
+
+async function cargarAvisos() {
+  try {
+    const res = await fetch(`data/avisos.json?v=${Date.now()}`);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    renderAvisos(await res.json());
+  } catch (error) {
+    console.error("No se pudieron cargar los avisos:", error);
+  }
+}
+
+document.getElementById("avisosBoton").addEventListener("click", () => { mostrarCategorias(); document.getElementById("modalAvisos").hidden = false; });
+document.getElementById("avisosCategorias").addEventListener("click", evento => { const categoria = evento.target.closest("[data-categoria]")?.dataset.categoria; if (categoria) mostrarCategoria(categoria); });
+document.getElementById("volverCategorias").addEventListener("click", mostrarCategorias);
+document.getElementById("cerrarAvisos").addEventListener("click", () => { document.getElementById("modalAvisos").hidden = true; });
+document.getElementById("modalAvisos").addEventListener("click", evento => { if (evento.target.id === "modalAvisos") evento.currentTarget.hidden = true; });
+document.addEventListener("keydown", evento => { if (evento.key === "Escape") document.getElementById("modalAvisos").hidden = true; });
 
 function primerValor(objeto, nombres) {
   for (const nombre of nombres) {
@@ -735,6 +861,7 @@ async function cargarTodo() {
   await cargarSMN(zonaActual);
 }
 
+cargarAvisos();
 cargarTodo();
 setInterval(cargarTodo, 30 * 60 * 1000);
 </script>
