@@ -104,7 +104,9 @@
   .alertas-rio h3{ font-family:'Fraunces', serif; font-size:15px; font-weight:600; margin:0 0 4px; }
   .alertas-rio-meta{ color:var(--foam-dim); font-family:'IBM Plex Mono', monospace; font-size:10.5px; margin-bottom:10px; }
   .alerta-rio{ display:grid; grid-template-columns:30px 1fr; gap:10px; align-items:start; padding:9px 0; border-top:1px solid rgba(42,84,80,0.7); }
-  .alerta-rio-icon{ font-size:21px; line-height:1.1; text-align:center; }
+  .alerta-rio-icon{ width:28px; height:28px; display:grid; place-items:center; border-radius:50%; font-size:17px; line-height:1; text-align:center; background:rgba(127,176,105,0.18); border:1px solid var(--ok); }
+  .alerta-rio.is-alert .alerta-rio-icon{ background:rgba(226,87,76,0.2); border-color:var(--alert); }
+  .alerta-rio.is-alert .alerta-rio-titulo{ color:#ff958b; }
   .alerta-rio-titulo{ color:var(--clay-bright); font-family:'IBM Plex Mono', monospace; font-size:11px; text-transform:uppercase; letter-spacing:0.04em; }
   .alerta-rio-detalle{ color:var(--foam-dim); font-size:12px; line-height:1.45; margin-top:2px; }
 
@@ -380,16 +382,19 @@ function renderAlertasRio(nombre) {
   const viento = valorMayor("wind_speed_10m");
   const temperaturaAlta = valorMayor("temperature_2m");
   const temperaturaBaja = valorMenor("temperature_2m");
-  const lluviaTexto = lluvia?.value >= 70 ? `<strong>${lluvia.value}% de probabilidad</strong> · ${formatearRangoLluvia(lluvia.time)}` : "No se detectan condiciones destacables.";
-  const vientoTexto = viento?.value >= 18.52 ? `<strong>Hasta ${viento.value.toFixed(1)} km/h (10 nudos o más)</strong> · ${formatearMomento(viento.time)}` : "No se detectan condiciones destacables.";
+  const lluviaAlerta = lluvia?.value >= 70;
+  const vientoAlerta = viento?.value >= 18.52;
+  const lluviaTexto = lluviaAlerta ? `<strong>${lluvia.value}% de probabilidad</strong> · ${formatearRangoLluvia(lluvia.time)}` : "No se detectan condiciones destacables.";
+  const vientoTexto = vientoAlerta ? `<strong>Hasta ${viento.value.toFixed(1)} km/h (10 nudos o más)</strong> · ${formatearMomento(viento.time)}` : "No se detectan condiciones destacables.";
   let temperaturaTexto = "No se detectan condiciones destacables.";
-  if (temperaturaBaja?.value < 5) temperaturaTexto = `<strong>Mínima de ${temperaturaBaja.value.toFixed(1)} °C</strong> · ${formatearMomento(temperaturaBaja.time)}`;
-  else if (temperaturaAlta?.value > 30) temperaturaTexto = `<strong>Máxima de ${temperaturaAlta.value.toFixed(1)} °C</strong> · ${formatearMomento(temperaturaAlta.time)}`;
+  let temperaturaAlerta = false;
+  if (temperaturaBaja?.value < 5) { temperaturaAlerta = true; temperaturaTexto = `<strong>Mínima de ${temperaturaBaja.value.toFixed(1)} °C</strong> · ${formatearMomento(temperaturaBaja.time)}`; }
+  else if (temperaturaAlta?.value > 30) { temperaturaAlerta = true; temperaturaTexto = `<strong>Máxima de ${temperaturaAlta.value.toFixed(1)} °C</strong> · ${formatearMomento(temperaturaAlta.time)}`; }
   lista.innerHTML = [
-    ["🌧", "Lluvia", lluviaTexto],
-    ["💨", "Viento", vientoTexto],
-    ["🌡", "Temperatura", temperaturaTexto]
-  ].map(([icono, titulo, texto]) => `<div class="alerta-rio"><div class="alerta-rio-icon">${icono}</div><div><div class="alerta-rio-titulo">${titulo}</div><div class="alerta-rio-detalle">${texto}<br><span>Para ${nombre} · próximas 24 horas</span></div></div></div>`).join("");
+    ["🌧", "Lluvia", lluviaTexto, lluviaAlerta],
+    ["💨", "Viento", vientoTexto, vientoAlerta],
+    ["🌡", "Temperatura", temperaturaTexto, temperaturaAlerta]
+  ].map(([icono, titulo, texto, alerta]) => `<div class="alerta-rio ${alerta ? "is-alert" : "is-ok"}"><div class="alerta-rio-icon">${icono}</div><div><div class="alerta-rio-titulo">${titulo}</div><div class="alerta-rio-detalle">${texto}<br><span>Para ${nombre} · próximas 24 horas</span></div></div></div>`).join("");
 }
 
 function renderSMN(datos) {
