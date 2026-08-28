@@ -99,6 +99,13 @@
     font-family:'IBM Plex Mono', monospace; font-size:11px; letter-spacing:0.04em;
     border:1px solid var(--line);
   }
+  .alertas-rio{ border-top:1px solid var(--line); margin-top:18px; padding-top:14px; }
+  .alertas-rio h3{ font-family:'Fraunces', serif; font-size:15px; font-weight:600; margin:0 0 4px; }
+  .alertas-rio-meta{ color:var(--foam-dim); font-family:'IBM Plex Mono', monospace; font-size:10.5px; margin-bottom:10px; }
+  .alerta-rio{ display:grid; grid-template-columns:30px 1fr; gap:10px; align-items:start; padding:9px 0; border-top:1px solid rgba(42,84,80,0.7); }
+  .alerta-rio-icon{ font-size:21px; line-height:1.1; text-align:center; }
+  .alerta-rio-titulo{ color:var(--clay-bright); font-family:'IBM Plex Mono', monospace; font-size:11px; text-transform:uppercase; letter-spacing:0.04em; }
+  .alerta-rio-detalle{ color:var(--foam-dim); font-size:12px; line-height:1.45; margin-top:2px; }
 
   /* --- Tarjeta viento --- */
   .viento-actual{ display:flex; align-items:center; gap:16px; margin-bottom:12px; }
@@ -204,6 +211,11 @@
           <div class="estado-pill" id="estadoPill">calculando estado…</div>
         </div>
       </div>
+      <div class="alertas-rio" id="alertasRio">
+        <h3>Alertas meteorológicas</h3>
+        <div class="alertas-rio-meta">Próximas 24 horas · Open-Meteo</div>
+        <div id="alertasRioLista"><div class="smn-empty">Consultando condiciones...</div></div>
+      </div>
     </div>
 
       <div class="card">
@@ -280,13 +292,8 @@
         <div class="smn-days" id="smnPronostico"></div>
         <p class="smn-reference">Referencia: <a href="https://ws2.smn.gob.ar/pronostico" target="_blank" rel="noopener">SMN · Pronóstico a 7 días ↗</a>. Usá el selector del panel para consultar Rosario.</p>
       </section>
-      <section class="smn-panel">
-        <h3>Alertas meteorológicas</h3>
-        <p class="smn-status" id="smnAlertasStatus">Consultando alertas...</p>
-        <div class="smn-alerts" id="smnAlertas"></div>
-        <p class="smn-reference">Referencia: <a href="https://ws2.smn.gob.ar/alertas" target="_blank" rel="noopener">SMN · Sistema de Alerta Temprana ↗</a>.</p>
-      </section>
     </div>
+    <p class="smn-reference">Alertas calculadas con Open-Meteo: lluvia desde 70%, viento desde 10 nudos (18,5 km/h) y temperatura menor a 5 °C o mayor a 30 °C. <a href="https://open-meteo.com/" target="_blank" rel="noopener">Fuente Open-Meteo ↗</a> · <a href="https://ws2.smn.gob.ar/alertas" target="_blank" rel="noopener">Alertas oficiales SMN ↗</a>.</p>
   </div>
 
   <footer>
@@ -347,6 +354,43 @@ function formatearRangoLluvia(iso) {
   return `${fecha} · ${inicio.toLocaleTimeString("es-AR", opciones)}-${fin.toLocaleTimeString("es-AR", opciones)}`;
 }
 
+function formatearMomento(iso) {
+  const fecha = new Date(iso);
+  if (Number.isNaN(fecha.getTime())) return "horario no disponible";
+  return fecha.toLocaleDateString("es-AR", { weekday: "long", day: "2-digit", month: "short" }).replace(/\./g, "") + " · " + fecha.toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit" });
+}
+
+function renderAlertasRio(nombre) {
+  const lista = document.getElementById("alertasRioLista");
+  const datos = vientoCrudo;
+  if (!datos?.time?.length) {
+    lista.innerHTML = '<div class="smn-empty">No se pudieron consultar las condiciones.</div>';
+    return;
+  }
+  const ahora = new Date();
+  const limite = new Date(ahora.getTime() + 24 * 60 * 60 * 1000);
+  const indices = datos.time.map((time, indice) => ({ time, indice })).filter(item => {
+    const fecha = new Date(item.time);
+    return fecha >= ahora && fecha <= limite;
+  });
+  const valorMayor = (campo) => indices.reduce((mejor, item) => datos[campo][item.indice] > (mejor?.value ?? -Infinity) ? { ...item, value: datos[campo][item.indice] } : mejor, null);
+  const valorMenor = (campo) => indices.reduce((mejor, item) => datos[campo][item.indice] < (mejor?.value ?? Infinity) ? { ...item, value: datos[campo][item.indice] } : mejor, null);
+  const lluvia = datos.probabilidadHoraria?.filter(item => new Date(item.time) >= ahora && new Date(item.time) <= limite).reduce((mejor, item) => item.value > (mejor?.value ?? -1) ? item : mejor, null);
+  const viento = valorMayor("wind_speed_10m");
+  const temperaturaAlta = valorMayor("temperature_2m");
+  const temperaturaBaja = valorMenor("temperature_2m");
+  const lluviaTexto = lluvia?.value >= 70 ? `<strong>${lluvia.value}% de probabilidad</strong> · ${formatearRangoLluvia(lluvia.time)}` : "No se detectan condiciones destacables.";
+  const vientoTexto = viento?.value >= 18.52 ? `<strong>Hasta ${viento.value.toFixed(1)} km/h (10 nudos o más)</strong> · ${formatearMomento(viento.time)}` : "No se detectan condiciones destacables.";
+  let temperaturaTexto = "No se detectan condiciones destacables.";
+  if (temperaturaBaja?.value < 5) temperaturaTexto = `<strong>Mínima de ${temperaturaBaja.value.toFixed(1)} °C</strong> · ${formatearMomento(temperaturaBaja.time)}`;
+  else if (temperaturaAlta?.value > 30) temperaturaTexto = `<strong>Máxima de ${temperaturaAlta.value.toFixed(1)} °C</strong> · ${formatearMomento(temperaturaAlta.time)}`;
+  lista.innerHTML = [
+    ["🌧", "Lluvia", lluviaTexto],
+    ["💨", "Viento", vientoTexto],
+    ["🌡", "Temperatura", temperaturaTexto]
+  ].map(([icono, titulo, texto]) => `<div class="alerta-rio"><div class="alerta-rio-icon">${icono}</div><div><div class="alerta-rio-titulo">${titulo}</div><div class="alerta-rio-detalle">${texto}<br><span>Para ${nombre} · próximas 24 horas</span></div></div></div>`).join("");
+}
+
 function renderSMN(datos) {
   const nombre = datos.lugar?.nombre || "Rosario";
   const pronosticos = Array.isArray(datos.pronostico?.forecast) ? datos.pronostico.forecast : listasDe(datos.pronostico).filter(item => !Array.isArray(item));
@@ -368,22 +412,7 @@ function renderSMN(datos) {
   document.getElementById("smnPronosticoStatus").textContent = `SMN · ${nombre}`;
   document.getElementById("smnPronostico").innerHTML = dias || '<div class="smn-empty">El SMN no devolvió períodos de pronóstico.</div>';
 
-  const maximo = pronosticos.reduce((valor, dia) => Math.max(valor, Number(dia.temp_max) || -Infinity), -Infinity);
-  const minimo = pronosticos.reduce((valor, dia) => Math.min(valor, Number(dia.temp_min) || Infinity), Infinity);
-  const ahora = new Date();
-  const limiteLluvia = new Date(ahora.getTime() + 24 * 60 * 60 * 1000);
-  const lluviaHoraria = vientoCrudo?.probabilidadHoraria?.filter(item => {
-    const fecha = new Date(item.time);
-    return fecha >= ahora && fecha <= limiteLluvia;
-  }) || [];
-  const lluviaMaxima = lluviaHoraria.reduce((mejor, item) => item.value > (mejor?.value ?? -1) ? item : mejor, null);
-  const racha = vientoCrudo ? Math.max(...(vientoCrudo.wind_gusts_10m || [0])) : 0;
-  const tarjetas = [];
-  if (lluviaMaxima?.value >= 60) tarjetas.push(`<article class="smn-alert"><div class="smn-alert-level">Lluvia</div><strong>Probabilidad elevada: ${lluviaMaxima.value}%</strong><br>${formatearRangoLluvia(lluviaMaxima.time)}<br>Indicador de Open-Meteo para ${nombre}.</article>`);
-  if (racha >= 50) tarjetas.push(`<article class="smn-alert"><div class="smn-alert-level">Viento</div><strong>Ráfagas de hasta ${racha.toFixed(0)} km/h</strong><br>Indicador de Open-Meteo para las próximas horas.</article>`);
-  if (maximo >= 35 || minimo <= 0) tarjetas.push(`<article class="smn-alert"><div class="smn-alert-level">Temperatura</div><strong>${maximo >= 35 ? `Máxima de ${maximo} °C` : `Mínima de ${minimo} °C`}</strong><br>Indicador de Open-Meteo para los próximos días.</article>`);
-  document.getElementById("smnAlertasStatus").textContent = "Indicadores meteorológicos · Open-Meteo";
-  document.getElementById("smnAlertas").innerHTML = tarjetas.join("") || '<div class="smn-empty">No se detectan condiciones destacables de lluvia, viento o temperatura.</div>';
+  renderAlertasRio(nombre);
 }
 
 async function cargarSMN(nombre) {
@@ -395,9 +424,8 @@ async function cargarSMN(nombre) {
     renderSMN(await res.json());
   } catch (error) {
     document.getElementById("smnPronosticoStatus").textContent = "No se pudo actualizar el pronóstico del SMN";
-    document.getElementById("smnAlertasStatus").textContent = "No se pudieron actualizar las alertas del SMN";
+    document.getElementById("alertasRioLista").innerHTML = '<div class="smn-empty">No se pudieron actualizar las condiciones.</div>';
     document.getElementById("smnPronostico").innerHTML = `<div class="smn-empty">${error.message}</div>`;
-    document.getElementById("smnAlertas").innerHTML = '<div class="smn-empty">Ver alertas oficiales en el enlace de referencia.</div>';
   }
 }
 
