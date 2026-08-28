@@ -149,6 +149,7 @@
   .flecha-direccion{ display:inline-block; color:var(--clay-bright); font-family:Arial, sans-serif; font-size:18px; line-height:1; }
 
   @media (max-width: 760px){
+    .umbrales{ flex-direction:column; align-items:flex-start; gap:7px; }
     .pronostico-7-dias{ grid-template-columns:repeat(2, minmax(0, 1fr)); }
   }
 
@@ -289,7 +290,6 @@
     <h2>Pronóstico seis días</h2>
     <div class="smn-grid">
       <section class="smn-panel">
-        <h3>Pronóstico del tiempo</h3>
         <p class="smn-status" id="smnPronosticoStatus">Consultando Rosario...</p>
         <div class="smn-days" id="smnPronostico"></div>
         <p class="smn-reference">Referencia: <a href="https://ws2.smn.gob.ar/pronostico" target="_blank" rel="noopener">SMN · Pronóstico a 7 días ↗</a>. Usá el selector del panel para consultar Rosario.</p>
@@ -404,9 +404,10 @@ function renderSMN(datos) {
       ["Mañana", dia.morning], ["Tarde", dia.afternoon], ["Noche", dia.night]
     ].filter(([, periodo]) => periodo);
     const detalle = periodos.map(([titulo, periodo]) => {
+      const iconos = { "Mañana": "☀", "Tarde": "◒", "Noche": "☾" };
       const lluvia = periodo.rain_prob_range?.length ? `${periodo.rain_prob_range[0]}-${periodo.rain_prob_range[1]}%` : "s/d";
       const viento = periodo.wind?.speed_range?.length ? `${periodo.wind.speed_range.join("-")} km/h ${periodo.wind.direction || ""}` : "s/d";
-      return `<div class="smn-period"><strong>${titulo}</strong> · ${periodo.weather?.description || "Sin descripción"}<br>Lluvia ${lluvia} · Viento ${viento}</div>`;
+      return `<div class="smn-period"><strong>${iconos[titulo] || "•"} ${titulo}</strong> · ${periodo.weather?.description || "Sin descripción"}<br>Lluvia ${lluvia} · Viento ${viento}</div>`;
     }).join("");
     return `<article class="smn-day"><div class="smn-day-date">${fecha}</div><div class="smn-day-value">${max !== null ? `Máx. ${max} °C` : "Temperatura s/d"}<br>${min !== null ? `Mín. ${min} °C` : ""}</div>${detalle}</article>`;
   }).join("");
