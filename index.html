@@ -368,7 +368,7 @@
 <script>
 const ROSARIO_LAT = -32.9468, ROSARIO_LON = -60.6393;
 const PREFECTURA_BASE = "https://contenidosweb.prefecturanaval.gob.ar/alturas/";
-const GITHUB_PAGES = window.location.hostname.endsWith("github.io");
+const GITHUB_PAGES = ["pbolig.github.io", "miradorparana.com.ar", "www.miradorparana.com.ar"].includes(window.location.hostname);
 const PREFECTURA_PROXY = window.location.port === "5500"
   ? "http://127.0.0.1:8787/api/prefectura?url="
   : "/api/prefectura?url=";
