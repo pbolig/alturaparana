@@ -695,7 +695,8 @@ function renderViento() {
 
   let filas = "";
   const primeraHoraFutura = Math.min(idxActual + 1, vientoCrudo.time.length - 1);
-  for (let i = primeraHoraFutura; i < vientoCrudo.time.length; i += 2) {
+  let filasMostradas = 0;
+  for (let i = primeraHoraFutura; i < vientoCrudo.time.length && filasMostradas < 9; i += 2) {
     const hora = new Date(vientoCrudo.time[i]).toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit" });
     filas += `<tr>
       <td>${hora}</td>
@@ -706,6 +707,7 @@ function renderViento() {
       <td>${vientoCrudo.precipitation[i]} mm</td>
       <td>${vientoCrudo.temperature_2m[i].toFixed(1)} °C</td>
     </tr>`;
+    filasMostradas++;
   }
   document.getElementById("tablaViento").innerHTML =
     "<tr><th>Hora</th><th>Viento</th><th>Dir</th><th>Racha</th><th>Prob. lluvia</th><th>Lluvia</th><th>Temp.</th></tr>" + filas;
