@@ -62,6 +62,7 @@
   .card + .card{ margin-top:14px; }
   .grid > .card{ height:100%; }
   .grid > .card + .card{ margin-top:0; }
+  .grid > .card{ display:flex; flex-direction:column; }
 
   .card{
     background: var(--surface); border:1px solid var(--line);
@@ -124,6 +125,7 @@
   th, td{ border-bottom:1px solid var(--line); padding:7px 6px; text-align:center; }
   th{ color: var(--clay-bright); font-weight:500; text-transform:uppercase; font-size:10.5px; letter-spacing:0.04em; }
   .scroll{ max-height:220px; overflow-y:auto; }
+  .viento-card .scroll{ flex:1; max-height:none; min-height:0; }
   .scroll::-webkit-scrollbar{ width:6px; }
   .scroll::-webkit-scrollbar-thumb{ background: var(--line); border-radius:4px; }
 
@@ -151,11 +153,11 @@
   }
 
   iframe{ width:100%; height:520px; border:none; border-radius:12px; display:block; }
-  .smn-grid{ display:grid; grid-template-columns:1.3fr 0.7fr; gap:14px; }
+  .smn-grid{ display:block; }
   .smn-panel{ min-width:0; }
   .smn-panel h3{ font-family:'Fraunces', serif; font-size:15px; font-weight:600; margin:0 0 8px; color:var(--foam); }
   .smn-status{ color:var(--foam-dim); font-family:'IBM Plex Mono', monospace; font-size:11px; margin:0 0 10px; }
-  .smn-days{ display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:8px; }
+  .smn-days{ display:grid; grid-template-columns:repeat(6, minmax(0, 1fr)); gap:8px; }
   .smn-day, .smn-alert{ background:var(--surface-2); border:1px solid var(--line); border-radius:10px; padding:12px; }
   .smn-day-date, .smn-alert-level{ color:var(--clay-bright); font-family:'Fraunces', serif; font-size:16px; font-weight:600; }
   .smn-day-value{ color:var(--foam); font-family:'IBM Plex Mono', monospace; font-size:11px; line-height:1.6; margin-top:7px; }
@@ -166,7 +168,7 @@
   .smn-empty{ color:var(--foam-dim); font-size:13px; padding:14px 0; }
   .smn-reference{ color:var(--foam-dim); font-family:'IBM Plex Mono', monospace; font-size:11px; line-height:1.5; margin:10px 0 0; }
   .smn-reference a{ color:var(--clay-bright); }
-  @media (max-width: 760px){ .smn-grid, .smn-days{ grid-template-columns:1fr; } }
+  @media (max-width: 760px){ .smn-days{ grid-template-columns:repeat(2, minmax(0, 1fr)); } }
 
   .fuentes-libres{ display:flex; flex-wrap:wrap; gap:10px; margin-top:12px; }
   .fuentes-libres a{
@@ -218,7 +220,7 @@
       </div>
     </div>
 
-      <div class="card">
+      <div class="card viento-card">
         <div class="fuente">Fuente: Open-Meteo.com</div>
       <h2>Viento · próximas horas</h2>
       <div id="vientoError" class="banner-error"></div>
@@ -284,7 +286,7 @@
 
   <div class="card">
     <div class="fuente">Fuente: Servicio Meteorológico Nacional</div>
-    <h2>Pronóstico y alertas oficiales</h2>
+    <h2>Pronóstico seis días</h2>
     <div class="smn-grid">
       <section class="smn-panel">
         <h3>Pronóstico del tiempo</h3>
@@ -293,7 +295,6 @@
         <p class="smn-reference">Referencia: <a href="https://ws2.smn.gob.ar/pronostico" target="_blank" rel="noopener">SMN · Pronóstico a 7 días ↗</a>. Usá el selector del panel para consultar Rosario.</p>
       </section>
     </div>
-    <p class="smn-reference">Alertas calculadas con Open-Meteo: lluvia desde 70%, viento desde 10 nudos (18,5 km/h) y temperatura menor a 5 °C o mayor a 30 °C. <a href="https://open-meteo.com/" target="_blank" rel="noopener">Fuente Open-Meteo ↗</a> · <a href="https://ws2.smn.gob.ar/alertas" target="_blank" rel="noopener">Alertas oficiales SMN ↗</a>.</p>
   </div>
 
   <footer>
