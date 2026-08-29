@@ -48,7 +48,7 @@
     letter-spacing: -0.01em;
   }
   .titulo-principal{ display:inline-flex; align-items:center; justify-content:center; gap:14px; flex-wrap:wrap; }
-  .avisos-boton{ display:none; align-items:center; gap:7px; border:1px solid #f0c36a; border-radius:999px; padding:8px 13px; background:#e0a066; color:#18302d; cursor:pointer; font-family:'IBM Plex Mono', monospace; font-size:11px; font-weight:600; box-shadow:0 4px 12px rgba(224,160,102,0.25); }
+  .avisos-boton{ display:none; align-items:center; gap:7px; border:1px solid #f0c36a; border-radius:999px; padding:8px 13px; background:#e0a066; color:#18302d; cursor:pointer; font-family:'IBM Plex Mono', monospace; font-size:12px; font-weight:600; box-shadow:0 4px 12px rgba(224,160,102,0.25); }
   .avisos-boton-icon{ width:24px; height:24px; display:grid; place-items:center; border:1px solid var(--foam); border-radius:50%; background:var(--bg); color:var(--clay-bright); font-size:14px; line-height:1; }
   .avisos-boton.visible{ display:inline-flex; }
   .avisos-boton:hover{ background:#f0bc7d; transform:translateY(-1px); }
@@ -194,7 +194,7 @@
   .modal-avisos-cabecera h2{ margin:0; }
   .modal-cerrar{ border:1px solid var(--line); border-radius:50%; width:32px; height:32px; background:var(--surface-2); color:var(--foam); cursor:pointer; font-size:18px; line-height:1; }
   .avisos-categorias{ display:grid; gap:8px; margin:14px 0; }
-  .aviso-categoria{ width:100%; display:flex; align-items:center; justify-content:space-between; padding:11px 13px; border:1px solid var(--line); border-radius:9px; color:var(--foam-dim); background:var(--surface-2); cursor:pointer; text-align:left; font-family:'IBM Plex Mono', monospace; font-size:11px; }
+  .aviso-categoria{ width:100%; display:flex; align-items:center; justify-content:space-between; padding:11px 13px; border:1px solid var(--line); border-radius:9px; color:var(--foam-dim); background:var(--surface-2); cursor:pointer; text-align:left; font-family:'IBM Plex Mono', monospace; font-size:12px; }
   .aviso-categoria.destacada{ color:#18302d; background:var(--clay-bright); border-color:var(--clay-bright); }
   .aviso-categoria.destacada{ animation: categoria-activa 2.4s ease-in-out infinite; }
   .aviso-categoria:hover{ border-color:var(--clay-bright); }
@@ -218,8 +218,8 @@
   .aviso-registrado p{ color:var(--foam-dim); font-size:12px; line-height:1.45; margin:0; }
   .aviso-estado{ color:var(--ok); font-family:'IBM Plex Mono', monospace; font-size:10px; text-transform:uppercase; }
   .aviso-registrado.activo .aviso-estado{ color:var(--clay-bright); }
-  @keyframes categoria-activa{ 0%,100%{ box-shadow:0 0 0 0 rgba(240,195,106,0.12); } 50%{ box-shadow:0 0 0 4px rgba(240,195,106,0.22), 0 0 16px rgba(224,160,102,0.18); } }
-  @media (max-width: 560px){ .titulo-principal{ margin-bottom:10px; } .avisos-archivo{ grid-template-columns:1fr; } .modal-avisos-panel{ padding:16px; } .aviso-categoria{ font-size:10px; padding:10px 11px; } }
+  @keyframes categoria-activa{ 0%,100%{ box-shadow:0 0 0 1px rgba(255,232,164,0.45), 0 0 10px rgba(255,192,78,0.35); } 50%{ box-shadow:0 0 0 5px rgba(255,232,164,0.75), 0 0 24px rgba(255,192,78,0.7); } }
+  @media (max-width: 560px){ .titulo-principal{ margin-bottom:10px; } .avisos-archivo{ grid-template-columns:1fr; } .modal-avisos-panel{ padding:16px; } .aviso-categoria{ font-size:11px; padding:10px 11px; } }
 </style>
 </head>
 <body>
@@ -230,6 +230,8 @@
     <div class="titulo-principal">
       <h1>Mirador Paraná</h1>
       <button class="avisos-boton" id="avisosBoton" type="button" hidden><span class="avisos-boton-icon">📣</span> Nuevo anuncio</button>
+   
+      <p>Si querés publicar algún anuncio enviar mail a <a href="mailto:pedro.bolig@gmail.com">Nuevo Anuncio</a></p>
     </div>
     <div class="subt">Altura, viento, pronóstico y más para la zona de Rosario</div>
     <div id="ultimaAct">Actualizando…</div>
@@ -315,14 +317,13 @@
       Windguru no permite incrustarse (bloquea iframes y no tiene API abierta), así que para comparar contra
       Open-Meteo usamos el visor gratuito de Windy. Podés cambiar la capa de viento/lluvia/olas desde el propio mapa.
     </p>
-    <iframe
+    <iframe id="windyMapa"
       src="https://embed.windy.com/embed2.html?lat=-32.9468&lon=-60.6393&detailLat=-32.9468&detailLon=-60.6393&width=650&height=520&zoom=8&level=surface&overlay=wind&product=ecmwf&menu=&message=true&marker=true&calendar=now&pressure=true&type=map&location=coordinates&detail=true&metricWind=default&metricTemp=default&radarRange=-1"
       loading="lazy">
     </iframe>
     <div class="fuentes-libres">
-      <a href="https://www.windy.com/-Weather-radar-radar?radar,-32.947,-60.639,9" target="_blank">Windy (pantalla completa)</a>
-      <a href="https://www.windguru.cz/1189" target="_blank">Windguru Rosario ↗</a>
-      <a href="https://www.smn.gob.ar/pronosticos/rosario" target="_blank">SMN Rosario ↗</a>
+      <a id="windyEnlace" href="https://www.windy.com/-Weather-radar-radar?radar,-32.947,-60.639,9" target="_blank">Windy (pantalla completa)</a>
+      <a id="smnEnlace" href="https://ws2.smn.gob.ar/pronostico" target="_blank">SMN ↗</a>
       <a href="https://contenidosweb.prefecturanaval.gob.ar/alturas/index.php" target="_blank">Prefectura Naval · Alturas ↗</a>
       <a href="http://www.ina.gov.ar/alerta/index.php?alerta=siyah" target="_blank">INA · SIyAH ↗</a>
     </div>
@@ -368,7 +369,8 @@
 <script>
 const ROSARIO_LAT = -32.9468, ROSARIO_LON = -60.6393;
 const PREFECTURA_BASE = "https://contenidosweb.prefecturanaval.gob.ar/alturas/";
-const GITHUB_PAGES = ["pbolig.github.io", "miradorparana.com.ar", "www.miradorparana.com.ar"].includes(window.location.hostname);
+const STATIC_DATA_HOSTS = ["pbolig.github.io", "miradorparana.com.ar", "www.miradorparana.com.ar", "127.0.0.1", "localhost"];
+const GITHUB_PAGES = STATIC_DATA_HOSTS.includes(window.location.hostname);
 const PREFECTURA_PROXY = window.location.port === "5500"
   ? "http://127.0.0.1:8787/api/prefectura?url="
   : "/api/prefectura?url=";
@@ -381,6 +383,8 @@ let pronosticoDiario = null;
 let umbralAlerta = 4;
 let umbralEvacuacion = 4.5;
 let avisosPorCategoria = new Map();
+let ubicacionActual = { nombre: "Rosario", latitud: ROSARIO_LAT, longitud: ROSARIO_LON };
+let estacionActual = null;
 
 function escaparHTML(valor) {
   return String(valor ?? "").replace(/[&<>"']/g, caracter => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[caracter]));
@@ -562,10 +566,13 @@ function renderSMN(datos) {
   renderAlertasRio(nombre);
 }
 
-async function cargarSMN(nombre) {
+async function cargarSMN(estacion) {
+  const nombre = estacion?.nombre || zonaActual;
   document.getElementById("smnPronosticoStatus").textContent = `Consultando ${nombre}...`;
   try {
-    const fuente = GITHUB_PAGES ? `data/smn-data.json?v=${Date.now()}` : `/api/smn/data?name=${encodeURIComponent(nombre)}`;
+    const fuente = GITHUB_PAGES
+      ? `data/smn-data-${estacion?.id || 280}.json?v=${Date.now()}`
+      : `/api/smn/data?name=${encodeURIComponent(nombre)}`;
     const res = await fetch(fuente);
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     renderSMN(await res.json());
@@ -574,6 +581,23 @@ async function cargarSMN(nombre) {
     document.getElementById("alertasRioLista").innerHTML = '<div class="smn-empty">No se pudieron actualizar las condiciones.</div>';
     document.getElementById("smnPronostico").innerHTML = `<div class="smn-empty">${error.message}</div>`;
   }
+}
+
+async function actualizarUbicacion(nombre) {
+  if (nombre.toUpperCase() === "ROSARIO") {
+    ubicacionActual = { nombre: "Rosario", latitud: ROSARIO_LAT, longitud: ROSARIO_LON };
+  } else {
+    const url = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(nombre)}&count=10&language=es&format=json&countryCode=AR`;
+    const respuesta = await fetch(url);
+    if (!respuesta.ok) throw new Error(`HTTP ${respuesta.status}`);
+    const lugares = (await respuesta.json()).results || [];
+    const lugar = lugares.find(item => item.name?.toUpperCase() === nombre.toUpperCase()) || lugares[0];
+    if (!lugar) throw new Error(`No se encontró la ubicación de ${nombre}`);
+    ubicacionActual = { nombre: lugar.name, latitud: lugar.latitude, longitud: lugar.longitude };
+  }
+  const { latitud, longitud } = ubicacionActual;
+  document.getElementById("windyMapa").src = `https://embed.windy.com/embed2.html?lat=${latitud}&lon=${longitud}&detailLat=${latitud}&detailLon=${longitud}&width=650&height=520&zoom=8&level=surface&overlay=wind&product=ecmwf&menu=&message=true&marker=true&calendar=now&pressure=true&type=map&location=coordinates&detail=true&metricWind=default&metricTemp=default&radarRange=-1`;
+  document.getElementById("windyEnlace").href = `https://www.windy.com/-Weather-radar-radar?radar,${latitud},${longitud},9`;
 }
 
 async function fetchConProxies(url) {
@@ -651,7 +675,17 @@ function completarEstaciones(estaciones) {
   });
   zonaActual = estaciones.some(e => e.nombre === "ROSARIO") ? "ROSARIO" : estaciones[0].nombre;
   select.value = zonaActual;
-  select.addEventListener("change", () => { zonaActual = select.value; cargarAltura(); cargarSMN(zonaActual); });
+  select.addEventListener("change", async () => {
+    zonaActual = select.value;
+    try {
+      await actualizarUbicacion(zonaActual);
+      await Promise.all([cargarAltura(), cargarViento()]);
+      await cargarSMN(estacionActual);
+    } catch (error) {
+      mostrarError("vientoError", `No se pudo actualizar la ubicación de ${zonaActual} (${error.message}).`);
+      cargarAltura();
+    }
+  });
 }
 
 async function cargarHistorico(estacion) {
@@ -679,6 +713,7 @@ async function cargarAltura() {
     completarEstaciones(estaciones);
     const estacion = estaciones.find(e => e.nombre === zonaActual);
     if (!estacion) throw new Error(`Sin registros para "${zonaActual}"`);
+    estacionActual = estacion;
     const alturaNum = estacion.altura;
 
     document.getElementById("alturaActual").innerHTML = alturaNum.toFixed(2) + ' <span class="altura-unidad">m</span>';
@@ -690,9 +725,12 @@ async function cargarAltura() {
     actualizarMira(alturaNum);
     actualizarEstado(alturaNum);
 
-    const historico = await cargarHistorico(estacion);
-    if (!historico.length) throw new Error("Prefectura no devolvió registros históricos");
-    dibujarGrafico(historico.reverse());
+    try {
+      const historico = await cargarHistorico(estacion);
+      if (historico.length) dibujarGrafico(historico.reverse());
+    } catch (error) {
+      console.warn(`No se pudo cargar el histórico de ${estacion.nombre}:`, error);
+    }
   } catch (e) {
     mostrarError("alturaError",
       `No se pudo obtener la altura automáticamente (${e.message}). ` +
@@ -780,7 +818,7 @@ function formatearVelocidad(kmh) {
 async function cargarViento() {
   ocultarError("vientoError");
   try {
-    const url = `https://api.open-meteo.com/v1/forecast?latitude=${ROSARIO_LAT}&longitude=${ROSARIO_LON}` +
+    const url = `https://api.open-meteo.com/v1/forecast?latitude=${ubicacionActual.latitud}&longitude=${ubicacionActual.longitud}` +
       `&hourly=precipitation_probability` +
       `&minutely_15=temperature_2m,precipitation,wind_speed_10m,wind_direction_10m,wind_gusts_10m&wind_speed_unit=kmh` +
       `&daily=temperature_2m_max,temperature_2m_min,precipitation_probability_max,precipitation_sum,wind_speed_10m_min,wind_speed_10m_max` +
@@ -871,8 +909,9 @@ document.getElementById("toggleUnidad").addEventListener("click", () => {
 
 async function cargarTodo() {
   document.getElementById("ultimaAct").textContent = "Actualizado: " + new Date().toLocaleString("es-AR");
+  await actualizarUbicacion(zonaActual);
   await Promise.all([cargarAltura(), cargarViento()]);
-  await cargarSMN(zonaActual);
+  await cargarSMN(estacionActual);
 }
 
 cargarAvisos();
