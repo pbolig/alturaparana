@@ -1,13 +1,36 @@
 const http = require("http");
+const https = require("https");
 const fs = require("fs");
 const path = require("path");
+const axios = require("axios");
 
 const HOST = process.env.HOST || "0.0.0.0";
-const PORT = Number(process.env.PORT) || 8787;
+const PORT = Number(process.env.PORT) || 8788;
 const ROOT = __dirname;
-const PREFECTURA_HOST = "https://contenidosweb.prefecturanaval.gob.ar";
 const SMN_HOST = "https://ws2.smn.gob.ar";
 const SMN_API = "https://ws1.smn.gob.ar/v1";
+
+// Configurar axios con mejor manejo de HTTPS
+const axiosClient = axios.create({
+  timeout: 10000,
+  maxRedirects: 5,
+  headers: {
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+  },
+  httpsAgent: new https.Agent({
+    rejectUnauthorized: false
+  }),
+  httpAgent: new http.Agent({
+    keepAlive: true
+  })
+});
+
+// Localidades disponibles en AGPSE
+const AGPSE_LOCALIDADES = {
+  Rosario: "https://hidrografia2.agpse.gob.ar/Rosario/marea.html",
+  SanLorenzo: "https://hidrografia2.agpse.gob.ar/SanLorenzo/marea.html",
+  SanNicolas: "https://hidrografia2.agpse.gob.ar/SanNicolas/marea.html",
+};
 
 function responder(res, status, body, type = "text/plain; charset=utf-8") {
   res.writeHead(status, {
@@ -21,20 +44,40 @@ const server = http.createServer(async (req, res) => {
   const requestUrl = new URL(req.url, `http://${req.headers.host}`);
 
   if (requestUrl.pathname === "/api/prefectura") {
-    const remoteUrl = requestUrl.searchParams.get("url");
-    if (!remoteUrl || !remoteUrl.startsWith(`${PREFECTURA_HOST}/alturas`)) {
-      responder(res, 400, "URL de Prefectura no válida");
+    responder(res, 410, "La fuente de datos de Prefectura Naval ya no está disponible. Use Hidrografía AGPSE.");
+    return;
+  }
+
+  if (requestUrl.pathname.startsWith("/api/hidrografia/")) {
+    const localidad = requestUrl.pathname.replace("/api/hidrografia/", "").replace(/\/$/, "");
+    const url = AGPSE_LOCALIDADES[localidad];
+    
+    if (!url) {
+      responder(res, 400, `Localidad no válida: ${localidad}`);
       return;
     }
 
     try {
-      const remote = await fetch(remoteUrl, {
-        headers: { "User-Agent": "Mira-del-Parana/1.0" },
-      });
-      const body = await remote.text();
-      responder(res, remote.status, body, remote.headers.get("content-type") || "text/html; charset=utf-8");
+      console.log(`[AGPSE] Fetching ${localidad}...`);
+      const response = await axiosClient.get(url);
+      console.log(`[AGPSE] ${localidad} OK (${response.status})`);
+      responder(res, response.status, response.data, response.headers["content-type"] || "text/html; charset=utf-8");
     } catch (error) {
-      responder(res, 502, `No se pudo consultar Prefectura: ${error.message}`);
+      console.error(`[AGPSE] ${localidad} ERROR:`, error.message);
+      // Fallback: intentar cargar archivo local (solo para Rosario por ahora)
+      if (localidad === "Rosario" || localidad === "rosario") {
+        try {
+          const fallbackPath = path.join(ROOT, "data", "hidrografia-rosario.html");
+          const fallbackContent = fs.readFileSync(fallbackPath, "utf-8");
+          console.log(`[AGPSE] ${localidad} fallback OK`);
+          responder(res, 200, fallbackContent, "text/html; charset=utf-8");
+        } catch (fallbackError) {
+          console.error(`[AGPSE] ${localidad} fallback failed:`, fallbackError.message);
+          responder(res, 502, `No se pudo consultar Hidrografía AGPSE: ${error.message}. Fallback también falló: ${fallbackError.message}`);
+        }
+      } else {
+        responder(res, 502, `No se pudo consultar Hidrografía AGPSE para ${localidad}: ${error.message}`);
+      }
     }
     return;
   }

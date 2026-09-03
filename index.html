@@ -237,13 +237,15 @@
     <div id="ultimaAct">Actualizando…</div>
     <div class="zona-select">
       <label for="zonaSelect">Estación:</label>
-      <select id="zonaSelect"></select>
+      <select id="zonaSelect" disabled>
+        <option value="Rosario">ROSARIO · PARANA</option>
+      </select>
     </div>
   </header>
 
   <div class="grid">
     <div class="card">
-      <div class="fuente">Fuente: Prefectura Naval Argentina</div>
+      <div class="fuente" id="fuenteAltura">Fuente: Prefectura Naval Argentina</div>
       <h2>Altura del río</h2>
       <div id="alturaError" class="banner-error"></div>
       <div class="altura-row">
@@ -305,9 +307,10 @@
     <div id="pronostico7Dias" class="pronostico-7-dias"></div>
   </div>
 
-  <div class="card">
+  <div class="card" id="cardGraficoHidrografia">
+    <div class="fuente">Fuente: Hidrografía AGPSE <span title="Administración General de Puertos Sociedad del Estado">(Administración General de Puertos)</span></div>
     <h2>Altura · últimos 7 días</h2>
-    <canvas id="grafico30d"></canvas>
+    <canvas id="graficoHidrografia"></canvas>
   </div>
 
   <div class="card">
@@ -368,20 +371,15 @@
 
 <script>
 const ROSARIO_LAT = -32.9468, ROSARIO_LON = -60.6393;
-const PREFECTURA_BASE = "https://contenidosweb.prefecturanaval.gob.ar/alturas/";
 const STATIC_DATA_HOSTS = ["pbolig.github.io", "miradorparana.com.ar", "www.miradorparana.com.ar", "127.0.0.1", "localhost"];
 const GITHUB_PAGES = STATIC_DATA_HOSTS.includes(window.location.hostname);
-const PREFECTURA_PROXY = window.location.port === "5500"
-  ? "http://127.0.0.1:8787/api/prefectura?url="
-  : "/api/prefectura?url=";
 
-let grafico;
-let zonaActual = "ROSARIO";
+let zonaActual = "Rosario";
 let unidadActual = "kmh"; // 'kmh' | 'kn'
 let vientoCrudo = null; // guarda datos en km/h para poder convertir sin refetch
 let pronosticoDiario = null;
-let umbralAlerta = 4;
-let umbralEvacuacion = 4.5;
+let umbralAlerta = 5;
+let umbralEvacuacion = 5.3;
 let avisosPorCategoria = new Map();
 let ubicacionActual = { nombre: "Rosario", latitud: ROSARIO_LAT, longitud: ROSARIO_LON };
 let estacionActual = null;
@@ -600,16 +598,53 @@ async function actualizarUbicacion(nombre) {
   document.getElementById("windyEnlace").href = `https://www.windy.com/-Weather-radar-radar?radar,${latitud},${longitud},9`;
 }
 
-async function fetchConProxies(url) {
-  let fuente = PREFECTURA_PROXY + encodeURIComponent(url);
-  if (GITHUB_PAGES) {
-    const historico = url.match(/[?&]id=(\d+)/);
-    const cacheBuster = `?v=${Date.now()}`;
-    fuente = historico ? `data/historico-${historico[1]}.html${cacheBuster}` : `data/estaciones.html${cacheBuster}`;
+async function fetchHidrografia(localidad = "Rosario") {
+  // Intentar API primero si no estamos en GitHub Pages
+  if (!GITHUB_PAGES) {
+    try {
+      const res = await fetch(`/api/hidrografia/${localidad}`);
+      if (res.ok) return res.text();
+    } catch (err) {
+      // Falló el API, intentar archivo local
+    }
   }
-  const res = await fetch(fuente);
-  if (!res.ok) throw new Error("HTTP " + res.status);
-  return res.text();
+  // Fallback al archivo local (por ahora solo Rosario)
+  if (localidad === "Rosario") {
+    const res = await fetch(`data/hidrografia-rosario.html?v=${Date.now()}`);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    return res.text();
+  }
+  throw new Error(`No hay datos locales para ${localidad}`);
+}
+
+// Alias para compatibilidad
+async function fetchHidrografiaRosario() {
+  return fetchHidrografia("Rosario");
+}
+
+function parsearAlturaHidrografia(texto) {
+  const documento = new DOMParser().parseFromString(texto, "text/html");
+  for (const fila of documento.querySelectorAll("tr")) {
+    const celdas = fila.querySelectorAll("th, td");
+    if (celdas.length < 2) continue;
+    const fecha = celdas[0].textContent.trim().match(/\d{4}-\d{2}-\d{2}\s+\d{2}:\d{2}:\d{2}/)?.[0];
+    const altura = numeroPrefectura(celdas[1].textContent);
+    if (fecha && altura !== null) return { fecha, altura };
+  }
+  throw new Error("Hidrografía no devolvió una altura válida");
+}
+
+function parsearHistoricoHidrografia(texto) {
+  const documento = new DOMParser().parseFromString(texto, "text/html");
+  const registros = [];
+  for (const fila of documento.querySelectorAll("tr")) {
+    const celdas = fila.querySelectorAll("th, td");
+    if (celdas.length < 2) continue;
+    const fecha = celdas[0].textContent.trim().match(/\d{4}-\d{2}-\d{2}\s+\d{2}:\d{2}:\d{2}/)?.[0];
+    const altura = numeroPrefectura(celdas[1].textContent);
+    if (fecha && altura !== null) registros.push({ fecha, altura });
+  }
+  return registros.reverse(); // Ordenar de más antiguo a más reciente
 }
 
 function mostrarError(elId, mensaje) {
@@ -626,116 +661,60 @@ function numeroPrefectura(valor) {
   return Number.isFinite(numero) ? numero : null;
 }
 
-function parsearEstaciones(texto) {
-  const estaciones = [];
-  const extraer = (fila, patron) => fila.match(patron)?.[1]?.trim() || "";
-  if (/<tr/i.test(texto)) {
-    for (const fila of texto.matchAll(/<tr[^>]*>([\s\S]*?)<\/tr>/gi)) {
-      const html = fila[1];
-      const nombre = extraer(html, /data-label=["']Puerto:["'][^>]*>\s*([^<]+)/i);
-      const altura = numeroPrefectura(extraer(html, /data-label=["']Ultimo Registro:?[^"']*["'][^>]*>\s*([^<]+)/i));
-      if (!nombre || !altura) continue;
-      const enlace = html.match(/href=["'][^"']*historico[^"']*id=(\d+)/i);
-      estaciones.push({
-        nombre, rio: extraer(html, /data-label=["']Río:?[^"']*["'][^>]*>\s*([^<]+)/i), altura,
-        variacion: extraer(html, /data-label=["']Variacion["'][^>]*>\s*([^<]+)/i),
-        fecha: extraer(html, /data-label=["']Fecha Hora:?[^"']*["'][^>]*>[\s\S]*?([^<]+)</i),
-        alerta: numeroPrefectura(extraer(html, /data-label=["']Alerta:?[^"']*["'][^>]*>\s*([^<]+)/i)),
-        evacuacion: numeroPrefectura(extraer(html, /data-label=["']Evacuación:?[^"']*["'][^>]*>\s*([^<]+)/i)),
-        id: enlace?.[1] || null,
-      });
-    }
-    return estaciones;
-  }
-  const filas = texto.split("\n").filter(linea => linea.trim().startsWith("|"));
-  for (const fila of filas) {
-    const columnas = fila.split("|").map(columna => columna.trim());
-    if (columnas.length < 13 || !columnas[1] || columnas[1] === "Puerto") continue;
-    const altura = numeroPrefectura(columnas[3]);
-    if (!altura) continue;
-    const historico = fila.match(/historico[^\s|)]+/i);
-    estaciones.push({
-      nombre: columnas[1], rio: columnas[2], altura,
-      variacion: columnas[4], fecha: columnas[6],
-      alerta: numeroPrefectura(columnas[11]), evacuacion: numeroPrefectura(columnas[12]),
-      id: historico ? historico[0].match(/id=(\d+)/i)?.[1] : null,
-    });
-  }
-  return estaciones;
-}
-
-function completarEstaciones(estaciones) {
+function completarEstaciones() {
+  // Inicializar zonaActual (las opciones ya están en el HTML)
   const select = document.getElementById("zonaSelect");
-  if (select.options.length || !estaciones.length) return;
-  estaciones.forEach(estacion => {
-    const opt = document.createElement("option");
-    opt.value = estacion.nombre;
-    opt.textContent = `${estacion.nombre} · ${estacion.rio}`;
-    select.appendChild(opt);
-  });
-  zonaActual = estaciones.some(e => e.nombre === "ROSARIO") ? "ROSARIO" : estaciones[0].nombre;
-  select.value = zonaActual;
-  select.addEventListener("change", async () => {
-    zonaActual = select.value;
-    try {
-      await actualizarUbicacion(zonaActual);
-      await Promise.all([cargarAltura(), cargarViento()]);
-      await cargarSMN(estacionActual);
-    } catch (error) {
-      mostrarError("vientoError", `No se pudo actualizar la ubicación de ${zonaActual} (${error.message}).`);
-      cargarAltura();
-    }
-  });
+  zonaActual = select.value || "Rosario";
 }
 
-async function cargarHistorico(estacion) {
-  if (!estacion.id) return [];
-  const params = new URLSearchParams({ id: estacion.id, page: "historico", tiempo: "7" });
-  const url = `${PREFECTURA_BASE}?${params}`;
-  const texto = await fetchConProxies(url);
-  const documento = new DOMParser().parseFromString(texto, "text/html");
-  const registros = [];
-  for (const fila of documento.querySelectorAll("tr")) {
-    const celdas = fila.querySelectorAll("th, td");
-    if (celdas.length < 3) continue;
-    const fecha = celdas[1].textContent.match(/\d{4}-\d{2}-\d{2}/)?.[0];
-    const altura = numeroPrefectura(celdas[2].textContent.replace(/Mts/i, ""));
-    if (fecha && altura !== null) registros.push({ fecha, altura });
-  }
-  return registros;
-}
+// Función removida: cargarHistorico() de Prefectura ya no se usa (solo AGPSE)
 
 async function cargarAltura() {
   ocultarError("alturaError");
   try {
-    const texto = await fetchConProxies(PREFECTURA_BASE);
-    const estaciones = parsearEstaciones(texto);
-    completarEstaciones(estaciones);
-    const estacion = estaciones.find(e => e.nombre === zonaActual);
-    if (!estacion) throw new Error(`Sin registros para "${zonaActual}"`);
+    completarEstaciones();
+    
+    // Usar AGPSE para Rosario
+    const dato = parsearAlturaHidrografia(await fetchHidrografiaRosario());
+    const estacion = { 
+      nombre: "ROSARIO", 
+      rio: "PARANA", 
+      altura: dato.altura, 
+      variacion: "s/d", 
+      fecha: dato.fecha, 
+      alerta: 5, 
+      evacuacion: 5.3, 
+      id: 280 
+    };
+    
     estacionActual = estacion;
     const alturaNum = estacion.altura;
 
     document.getElementById("alturaActual").innerHTML = alturaNum.toFixed(2) + ' <span class="altura-unidad">m</span>';
-    document.getElementById("varActual").textContent = `Variación: ${estacion.variacion || "s/d"} m · ${estacion.fecha}`;
-    umbralAlerta = estacion.alerta ?? 4;
-    umbralEvacuacion = estacion.evacuacion ?? 4.5;
+    document.getElementById("varActual").textContent = `${estacion.fecha} (AGPSE - Administración General de Puertos)`;
+    document.getElementById("fuenteAltura").textContent = "Fuente: Hidrografía AGPSE (Administración General de Puertos Sociedad del Estado)";
+    
+    umbralAlerta = estacion.alerta ?? 5;
+    umbralEvacuacion = estacion.evacuacion ?? 5.3;
     document.getElementById("umbralAlerta").textContent = umbralAlerta.toFixed(2);
     document.getElementById("umbralEvacuacion").textContent = umbralEvacuacion.toFixed(2);
+    
     actualizarMira(alturaNum);
     actualizarEstado(alturaNum);
 
+    // Cargar gráfico de Hidrografía AGPSE
     try {
-      const historico = await cargarHistorico(estacion);
-      if (historico.length) dibujarGrafico(historico.reverse());
+      const historicoHidrografia = await cargarHistoricoHidrografia();
+      if (historicoHidrografia.length) {
+        dibujarGraficoHidrografia(historicoHidrografia);
+        document.getElementById("cardGraficoHidrografia").style.display = "block";
+      }
     } catch (error) {
-      console.warn(`No se pudo cargar el histórico de ${estacion.nombre}:`, error);
+      console.warn("No se pudo cargar gráfico de Hidrografía:", error);
     }
   } catch (e) {
     mostrarError("alturaError",
-      `No se pudo obtener la altura automáticamente (${e.message}). ` +
-      `Verificá el nivel en <a href="https://contenidosweb.prefecturanaval.gob.ar/alturas/index.php" target="_blank">Prefectura Naval</a> ` +
-      `o en <a href="https://datos.santafe.gob.ar/dataset/parte-de-alturas-del-rio-parana" target="_blank">Datos Abiertos Santa Fe</a>.`
+      `No se pudo obtener datos de AGPSE (${e.message}). Reintentando en el próximo ciclo de actualización.`
     );
   }
 }
@@ -772,18 +751,37 @@ function actualizarEstado(altura) {
   }
 }
 
-function dibujarGrafico(datos) {
-  const ctx = document.getElementById("grafico30d");
-  if (grafico) grafico.destroy();
-  grafico = new Chart(ctx, {
+function formatearFechaGrafico(fechaStr) {
+  // Convierte "2026-09-02 12:00:00" o "2026-09-02 12:00" a "02-09-26-12hs."
+  try {
+    const parte = fechaStr.split(" ");
+    const fecha = parte[0] || fechaStr.slice(0, 10);
+    const horaCompleta = parte[1] || "12:00:00";
+    const [año, mes, día] = fecha.split("-");
+    const [horas] = horaCompleta.split(":");
+    return `${día}-${mes}-${año.slice(-2)}-${horas}hs.`;
+  } catch {
+    return fechaStr;
+  }
+}
+
+// Función removida: dibujarGrafico() de Prefectura ya no se usa (solo AGPSE)
+
+let graficoHidrografia = null;
+function dibujarGraficoHidrografia(datos) {
+  const ctx = document.getElementById("graficoHidrografia");
+  if (!ctx) return; // Si no existe el canvas, no hacer nada
+  if (graficoHidrografia) graficoHidrografia.destroy();
+  const datosInvertidos = [...datos].reverse(); // Más reciente a la izquierda
+  graficoHidrografia = new Chart(ctx, {
     type: "line",
     data: {
-      labels: datos.map(d => (d.fecha || "").split(" ")[0]),
+      labels: datosInvertidos.map(d => formatearFechaGrafico(d.fecha || "")),
       datasets: [{
-        label: "Altura (m)",
-        data: datos.map(d => parseFloat(String(d.altura).replace(",", "."))),
-        borderColor: "#e0a066",
-        backgroundColor: "rgba(224,160,102,0.12)",
+        label: "Altura (m) - AGPSE (Administración General de Puertos)",
+        data: datosInvertidos.map(d => parseFloat(String(d.altura).replace(",", "."))),
+        borderColor: "#6ea8d6",
+        backgroundColor: "rgba(110,168,214,0.12)",
         tension: 0.25, fill: true, pointRadius: 2,
       }]
     },
@@ -796,6 +794,16 @@ function dibujarGrafico(datos) {
       }
     }
   });
+}
+
+async function cargarHistoricoHidrografia() {
+  try {
+    const texto = await fetchHidrografiaRosario();
+    return parsearHistoricoHidrografia(texto);
+  } catch (error) {
+    console.warn("No se pudo cargar histórico de Hidrografía:", error);
+    return [];
+  }
 }
 
 // --- Viento ---

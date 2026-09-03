@@ -6,11 +6,20 @@ const outputDir = path.join(__dirname, "..", "data");
 const SMN_API = "https://ws1.smn.gob.ar/v1";
 
 async function descargar(url) {
-  const response = await fetch(url, {
-    headers: { "User-Agent": "Mira-del-Parana/1.0" },
-  });
-  if (!response.ok) throw new Error(`${response.status} ${url}`);
-  return response.text();
+  let ultimoError;
+  for (let intento = 1; intento <= 3; intento++) {
+    try {
+      const response = await fetch(url, {
+        headers: { "User-Agent": "Mira-del-Parana/1.0" },
+      });
+      if (!response.ok) throw new Error(`${response.status} ${url}`);
+      return response.text();
+    } catch (error) {
+      ultimoError = error;
+      if (intento < 3) await new Promise(resolve => setTimeout(resolve, 1500));
+    }
+  }
+  throw ultimoError;
 }
 
 async function guardarPagina(url, nombre) {
@@ -83,6 +92,7 @@ async function main() {
 
   await guardarPagina("https://ws2.smn.gob.ar/pronostico", "smn-pronostico.html");
   await guardarPagina("https://ws2.smn.gob.ar/alertas", "smn-alertas.html");
+  await guardarPagina("https://hidrografia2.agpse.gob.ar/Rosario/marea.html", "hidrografia-rosario.html");
   try { await guardarDatosSMN(estacionesSMN(estaciones)); } catch (error) { console.warn(`No se pudo actualizar los datos del SMN: ${error.message}`); }
 }
 
