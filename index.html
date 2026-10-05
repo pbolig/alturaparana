@@ -691,7 +691,7 @@ async function cargarAltura() {
     const alturaNum = estacion.altura;
 
     document.getElementById("alturaActual").innerHTML = alturaNum.toFixed(2) + ' <span class="altura-unidad">m</span>';
-    document.getElementById("varActual").textContent = `${estacion.fecha} (AGPSE - Administración General de Puertos)`;
+    document.getElementById("varActual").textContent = `Medición: ${formatearFechaCompleta(estacion.fecha)} (AGPSE)`;
     document.getElementById("fuenteAltura").textContent = "Fuente: Hidrografía AGPSE (Administración General de Puertos Sociedad del Estado)";
     
     umbralAlerta = estacion.alerta ?? 5;
@@ -752,45 +752,103 @@ function actualizarEstado(altura) {
 }
 
 function formatearFechaGrafico(fechaStr) {
-  // Convierte "2026-09-02 12:00:00" o "2026-09-02 12:00" a "02-09-26-12hs."
+  // Convierte "2026-10-04 22:20:00" a "04/10 22:20"
   try {
-    const parte = fechaStr.split(" ");
-    const fecha = parte[0] || fechaStr.slice(0, 10);
-    const horaCompleta = parte[1] || "12:00:00";
-    const [año, mes, día] = fecha.split("-");
-    const [horas] = horaCompleta.split(":");
-    return `${día}-${mes}-${año.slice(-2)}-${horas}hs.`;
+    const [fecha, horaCompleta = "12:00:00"] = fechaStr.split(" ");
+    const [, mes, día] = fecha.split("-");
+    const [horas, minutos] = horaCompleta.split(":");
+    return `${día}/${mes} ${horas}:${minutos || "00"}`;
   } catch {
     return fechaStr;
   }
 }
 
-// Función removida: dibujarGrafico() de Prefectura ya no se usa (solo AGPSE)
+function formatearFechaCompleta(fechaStr) {
+  // Convierte "2026-10-04 22:20:00" a "04/10/2026 22:20 hs"
+  try {
+    const [fecha, horaCompleta = "12:00:00"] = fechaStr.split(" ");
+    const [año, mes, día] = fecha.split("-");
+    const [horas, minutos] = horaCompleta.split(":");
+    return `${día}/${mes}/${año} ${horas}:${minutos || "00"} hs`;
+  } catch {
+    return fechaStr;
+  }
+}
 
 let graficoHidrografia = null;
 function dibujarGraficoHidrografia(datos) {
   const ctx = document.getElementById("graficoHidrografia");
   if (!ctx) return; // Si no existe el canvas, no hacer nada
   if (graficoHidrografia) graficoHidrografia.destroy();
-  const datosInvertidos = [...datos].reverse(); // Más reciente a la izquierda
+
+  // Los últimos 7 días (~504 registros de 20 min) en orden cronológico (de izquierda a derecha)
+  const datosCronologicos = datos.slice(-504);
+
   graficoHidrografia = new Chart(ctx, {
     type: "line",
     data: {
-      labels: datosInvertidos.map(d => formatearFechaGrafico(d.fecha || "")),
+      labels: datosCronologicos.map(d => formatearFechaGrafico(d.fecha || "")),
       datasets: [{
-        label: "Altura (m) - AGPSE (Administración General de Puertos)",
-        data: datosInvertidos.map(d => parseFloat(String(d.altura).replace(",", "."))),
+        label: "Altura (m) - AGPSE",
+        data: datosCronologicos.map(d => parseFloat(String(d.altura).replace(",", "."))),
         borderColor: "#6ea8d6",
-        backgroundColor: "rgba(110,168,214,0.12)",
-        tension: 0.25, fill: true, pointRadius: 2,
+        backgroundColor: "rgba(110,168,214,0.14)",
+        tension: 0.25,
+        fill: true,
+        pointRadius: datosCronologicos.length > 80 ? 0 : 2,
+        pointHoverRadius: 5,
+        pointHoverBackgroundColor: "#e0a066",
       }]
     },
     options: {
       responsive: true,
-      plugins: { legend: { display: false } },
+      maintainAspectRatio: true,
+      interaction: {
+        mode: "index",
+        intersect: false,
+      },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: "#163c39",
+          titleColor: "#e0a066",
+          bodyColor: "#f2ede1",
+          borderColor: "#2a5450",
+          borderWidth: 1,
+          padding: 10,
+          titleFont: { family: "'IBM Plex Mono', monospace", size: 12, weight: "600" },
+          bodyFont: { family: "'IBM Plex Mono', monospace", size: 12 },
+          callbacks: {
+            title: function(context) {
+              const item = datosCronologicos[context[0].dataIndex];
+              return item ? formatearFechaCompleta(item.fecha) : context[0].label;
+            },
+            label: function(context) {
+              return ` Altura: ${context.parsed.y.toFixed(2)} m`;
+            }
+          }
+        }
+      },
       scales: {
-        x: { ticks: { color: "#cdd8d1", maxRotation: 60, minRotation: 60 }, grid: { color: "#2a5450" } },
-        y: { ticks: { color: "#cdd8d1" }, grid: { color: "#2a5450" } }
+        x: {
+          ticks: {
+            color: "#cdd8d1",
+            maxRotation: 45,
+            minRotation: 0,
+            autoSkip: true,
+            maxTicksLimit: 7,
+            font: { family: "'IBM Plex Mono', monospace", size: 10.5 }
+          },
+          grid: { color: "#2a5450" }
+        },
+        y: {
+          ticks: {
+            color: "#cdd8d1",
+            font: { family: "'IBM Plex Mono', monospace", size: 11 },
+            callback: function(value) { return value.toFixed(2) + " m"; }
+          },
+          grid: { color: "#2a5450" }
+        }
       }
     }
   });

@@ -50,35 +50,55 @@ const server = http.createServer(async (req, res) => {
 
   if (requestUrl.pathname.startsWith("/api/hidrografia/")) {
     const localidad = requestUrl.pathname.replace("/api/hidrografia/", "").replace(/\/$/, "");
-    const url = AGPSE_LOCALIDADES[localidad];
     
-    if (!url) {
-      responder(res, 400, `Localidad no válida: ${localidad}`);
+    if (localidad.toLowerCase() === "rosario") {
+      try {
+        console.log(`[AGPSE] Consultando ROSARIO.dat en vivo...`);
+        const response = await axiosClient.get("https://hidrografia2.agpse.gob.ar/histdat/ROSARIO.dat");
+        const lineas = response.data.trim().split("\n");
+        const registros = [];
+        
+        for (let i = lineas.length - 1; i >= 0 && registros.length < 1000; i--) {
+          const linea = lineas[i].trim();
+          if (!linea) continue;
+          const partes = linea.split(",");
+          if (partes.length >= 4) {
+            const fecha = partes[0].replace(/['"]+/g, "").trim();
+            const rawAlt = partes[3].trim();
+            if (rawAlt !== "NAN") {
+              const alt = parseFloat(rawAlt);
+              if (fecha && !isNaN(alt)) {
+                registros.push({ fecha, altura: alt.toFixed(2) });
+              }
+            }
+          }
+        }
+
+        if (registros.length > 0) {
+          const filasHtml = registros
+            .map(r => `        <tr>\n            <td>${r.fecha}</td>\n            <td>${r.altura} m</td>\n        </tr>`)
+            .join("\n");
+          const html = `<!DOCTYPE html>\n<html>\n<head>\n    <title>Hidrografía AGPSE - Rosario</title>\n</head>\n<body>\n<table border="1">\n    <thead>\n        <tr>\n            <th>TimeStamp</th>\n            <th>Altura</th>\n        </tr>\n    </thead>\n    <tbody>\n${filasHtml}\n    </tbody>\n</table>\n</body>\n</html>\n`;
+          responder(res, 200, html, "text/html; charset=utf-8");
+          return;
+        }
+      } catch (error) {
+        console.error(`[AGPSE] Error al consultar ROSARIO.dat:`, error.message);
+      }
+
+      // Fallback: intentar cargar archivo local
+      try {
+        const fallbackPath = path.join(ROOT, "data", "hidrografia-rosario.html");
+        const fallbackContent = fs.readFileSync(fallbackPath, "utf-8");
+        console.log(`[AGPSE] Fallback a archivo local data/hidrografia-rosario.html OK`);
+        responder(res, 200, fallbackContent, "text/html; charset=utf-8");
+      } catch (fallbackError) {
+        responder(res, 502, `No se pudo consultar Hidrografía AGPSE ni cargar el archivo local.`);
+      }
       return;
     }
 
-    try {
-      console.log(`[AGPSE] Fetching ${localidad}...`);
-      const response = await axiosClient.get(url);
-      console.log(`[AGPSE] ${localidad} OK (${response.status})`);
-      responder(res, response.status, response.data, response.headers["content-type"] || "text/html; charset=utf-8");
-    } catch (error) {
-      console.error(`[AGPSE] ${localidad} ERROR:`, error.message);
-      // Fallback: intentar cargar archivo local (solo para Rosario por ahora)
-      if (localidad === "Rosario" || localidad === "rosario") {
-        try {
-          const fallbackPath = path.join(ROOT, "data", "hidrografia-rosario.html");
-          const fallbackContent = fs.readFileSync(fallbackPath, "utf-8");
-          console.log(`[AGPSE] ${localidad} fallback OK`);
-          responder(res, 200, fallbackContent, "text/html; charset=utf-8");
-        } catch (fallbackError) {
-          console.error(`[AGPSE] ${localidad} fallback failed:`, fallbackError.message);
-          responder(res, 502, `No se pudo consultar Hidrografía AGPSE: ${error.message}. Fallback también falló: ${fallbackError.message}`);
-        }
-      } else {
-        responder(res, 502, `No se pudo consultar Hidrografía AGPSE para ${localidad}: ${error.message}`);
-      }
-    }
+    responder(res, 400, `Localidad no válida: ${localidad}`);
     return;
   }
 
