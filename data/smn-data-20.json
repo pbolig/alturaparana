@@ -1,0 +1,340 @@
+{
+  "lugar": {
+    "id": 20,
+    "nombre": "Paraná",
+    "provincia": "Entre Ríos"
+  },
+  "actual": {
+    "nombre": "Paraná",
+    "estacion": "Paraná (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "13-octubre-2026",
+    "hora": "08:00",
+    "tiempo": "Cubierto con niebla",
+    "visibilidad": "900 mts",
+    "temperatura": 11.8,
+    "sensacionTermica": null,
+    "humedad": 96,
+    "viento": {
+      "direccion": "Este",
+      "velocidad": 13,
+      "texto": "Este 13 km/h"
+    },
+    "presion": 1004.9
+  },
+  "actualizado": "2026-10-13T12:03:06.394Z",
+  "pronostico": {
+    "updated": "2026-10-13T12:03:06.392Z",
+    "source": "SMN (Estación Rosario Aero) + Modelo Meteorológico",
+    "forecast": [
+      {
+        "date": "2026-10-13",
+        "temp_min": 11,
+        "temp_max": 19,
+        "humidity_min": null,
+        "humidity_max": null,
+        "weather": {
+          "description": "Llovizna moderada",
+          "id": 53
+        },
+        "morning": {
+          "weather": {
+            "description": "Llovizna moderada"
+          },
+          "rain_prob_range": [
+            39,
+            39
+          ],
+          "wind": {
+            "speed_range": [
+              9,
+              13
+            ],
+            "direction": ""
+          }
+        },
+        "afternoon": {
+          "weather": {
+            "description": "Llovizna moderada"
+          },
+          "rain_prob_range": [
+            39,
+            39
+          ],
+          "wind": {
+            "speed_range": [
+              9,
+              13
+            ],
+            "direction": ""
+          }
+        },
+        "night": null
+      },
+      {
+        "date": "2026-10-14",
+        "temp_min": 12,
+        "temp_max": 20,
+        "humidity_min": null,
+        "humidity_max": null,
+        "weather": {
+          "description": "Llovizna leve",
+          "id": 51
+        },
+        "morning": {
+          "weather": {
+            "description": "Llovizna leve"
+          },
+          "rain_prob_range": [
+            35,
+            35
+          ],
+          "wind": {
+            "speed_range": [
+              9,
+              13
+            ],
+            "direction": ""
+          }
+        },
+        "afternoon": {
+          "weather": {
+            "description": "Llovizna leve"
+          },
+          "rain_prob_range": [
+            35,
+            35
+          ],
+          "wind": {
+            "speed_range": [
+              9,
+              13
+            ],
+            "direction": ""
+          }
+        },
+        "night": null
+      },
+      {
+        "date": "2026-10-15",
+        "temp_min": 12,
+        "temp_max": 20,
+        "humidity_min": null,
+        "humidity_max": null,
+        "weather": {
+          "description": "Llovizna leve",
+          "id": 51
+        },
+        "morning": {
+          "weather": {
+            "description": "Llovizna leve"
+          },
+          "rain_prob_range": [
+            51,
+            51
+          ],
+          "wind": {
+            "speed_range": [
+              11,
+              16
+            ],
+            "direction": ""
+          }
+        },
+        "afternoon": {
+          "weather": {
+            "description": "Llovizna leve"
+          },
+          "rain_prob_range": [
+            51,
+            51
+          ],
+          "wind": {
+            "speed_range": [
+              11,
+              16
+            ],
+            "direction": ""
+          }
+        },
+        "night": null
+      },
+      {
+        "date": "2026-10-16",
+        "temp_min": 12,
+        "temp_max": 18,
+        "humidity_min": null,
+        "humidity_max": null,
+        "weather": {
+          "description": "Llovizna leve",
+          "id": 51
+        },
+        "morning": {
+          "weather": {
+            "description": "Llovizna leve"
+          },
+          "rain_prob_range": [
+            31,
+            31
+          ],
+          "wind": {
+            "speed_range": [
+              9,
+              13
+            ],
+            "direction": ""
+          }
+        },
+        "afternoon": {
+          "weather": {
+            "description": "Llovizna leve"
+          },
+          "rain_prob_range": [
+            31,
+            31
+          ],
+          "wind": {
+            "speed_range": [
+              9,
+              13
+            ],
+            "direction": ""
+          }
+        },
+        "night": null
+      },
+      {
+        "date": "2026-10-17",
+        "temp_min": 10,
+        "temp_max": 17,
+        "humidity_min": null,
+        "humidity_max": null,
+        "weather": {
+          "description": "Nublado",
+          "id": 3
+        },
+        "morning": {
+          "weather": {
+            "description": "Nublado"
+          },
+          "rain_prob_range": [
+            17,
+            17
+          ],
+          "wind": {
+            "speed_range": [
+              8,
+              12
+            ],
+            "direction": ""
+          }
+        },
+        "afternoon": {
+          "weather": {
+            "description": "Nublado"
+          },
+          "rain_prob_range": [
+            17,
+            17
+          ],
+          "wind": {
+            "speed_range": [
+              8,
+              12
+            ],
+            "direction": ""
+          }
+        },
+        "night": null
+      },
+      {
+        "date": "2026-10-18",
+        "temp_min": 9,
+        "temp_max": 17,
+        "humidity_min": null,
+        "humidity_max": null,
+        "weather": {
+          "description": "Nublado",
+          "id": 3
+        },
+        "morning": {
+          "weather": {
+            "description": "Nublado"
+          },
+          "rain_prob_range": [
+            8,
+            8
+          ],
+          "wind": {
+            "speed_range": [
+              7,
+              10
+            ],
+            "direction": ""
+          }
+        },
+        "afternoon": {
+          "weather": {
+            "description": "Nublado"
+          },
+          "rain_prob_range": [
+            8,
+            8
+          ],
+          "wind": {
+            "speed_range": [
+              7,
+              10
+            ],
+            "direction": ""
+          }
+        },
+        "night": null
+      },
+      {
+        "date": "2026-10-19",
+        "temp_min": 11,
+        "temp_max": 19,
+        "humidity_min": null,
+        "humidity_max": null,
+        "weather": {
+          "description": "Llovizna leve",
+          "id": 51
+        },
+        "morning": {
+          "weather": {
+            "description": "Llovizna leve"
+          },
+          "rain_prob_range": [
+            22,
+            22
+          ],
+          "wind": {
+            "speed_range": [
+              14,
+              21
+            ],
+            "direction": ""
+          }
+        },
+        "afternoon": {
+          "weather": {
+            "description": "Llovizna leve"
+          },
+          "rain_prob_range": [
+            22,
+            22
+          ],
+          "wind": {
+            "speed_range": [
+              14,
+              21
+            ],
+            "direction": ""
+          }
+        },
+        "night": null
+      }
+    ]
+  }
+}

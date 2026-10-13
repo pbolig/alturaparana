@@ -177,6 +177,15 @@
   .smn-reference{ color:var(--foam-dim); font-family:'IBM Plex Mono', monospace; font-size:11px; line-height:1.5; margin:10px 0 0; }
   .smn-reference a{ color:var(--clay-bright); }
   @media (max-width: 760px){ .smn-days{ grid-template-columns:repeat(2, minmax(0, 1fr)); } }
+  .smn-actual-card{ background:var(--surface-2); border:1px solid var(--line); border-radius:12px; padding:16px; margin-bottom:12px; }
+  .smn-actual-header{ display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:12px; border-bottom:1px solid var(--line); padding-bottom:12px; }
+  .smn-actual-estacion{ font-family:'IBM Plex Mono', monospace; font-size:11px; color:var(--clay-bright); text-transform:uppercase; letter-spacing:0.5px; }
+  .smn-actual-condicion{ font-family:'Fraunces', serif; font-size:22px; color:var(--foam); font-weight:600; margin-top:3px; }
+  .smn-actual-temp{ font-family:'Fraunces', serif; font-size:32px; color:var(--clay-bright); font-weight:600; line-height:1; }
+  .smn-actual-metricas{ display:grid; grid-template-columns:repeat(auto-fit, minmax(130px, 1fr)); gap:10px; margin-top:12px; }
+  .smn-metrica{ font-family:'IBM Plex Mono', monospace; font-size:11px; color:var(--foam-dim); line-height:1.4; }
+  .smn-metrica span{ display:block; font-size:10px; opacity:0.8; }
+  .smn-metrica b{ color:var(--foam); font-size:12px; font-weight:500; }
 
   .fuentes-libres{ display:flex; flex-wrap:wrap; gap:10px; margin-top:12px; }
   .fuentes-libres a{
@@ -326,7 +335,7 @@
     </iframe>
     <div class="fuentes-libres">
       <a id="windyEnlace" href="https://www.windy.com/-Weather-radar-radar?radar,-32.947,-60.639,9" target="_blank">Windy (pantalla completa)</a>
-      <a id="smnEnlace" href="https://ws2.smn.gob.ar/pronostico" target="_blank">SMN ↗</a>
+      <a id="smnEnlace" href="https://www.smn.gob.ar/pronostico" target="_blank">SMN ↗</a>
       <a href="https://contenidosweb.prefecturanaval.gob.ar/alturas/index.php" target="_blank">Prefectura Naval · Alturas ↗</a>
       <a href="http://www.ina.gov.ar/alerta/index.php?alerta=siyah" target="_blank">INA · SIyAH ↗</a>
     </div>
@@ -334,12 +343,13 @@
 
   <div class="card">
     <div class="fuente">Fuente: Servicio Meteorológico Nacional</div>
-    <h2>Pronóstico seis días</h2>
+    <h2>Tiempo presente y pronóstico</h2>
     <div class="smn-grid">
       <section class="smn-panel">
         <p class="smn-status" id="smnPronosticoStatus">Consultando Rosario...</p>
+        <div id="smnActual"></div>
         <div class="smn-days" id="smnPronostico"></div>
-        <p class="smn-reference">Referencia: <a href="https://ws2.smn.gob.ar/pronostico" target="_blank" rel="noopener">SMN · Pronóstico a 7 días ↗</a>. Usá el selector del panel para consultar Rosario.</p>
+        <p class="smn-reference">Referencia: <a href="https://www.smn.gob.ar/pronostico" target="_blank" rel="noopener">SMN · Portal oficial ↗</a> · Datos abiertos oficiales del SMN.</p>
       </section>
     </div>
   </div>
@@ -541,6 +551,35 @@ function renderAlertasRio(nombre) {
 
 function renderSMN(datos) {
   const nombre = datos.lugar?.nombre || "Rosario";
+  const actualContainer = document.getElementById("smnActual");
+
+  if (actualContainer) {
+    if (datos.actual) {
+      const act = datos.actual;
+      actualContainer.innerHTML = `
+        <div class="smn-actual-card">
+          <div class="smn-actual-header">
+            <div>
+              <div class="smn-actual-estacion">Estación Oficial SMN · ${escaparHTML(act.estacion || act.nombre || nombre)}</div>
+              <div class="smn-actual-condicion">${escaparHTML(act.tiempo || "Estado del tiempo")}</div>
+            </div>
+            <div class="smn-actual-temp">${act.temperatura != null ? `${act.temperatura.toFixed(1)} °C` : ""}</div>
+          </div>
+          <div class="smn-actual-metricas">
+            ${act.sensacionTermica != null ? `<div class="smn-metrica"><span>Sensación térmica</span><b>${act.sensacionTermica.toFixed(1)} °C</b></div>` : ""}
+            ${act.humedad != null ? `<div class="smn-metrica"><span>Humedad</span><b>${act.humedad}%</b></div>` : ""}
+            ${act.viento?.texto ? `<div class="smn-metrica"><span>Viento</span><b>${escaparHTML(act.viento.texto)}</b></div>` : ""}
+            ${act.presion != null ? `<div class="smn-metrica"><span>Presión barométrica</span><b>${act.presion.toFixed(1)} hPa</b></div>` : ""}
+            ${act.visibilidad ? `<div class="smn-metrica"><span>Visibilidad</span><b>${escaparHTML(act.visibilidad)}</b></div>` : ""}
+            <div class="smn-metrica"><span>Medición oficial</span><b>${escaparHTML(act.fecha)} · ${escaparHTML(act.hora)} hs</b></div>
+          </div>
+        </div>
+      `;
+    } else {
+      actualContainer.innerHTML = "";
+    }
+  }
+
   const pronosticos = Array.isArray(datos.pronostico?.forecast) ? datos.pronostico.forecast : listasDe(datos.pronostico).filter(item => !Array.isArray(item));
   const dias = pronosticos.slice(0, 6).map((dia) => {
     const fechaCruda = primerValor(dia, ["date", "fecha", "day"]) || "Próximo período";
@@ -576,7 +615,6 @@ async function cargarSMN(estacion) {
     renderSMN(await res.json());
   } catch (error) {
     document.getElementById("smnPronosticoStatus").textContent = "No se pudo actualizar el pronóstico del SMN";
-    document.getElementById("alertasRioLista").innerHTML = '<div class="smn-empty">No se pudieron actualizar las condiciones.</div>';
     document.getElementById("smnPronostico").innerHTML = `<div class="smn-empty">${error.message}</div>`;
   }
 }
@@ -977,6 +1015,7 @@ async function cargarTodo() {
   document.getElementById("ultimaAct").textContent = "Actualizado: " + new Date().toLocaleString("es-AR");
   await actualizarUbicacion(zonaActual);
   await Promise.all([cargarAltura(), cargarViento()]);
+  renderAlertasRio(zonaActual);
   await cargarSMN(estacionActual);
 }
 

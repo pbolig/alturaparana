@@ -1,0 +1,2180 @@
+{
+  "AZUL": {
+    "nombre": "Azul",
+    "estacion": "Azul (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "13-octubre-2026",
+    "hora": "08:00",
+    "tiempo": "Cubierto con neblina",
+    "visibilidad": "6 km",
+    "temperatura": 10.6,
+    "sensacionTermica": null,
+    "humedad": 93,
+    "viento": {
+      "direccion": "Este",
+      "velocidad": 9,
+      "texto": "Este 9 km/h"
+    },
+    "presion": 1002.2
+  },
+  "BAHÍA BLANCA": {
+    "nombre": "Bahía Blanca",
+    "estacion": "Bahía Blanca (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "13-octubre-2026",
+    "hora": "08:00",
+    "tiempo": "Nublado con lluvia",
+    "visibilidad": "15 km",
+    "temperatura": 9.6,
+    "sensacionTermica": null,
+    "humedad": 92,
+    "viento": {
+      "direccion": "Calma",
+      "velocidad": 0,
+      "texto": "Calma"
+    },
+    "presion": 1011
+  },
+  "BENITO JUÁREZ": {
+    "nombre": "Benito Juárez",
+    "estacion": "Benito Juárez (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "12-octubre-2026",
+    "hora": "21:00",
+    "tiempo": "Cubierto",
+    "visibilidad": "15 km",
+    "temperatura": 10.3,
+    "sensacionTermica": null,
+    "humedad": 88,
+    "viento": {
+      "direccion": "Calma",
+      "velocidad": 0,
+      "texto": "Calma"
+    },
+    "presion": 993.6
+  },
+  "BOLÍVAR": {
+    "nombre": "Bolívar",
+    "estacion": "Bolívar (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "12-octubre-2026",
+    "hora": "21:00",
+    "tiempo": "Cubierto",
+    "visibilidad": "10 km",
+    "temperatura": 11.3,
+    "sensacionTermica": null,
+    "humedad": 84,
+    "viento": {
+      "direccion": "Sudeste",
+      "velocidad": 9,
+      "texto": "Sudeste 9 km/h"
+    },
+    "presion": 1007.3
+  },
+  "CAMPO DE MAYO": {
+    "nombre": "Campo de Mayo",
+    "estacion": "Campo de Mayo (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "12-octubre-2026",
+    "hora": "21:00",
+    "tiempo": "Cubierto",
+    "visibilidad": "10 km",
+    "temperatura": 13.1,
+    "sensacionTermica": null,
+    "humedad": 88,
+    "viento": {
+      "direccion": "Este",
+      "velocidad": 3,
+      "texto": "Este 3 km/h"
+    },
+    "presion": 1014.5
+  },
+  "CORONEL SUAREZ": {
+    "nombre": "Coronel Suarez",
+    "estacion": "Coronel Suarez (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "13-octubre-2026",
+    "hora": "08:00",
+    "tiempo": "Cubierto",
+    "visibilidad": "12 km",
+    "temperatura": 9.9,
+    "sensacionTermica": 8.3,
+    "humedad": 93,
+    "viento": {
+      "direccion": "Este",
+      "velocidad": 11,
+      "texto": "Este 11 km/h"
+    },
+    "presion": 992.1
+  },
+  "DOLORES": {
+    "nombre": "Dolores",
+    "estacion": "Dolores (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "12-octubre-2026",
+    "hora": "21:00",
+    "tiempo": "Nublado con llovizna en la hora anterior",
+    "visibilidad": "10 km",
+    "temperatura": 11.6,
+    "sensacionTermica": null,
+    "humedad": 93,
+    "viento": {
+      "direccion": "Este",
+      "velocidad": 11,
+      "texto": "Este 11 km/h"
+    },
+    "presion": 1018
+  },
+  "EL PALOMAR": {
+    "nombre": "El Palomar",
+    "estacion": "El Palomar (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "13-octubre-2026",
+    "hora": "08:00",
+    "tiempo": "Cubierto con neblina",
+    "visibilidad": "9 km",
+    "temperatura": 14.4,
+    "sensacionTermica": null,
+    "humedad": 91,
+    "viento": {
+      "direccion": "Sudeste",
+      "velocidad": 13,
+      "texto": "Sudeste 13 km/h"
+    },
+    "presion": 1016
+  },
+  "EZEIZA": {
+    "nombre": "Ezeiza",
+    "estacion": "Ezeiza (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "13-octubre-2026",
+    "hora": "08:00",
+    "tiempo": "Cubierto",
+    "visibilidad": "10 km",
+    "temperatura": 13.9,
+    "sensacionTermica": null,
+    "humedad": 93,
+    "viento": {
+      "direccion": "Este",
+      "velocidad": 14,
+      "texto": "Este 14 km/h"
+    },
+    "presion": 1015.3
+  },
+  "JUNÍN": {
+    "nombre": "Junín",
+    "estacion": "Junín (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "13-octubre-2026",
+    "hora": "08:00",
+    "tiempo": "Cubierto con niebla",
+    "visibilidad": "700 mts",
+    "temperatura": 11.2,
+    "sensacionTermica": null,
+    "humedad": 97,
+    "viento": {
+      "direccion": "Sudeste",
+      "velocidad": 11,
+      "texto": "Sudeste 11 km/h"
+    },
+    "presion": 1008
+  },
+  "LA PLATA": {
+    "nombre": "La Plata",
+    "estacion": "La Plata (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "13-octubre-2026",
+    "hora": "08:00",
+    "tiempo": "Cubierto con llovizna",
+    "visibilidad": "3.0 km",
+    "temperatura": 11.9,
+    "sensacionTermica": null,
+    "humedad": 99,
+    "viento": {
+      "direccion": "Sudeste",
+      "velocidad": 11,
+      "texto": "Sudeste 11 km/h"
+    },
+    "presion": 1016
+  },
+  "LAS FLORES": {
+    "nombre": "Las Flores",
+    "estacion": "Las Flores (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "13-octubre-2026",
+    "hora": "06:00",
+    "tiempo": "Cubierto",
+    "visibilidad": "15 km",
+    "temperatura": 11.6,
+    "sensacionTermica": null,
+    "humedad": 100,
+    "viento": {
+      "direccion": "Este",
+      "velocidad": 7,
+      "texto": "Este 7 km/h"
+    },
+    "presion": 1014.4
+  },
+  "MAR DEL PLATA": {
+    "nombre": "Mar del Plata",
+    "estacion": "Mar del Plata (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "13-octubre-2026",
+    "hora": "08:00",
+    "tiempo": "Cubierto",
+    "visibilidad": "10 km",
+    "temperatura": 11,
+    "sensacionTermica": null,
+    "humedad": 88,
+    "viento": {
+      "direccion": "Este",
+      "velocidad": 14,
+      "texto": "Este 14 km/h"
+    },
+    "presion": 1019.3
+  },
+  "MARIANO MORENO": {
+    "nombre": "Mariano Moreno",
+    "estacion": "Mariano Moreno (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "12-octubre-2026",
+    "hora": "21:00",
+    "tiempo": "Cubierto",
+    "visibilidad": "10 km",
+    "temperatura": 13.6,
+    "sensacionTermica": null,
+    "humedad": 79,
+    "viento": {
+      "direccion": "Este",
+      "velocidad": 11,
+      "texto": "Este 11 km/h"
+    },
+    "presion": 1013.3
+  },
+  "MERLO": {
+    "nombre": "Merlo",
+    "estacion": "Merlo (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "13-octubre-2026",
+    "hora": "08:00",
+    "tiempo": "Cubierto",
+    "visibilidad": "10 km",
+    "temperatura": 13.8,
+    "sensacionTermica": null,
+    "humedad": 75,
+    "viento": {
+      "direccion": "Sudeste",
+      "velocidad": 9,
+      "texto": "Sudeste 9 km/h"
+    },
+    "presion": 1015.3
+  },
+  "MORÓN": {
+    "nombre": "Morón",
+    "estacion": "Morón (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "13-octubre-2026",
+    "hora": "08:00",
+    "tiempo": "Cubierto con neblina",
+    "visibilidad": "8 km",
+    "temperatura": 13.9,
+    "sensacionTermica": null,
+    "humedad": 90,
+    "viento": {
+      "direccion": "Este",
+      "velocidad": 14,
+      "texto": "Este 14 km/h"
+    },
+    "presion": 1014.1
+  },
+  "NUEVE DE JULIO": {
+    "nombre": "Nueve de Julio",
+    "estacion": "Nueve de Julio (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "12-octubre-2026",
+    "hora": "21:00",
+    "tiempo": "Cubierto",
+    "visibilidad": "15 km",
+    "temperatura": 12.6,
+    "sensacionTermica": null,
+    "humedad": 74,
+    "viento": {
+      "direccion": "Este",
+      "velocidad": 11,
+      "texto": "Este 11 km/h"
+    },
+    "presion": 1008.6
+  },
+  "OLAVARRÍA": {
+    "nombre": "Olavarría",
+    "estacion": "Olavarría (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "12-octubre-2026",
+    "hora": "21:00",
+    "tiempo": "Parcialmente nublado",
+    "visibilidad": "15 km",
+    "temperatura": 11.1,
+    "sensacionTermica": null,
+    "humedad": 86,
+    "viento": {
+      "direccion": "Este",
+      "velocidad": 7,
+      "texto": "Este 7 km/h"
+    },
+    "presion": 998.1
+  },
+  "PEHUAJÓ": {
+    "nombre": "Pehuajó",
+    "estacion": "Pehuajó (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "12-octubre-2026",
+    "hora": "21:00",
+    "tiempo": "Nublado",
+    "visibilidad": "15 km",
+    "temperatura": 12.6,
+    "sensacionTermica": null,
+    "humedad": 76,
+    "viento": {
+      "direccion": "Este",
+      "velocidad": 9,
+      "texto": "Este 9 km/h"
+    },
+    "presion": 1007.8
+  },
+  "PIGUÉ": {
+    "nombre": "Pigué",
+    "estacion": "Pigué (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "12-octubre-2026",
+    "hora": "21:00",
+    "tiempo": "Cubierto con lluvia",
+    "visibilidad": "20 km",
+    "temperatura": 10.1,
+    "sensacionTermica": null,
+    "humedad": 89,
+    "viento": {
+      "direccion": "Noreste",
+      "velocidad": 24,
+      "texto": "Noreste 24 km/h"
+    },
+    "presion": 981.8
+  },
+  "PUNTA INDIO B.A.": {
+    "nombre": "Punta Indio B.A.",
+    "estacion": "Punta Indio B.A. (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "12-octubre-2026",
+    "hora": "21:00",
+    "tiempo": "Cubierto con llovizna",
+    "visibilidad": "5 km",
+    "temperatura": 12,
+    "sensacionTermica": null,
+    "humedad": 99,
+    "viento": {
+      "direccion": "Sudeste",
+      "velocidad": 18,
+      "texto": "Sudeste 18 km/h"
+    },
+    "presion": 1015.6
+  },
+  "SAN FERNANDO": {
+    "nombre": "San Fernando",
+    "estacion": "San Fernando (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "13-octubre-2026",
+    "hora": "08:00",
+    "tiempo": "Cubierto con llovizna en la hora anterior",
+    "visibilidad": "10 km",
+    "temperatura": 14.2,
+    "sensacionTermica": null,
+    "humedad": 93,
+    "viento": {
+      "direccion": "Sudeste",
+      "velocidad": 9,
+      "texto": "Sudeste 9 km/h"
+    },
+    "presion": 1016.4
+  },
+  "TANDIL": {
+    "nombre": "Tandil",
+    "estacion": "Tandil (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "13-octubre-2026",
+    "hora": "08:00",
+    "tiempo": "Nublado con lluvia",
+    "visibilidad": "6 km",
+    "temperatura": 9.6,
+    "sensacionTermica": 6.8,
+    "humedad": 93,
+    "viento": {
+      "direccion": "Este",
+      "velocidad": 20,
+      "texto": "Este 20 km/h"
+    },
+    "presion": 999.7
+  },
+  "TRENQUE LAUQUEN": {
+    "nombre": "Trenque Lauquen",
+    "estacion": "Trenque Lauquen (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "12-octubre-2026",
+    "hora": "21:00",
+    "tiempo": "Cubierto",
+    "visibilidad": "15 km",
+    "temperatura": 13,
+    "sensacionTermica": null,
+    "humedad": 81,
+    "viento": {
+      "direccion": "Sudeste",
+      "velocidad": 7,
+      "texto": "Sudeste 7 km/h"
+    },
+    "presion": 1006.5
+  },
+  "TRES ARROYOS": {
+    "nombre": "Tres Arroyos",
+    "estacion": "Tres Arroyos (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "12-octubre-2026",
+    "hora": "21:00",
+    "tiempo": "Cubierto con neblina",
+    "visibilidad": "6 km",
+    "temperatura": 10.5,
+    "sensacionTermica": null,
+    "humedad": 86,
+    "viento": {
+      "direccion": "Este",
+      "velocidad": 14,
+      "texto": "Este 14 km/h"
+    },
+    "presion": 1006.5
+  },
+  "VILLA GESELL": {
+    "nombre": "Villa Gesell",
+    "estacion": "Villa Gesell (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "13-octubre-2026",
+    "hora": "08:00",
+    "tiempo": "Cubierto",
+    "visibilidad": "10 km",
+    "temperatura": 11.6,
+    "sensacionTermica": null,
+    "humedad": 86,
+    "viento": {
+      "direccion": "Este",
+      "velocidad": 14,
+      "texto": "Este 14 km/h"
+    },
+    "presion": 1020.4
+  },
+  "AEROPARQUE BUENOS AIRES": {
+    "nombre": "Aeroparque Buenos Aires",
+    "estacion": "Aeroparque Buenos Aires (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "13-octubre-2026",
+    "hora": "08:00",
+    "tiempo": "Cubierto con llovizna y lluvia",
+    "visibilidad": "4.0 km",
+    "temperatura": 15,
+    "sensacionTermica": null,
+    "humedad": 89,
+    "viento": {
+      "direccion": "Sudeste",
+      "velocidad": 11,
+      "texto": "Sudeste 11 km/h"
+    },
+    "presion": 1016.6
+  },
+  "BUENOS AIRES": {
+    "nombre": "Buenos Aires",
+    "estacion": "Buenos Aires (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "13-octubre-2026",
+    "hora": "08:00",
+    "tiempo": "Nublado con llovizna",
+    "visibilidad": "9 km",
+    "temperatura": 14.4,
+    "sensacionTermica": null,
+    "humedad": 91,
+    "viento": {
+      "direccion": "Sudeste",
+      "velocidad": 9,
+      "texto": "Sudeste 9 km/h"
+    },
+    "presion": 1014.4
+  },
+  "CATAMARCA": {
+    "nombre": "Catamarca",
+    "estacion": "Catamarca (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "13-octubre-2026",
+    "hora": "08:00",
+    "tiempo": "Parcialmente nublado",
+    "visibilidad": "20 km",
+    "temperatura": 14.6,
+    "sensacionTermica": null,
+    "humedad": 79,
+    "viento": {
+      "direccion": "Sudeste",
+      "velocidad": 5,
+      "texto": "Sudeste 5 km/h"
+    },
+    "presion": 957.2
+  },
+  "TINOGASTA": {
+    "nombre": "Tinogasta",
+    "estacion": "Tinogasta (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "12-octubre-2026",
+    "hora": "21:00",
+    "tiempo": "Algo nublado",
+    "visibilidad": "20 km",
+    "temperatura": 16.8,
+    "sensacionTermica": null,
+    "humedad": 59,
+    "viento": {
+      "direccion": "Sur",
+      "velocidad": 33,
+      "texto": "Sur 33 km/h"
+    },
+    "presion": 874.5
+  },
+  "PCIA. ROQUE SAENZ PEÑA": {
+    "nombre": "Pcia. Roque Saenz Peña",
+    "estacion": "Pcia. Roque Saenz Peña (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "13-octubre-2026",
+    "hora": "08:00",
+    "tiempo": "Cubierto con llovizna",
+    "visibilidad": "2.0 km",
+    "temperatura": 14.6,
+    "sensacionTermica": null,
+    "humedad": 96,
+    "viento": {
+      "direccion": "Sur",
+      "velocidad": 9,
+      "texto": "Sur 9 km/h"
+    },
+    "presion": 1000.2
+  },
+  "RESISTENCIA": {
+    "nombre": "Resistencia",
+    "estacion": "Resistencia (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "13-octubre-2026",
+    "hora": "08:00",
+    "tiempo": "Cubierto con llovizna",
+    "visibilidad": "5 km",
+    "temperatura": 15.9,
+    "sensacionTermica": null,
+    "humedad": 98,
+    "viento": {
+      "direccion": "Sudeste",
+      "velocidad": 14,
+      "texto": "Sudeste 14 km/h"
+    },
+    "presion": 1003.8
+  },
+  "COMODORO RIVADAVIA": {
+    "nombre": "Comodoro Rivadavia",
+    "estacion": "Comodoro Rivadavia (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "13-octubre-2026",
+    "hora": "08:00",
+    "tiempo": "Parcialmente nublado",
+    "visibilidad": "30 km",
+    "temperatura": 12.7,
+    "sensacionTermica": null,
+    "humedad": 55,
+    "viento": {
+      "direccion": "Sur",
+      "velocidad": 13,
+      "texto": "Sur 13 km/h"
+    },
+    "presion": 1012.9
+  },
+  "ESQUEL": {
+    "nombre": "Esquel",
+    "estacion": "Esquel (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "13-octubre-2026",
+    "hora": "08:00",
+    "tiempo": "Parcialmente nublado",
+    "visibilidad": "30 km",
+    "temperatura": 5.9,
+    "sensacionTermica": null,
+    "humedad": 88,
+    "viento": {
+      "direccion": "Direcciones",
+      "velocidad": 0,
+      "texto": "Direcciones 0 km/h"
+    },
+    "presion": 924.9
+  },
+  "PASO DE INDIOS": {
+    "nombre": "Paso De Indios",
+    "estacion": "Paso De Indios (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "12-octubre-2026",
+    "hora": "21:00",
+    "tiempo": "Nublado con precipitación a la vista",
+    "visibilidad": "30 km",
+    "temperatura": 15.8,
+    "sensacionTermica": null,
+    "humedad": 61,
+    "viento": {
+      "direccion": "Noroeste",
+      "velocidad": 13,
+      "texto": "Noroeste 13 km/h"
+    },
+    "presion": 956.7
+  },
+  "PUERTO MADRYN": {
+    "nombre": "Puerto Madryn",
+    "estacion": "Puerto Madryn (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "13-octubre-2026",
+    "hora": "08:00",
+    "tiempo": "Parcialmente nublado",
+    "visibilidad": "30 km",
+    "temperatura": 12.3,
+    "sensacionTermica": null,
+    "humedad": 91,
+    "viento": {
+      "direccion": "Norte",
+      "velocidad": 22,
+      "texto": "Norte 22 km/h"
+    },
+    "presion": 1000.9
+  },
+  "TRELEW": {
+    "nombre": "Trelew",
+    "estacion": "Trelew (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "13-octubre-2026",
+    "hora": "08:00",
+    "tiempo": "Parcialmente nublado",
+    "visibilidad": "30 km",
+    "temperatura": 13.6,
+    "sensacionTermica": null,
+    "humedad": 83,
+    "viento": {
+      "direccion": "Norte",
+      "velocidad": 14,
+      "texto": "Norte 14 km/h"
+    },
+    "presion": 1012.5
+  },
+  "CÓRDOBA": {
+    "nombre": "Córdoba",
+    "estacion": "Córdoba (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "13-octubre-2026",
+    "hora": "08:00",
+    "tiempo": "Cubierto con llovizna",
+    "visibilidad": "1.5 km",
+    "temperatura": 11.1,
+    "sensacionTermica": null,
+    "humedad": 98,
+    "viento": {
+      "direccion": "Calma",
+      "velocidad": 0,
+      "texto": "Calma"
+    },
+    "presion": 957.2
+  },
+  "CÓRDOBA OBSERVATORIO": {
+    "nombre": "Córdoba Observatorio",
+    "estacion": "Córdoba Observatorio (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "13-octubre-2026",
+    "hora": "08:00",
+    "tiempo": "Cubierto",
+    "visibilidad": "10 km",
+    "temperatura": 12.8,
+    "sensacionTermica": null,
+    "humedad": 87,
+    "viento": {
+      "direccion": "Sur",
+      "velocidad": 1,
+      "texto": "Sur 1 km/h"
+    },
+    "presion": 965
+  },
+  "ESC. AVIACIÓN MILITAR": {
+    "nombre": "Esc. Aviación Militar",
+    "estacion": "Esc. Aviación Militar (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "13-octubre-2026",
+    "hora": "08:00",
+    "tiempo": "Cubierto con neblina",
+    "visibilidad": "6 km",
+    "temperatura": 11.6,
+    "sensacionTermica": null,
+    "humedad": 93,
+    "viento": {
+      "direccion": "Sur",
+      "velocidad": 3,
+      "texto": "Sur 3 km/h"
+    },
+    "presion": 957.4
+  },
+  "LABOULAYE": {
+    "nombre": "Laboulaye",
+    "estacion": "Laboulaye (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "13-octubre-2026",
+    "hora": "08:00",
+    "tiempo": "Cubierto con neblina",
+    "visibilidad": "4.0 km",
+    "temperatura": 10.9,
+    "sensacionTermica": null,
+    "humedad": 94,
+    "viento": {
+      "direccion": "Sudeste",
+      "velocidad": 14,
+      "texto": "Sudeste 14 km/h"
+    },
+    "presion": 999.8
+  },
+  "MARCOS JUÁREZ": {
+    "nombre": "Marcos Juárez",
+    "estacion": "Marcos Juárez (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "12-octubre-2026",
+    "hora": "21:00",
+    "tiempo": "Algo nublado",
+    "visibilidad": "20 km",
+    "temperatura": 13.8,
+    "sensacionTermica": null,
+    "humedad": 83,
+    "viento": {
+      "direccion": "Este",
+      "velocidad": 14,
+      "texto": "Este 14 km/h"
+    },
+    "presion": 1001.8
+  },
+  "PILAR OBS.": {
+    "nombre": "Pilar Obs.",
+    "estacion": "Pilar Obs. (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "13-octubre-2026",
+    "hora": "08:00",
+    "tiempo": "Cubierto",
+    "visibilidad": "10 km",
+    "temperatura": 11.8,
+    "sensacionTermica": null,
+    "humedad": 97,
+    "viento": {
+      "direccion": "Sudeste",
+      "velocidad": 3,
+      "texto": "Sudeste 3 km/h"
+    },
+    "presion": 975.6
+  },
+  "RÍO CUARTO": {
+    "nombre": "Río Cuarto",
+    "estacion": "Río Cuarto (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "13-octubre-2026",
+    "hora": "08:00",
+    "tiempo": "Cubierto con niebla en la hora anterior",
+    "visibilidad": "1.5 km",
+    "temperatura": 10.4,
+    "sensacionTermica": null,
+    "humedad": 98,
+    "viento": {
+      "direccion": "Noreste",
+      "velocidad": 22,
+      "texto": "Noreste 22 km/h"
+    },
+    "presion": 965.6
+  },
+  "VILLA DOLORES": {
+    "nombre": "Villa Dolores",
+    "estacion": "Villa Dolores (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "12-octubre-2026",
+    "hora": "21:00",
+    "tiempo": "Parcialmente nublado",
+    "visibilidad": "30 km",
+    "temperatura": 16,
+    "sensacionTermica": null,
+    "humedad": 79,
+    "viento": {
+      "direccion": "Sudeste",
+      "velocidad": 5,
+      "texto": "Sudeste 5 km/h"
+    },
+    "presion": 945.8
+  },
+  "VILLA MARÍA DEL RÍO SECO": {
+    "nombre": "Villa María Del Río Seco",
+    "estacion": "Villa María Del Río Seco (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "12-octubre-2026",
+    "hora": "21:00",
+    "tiempo": "Cubierto",
+    "visibilidad": "10 km",
+    "temperatura": 13.3,
+    "sensacionTermica": null,
+    "humedad": 83,
+    "viento": {
+      "direccion": "Calma",
+      "velocidad": 0,
+      "texto": "Calma"
+    },
+    "presion": 973.4
+  },
+  "CORRIENTES": {
+    "nombre": "Corrientes",
+    "estacion": "Corrientes (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "13-octubre-2026",
+    "hora": "08:00",
+    "tiempo": "Cubierto con llovizna",
+    "visibilidad": "5 km",
+    "temperatura": 15.9,
+    "sensacionTermica": null,
+    "humedad": 98,
+    "viento": {
+      "direccion": "Sur",
+      "velocidad": 24,
+      "texto": "Sur 24 km/h"
+    },
+    "presion": 1001.8
+  },
+  "ITUZAINGÓ": {
+    "nombre": "Ituzaingó",
+    "estacion": "Ituzaingó (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "12-octubre-2026",
+    "hora": "21:00",
+    "tiempo": "Cubierto con llovizna",
+    "visibilidad": "2.0 km",
+    "temperatura": 16.6,
+    "sensacionTermica": null,
+    "humedad": 98,
+    "viento": {
+      "direccion": "Sudeste",
+      "velocidad": 11,
+      "texto": "Sudeste 11 km/h"
+    },
+    "presion": 1001.6
+  },
+  "MERCEDES": {
+    "nombre": "Mercedes",
+    "estacion": "Mercedes (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "12-octubre-2026",
+    "hora": "21:00",
+    "tiempo": "Cubierto con neblina",
+    "visibilidad": "8 km",
+    "temperatura": 14.7,
+    "sensacionTermica": null,
+    "humedad": 96,
+    "viento": {
+      "direccion": "Este",
+      "velocidad": 13,
+      "texto": "Este 13 km/h"
+    },
+    "presion": 1000
+  },
+  "MONTE CASEROS": {
+    "nombre": "Monte Caseros",
+    "estacion": "Monte Caseros (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "13-octubre-2026",
+    "hora": "08:00",
+    "tiempo": "Parcialmente nublado",
+    "visibilidad": "20 km",
+    "temperatura": 15.2,
+    "sensacionTermica": null,
+    "humedad": 85,
+    "viento": {
+      "direccion": "Sur",
+      "velocidad": 16,
+      "texto": "Sur 16 km/h"
+    },
+    "presion": 1005.4
+  },
+  "PASO DE LOS LIBRES": {
+    "nombre": "Paso De Los Libres",
+    "estacion": "Paso De Los Libres (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "13-octubre-2026",
+    "hora": "08:00",
+    "tiempo": "Nublado",
+    "visibilidad": "10 km",
+    "temperatura": 16,
+    "sensacionTermica": null,
+    "humedad": 89,
+    "viento": {
+      "direccion": "Sudeste",
+      "velocidad": 16,
+      "texto": "Sudeste 16 km/h"
+    },
+    "presion": 1004
+  },
+  "CONCORDIA": {
+    "nombre": "Concordia",
+    "estacion": "Concordia (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "13-octubre-2026",
+    "hora": "08:00",
+    "tiempo": "Parcialmente nublado",
+    "visibilidad": "15 km",
+    "temperatura": 13.5,
+    "sensacionTermica": null,
+    "humedad": 89,
+    "viento": {
+      "direccion": "Sur",
+      "velocidad": 13,
+      "texto": "Sur 13 km/h"
+    },
+    "presion": 1009
+  },
+  "GUALEGUAYCHÚ": {
+    "nombre": "Gualeguaychú",
+    "estacion": "Gualeguaychú (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "13-octubre-2026",
+    "hora": "07:00",
+    "tiempo": "Parcialmente nublado",
+    "visibilidad": "15 km",
+    "temperatura": 12,
+    "sensacionTermica": null,
+    "humedad": 97,
+    "viento": {
+      "direccion": "Sudeste",
+      "velocidad": 11,
+      "texto": "Sudeste 11 km/h"
+    },
+    "presion": 1012.6
+  },
+  "PARANÁ": {
+    "nombre": "Paraná",
+    "estacion": "Paraná (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "13-octubre-2026",
+    "hora": "08:00",
+    "tiempo": "Cubierto con niebla",
+    "visibilidad": "900 mts",
+    "temperatura": 11.8,
+    "sensacionTermica": null,
+    "humedad": 96,
+    "viento": {
+      "direccion": "Este",
+      "velocidad": 13,
+      "texto": "Este 13 km/h"
+    },
+    "presion": 1004.9
+  },
+  "FORMOSA": {
+    "nombre": "Formosa",
+    "estacion": "Formosa (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "13-octubre-2026",
+    "hora": "08:00",
+    "tiempo": "Cubierto con llovizna",
+    "visibilidad": "2.0 km",
+    "temperatura": 15.5,
+    "sensacionTermica": null,
+    "humedad": 98,
+    "viento": {
+      "direccion": "Calma",
+      "velocidad": 0,
+      "texto": "Calma"
+    },
+    "presion": 1002.6
+  },
+  "LAS LOMITAS": {
+    "nombre": "Las Lomitas",
+    "estacion": "Las Lomitas (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "12-octubre-2026",
+    "hora": "21:00",
+    "tiempo": "Cubierto con llovizna en la hora anterior",
+    "visibilidad": "15 km",
+    "temperatura": 18.4,
+    "sensacionTermica": null,
+    "humedad": 92,
+    "viento": {
+      "direccion": "Sur",
+      "velocidad": 3,
+      "texto": "Sur 3 km/h"
+    },
+    "presion": 994.6
+  },
+  "MOUNT PLEASANT AIRPORT (ISLAS MALVINAS)": {
+    "nombre": "Mount Pleasant Airport (Islas Malvinas)",
+    "estacion": "Mount Pleasant Airport (Islas Malvinas) (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "13-octubre-2026",
+    "hora": "08:00",
+    "tiempo": "Cubierto",
+    "visibilidad": "45 km",
+    "temperatura": 6.1,
+    "sensacionTermica": 0.8,
+    "humedad": 73,
+    "viento": {
+      "direccion": "Norte",
+      "velocidad": 38,
+      "texto": "Norte 38 km/h"
+    },
+    "presion": 1013
+  },
+  "LA QUIACA": {
+    "nombre": "La Quiaca",
+    "estacion": "La Quiaca (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "13-octubre-2026",
+    "hora": "08:00",
+    "tiempo": "Algo nublado",
+    "visibilidad": "30 km",
+    "temperatura": 5.7,
+    "sensacionTermica": 3.7,
+    "humedad": 53,
+    "viento": {
+      "direccion": "Norte",
+      "velocidad": 9,
+      "texto": "Norte 9 km/h"
+    },
+    "presion": 670.6
+  },
+  "JUJUY": {
+    "nombre": "Jujuy",
+    "estacion": "Jujuy (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "13-octubre-2026",
+    "hora": "08:00",
+    "tiempo": "Cubierto",
+    "visibilidad": "15 km",
+    "temperatura": 14.4,
+    "sensacionTermica": null,
+    "humedad": 84,
+    "viento": {
+      "direccion": "Este",
+      "velocidad": 5,
+      "texto": "Este 5 km/h"
+    },
+    "presion": 909
+  },
+  "JUJUY UNIVERSIDAD NACIONAL": {
+    "nombre": "Jujuy Universidad Nacional",
+    "estacion": "Jujuy Universidad Nacional (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "13-octubre-2026",
+    "hora": "08:00",
+    "tiempo": "Cubierto con neblina",
+    "visibilidad": "8 km",
+    "temperatura": 12.2,
+    "sensacionTermica": null,
+    "humedad": 92,
+    "viento": {
+      "direccion": "Noreste",
+      "velocidad": 3,
+      "texto": "Noreste 3 km/h"
+    },
+    "presion": 865.7
+  },
+  "GENERAL PICO": {
+    "nombre": "General Pico",
+    "estacion": "General Pico (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "12-octubre-2026",
+    "hora": "21:00",
+    "tiempo": "Cubierto",
+    "visibilidad": "20 km",
+    "temperatura": 13.1,
+    "sensacionTermica": null,
+    "humedad": 80,
+    "viento": {
+      "direccion": "Este",
+      "velocidad": 16,
+      "texto": "Este 16 km/h"
+    },
+    "presion": 999.3
+  },
+  "VICTORICA": {
+    "nombre": "Victorica",
+    "estacion": "Victorica (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "12-octubre-2026",
+    "hora": "21:00",
+    "tiempo": "Nublado con llovizna",
+    "visibilidad": "15 km",
+    "temperatura": 13,
+    "sensacionTermica": null,
+    "humedad": 83,
+    "viento": {
+      "direccion": "Sudeste",
+      "velocidad": 14,
+      "texto": "Sudeste 14 km/h"
+    },
+    "presion": 978.9
+  },
+  "SANTA ROSA": {
+    "nombre": "Santa Rosa",
+    "estacion": "Santa Rosa (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "13-octubre-2026",
+    "hora": "08:00",
+    "tiempo": "Cubierto con neblina",
+    "visibilidad": "10 km",
+    "temperatura": 10.1,
+    "sensacionTermica": null,
+    "humedad": 94,
+    "viento": {
+      "direccion": "Este",
+      "velocidad": 13,
+      "texto": "Este 13 km/h"
+    },
+    "presion": 995.7
+  },
+  "CHAMICAL": {
+    "nombre": "Chamical",
+    "estacion": "Chamical (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "12-octubre-2026",
+    "hora": "21:00",
+    "tiempo": "Parcialmente nublado",
+    "visibilidad": "20 km",
+    "temperatura": 16.2,
+    "sensacionTermica": null,
+    "humedad": 70,
+    "viento": {
+      "direccion": "Noreste",
+      "velocidad": 3,
+      "texto": "Noreste 3 km/h"
+    },
+    "presion": 958.2
+  },
+  "CHEPES": {
+    "nombre": "Chepes",
+    "estacion": "Chepes (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "12-octubre-2026",
+    "hora": "21:00",
+    "tiempo": "Cubierto",
+    "visibilidad": "15 km",
+    "temperatura": 16.4,
+    "sensacionTermica": null,
+    "humedad": 65,
+    "viento": {
+      "direccion": "Norte",
+      "velocidad": 9,
+      "texto": "Norte 9 km/h"
+    },
+    "presion": 934.9
+  },
+  "CHILECITO": {
+    "nombre": "Chilecito",
+    "estacion": "Chilecito (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "12-octubre-2026",
+    "hora": "21:00",
+    "tiempo": "Algo nublado",
+    "visibilidad": "20 km",
+    "temperatura": 14.8,
+    "sensacionTermica": null,
+    "humedad": 77,
+    "viento": {
+      "direccion": "Sudeste",
+      "velocidad": 14,
+      "texto": "Sudeste 14 km/h"
+    },
+    "presion": 905.8
+  },
+  "LA RIOJA": {
+    "nombre": "La Rioja",
+    "estacion": "La Rioja (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "13-octubre-2026",
+    "hora": "08:00",
+    "tiempo": "Cubierto",
+    "visibilidad": "20 km",
+    "temperatura": 14.4,
+    "sensacionTermica": null,
+    "humedad": 80,
+    "viento": {
+      "direccion": "Sudoeste",
+      "velocidad": 11,
+      "texto": "Sudoeste 11 km/h"
+    },
+    "presion": 961.2
+  },
+  "MALARGUE": {
+    "nombre": "Malargue",
+    "estacion": "Malargue (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "13-octubre-2026",
+    "hora": "08:00",
+    "tiempo": "Nublado",
+    "visibilidad": "15 km",
+    "temperatura": 4.9,
+    "sensacionTermica": 3.2,
+    "humedad": 91,
+    "viento": {
+      "direccion": "Sur",
+      "velocidad": 7,
+      "texto": "Sur 7 km/h"
+    },
+    "presion": 856.2
+  },
+  "MENDOZA": {
+    "nombre": "Mendoza",
+    "estacion": "Mendoza (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "13-octubre-2026",
+    "hora": "08:00",
+    "tiempo": "Nublado",
+    "visibilidad": "15 km",
+    "temperatura": 11.5,
+    "sensacionTermica": null,
+    "humedad": 83,
+    "viento": {
+      "direccion": "Sur",
+      "velocidad": 18,
+      "texto": "Sur 18 km/h"
+    },
+    "presion": 932.6
+  },
+  "MENDOZA OBSERVATORIO": {
+    "nombre": "Mendoza Observatorio",
+    "estacion": "Mendoza Observatorio (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "13-octubre-2026",
+    "hora": "08:00",
+    "tiempo": "Nublado",
+    "visibilidad": "15 km",
+    "temperatura": 10.3,
+    "sensacionTermica": null,
+    "humedad": 89,
+    "viento": {
+      "direccion": "Sur",
+      "velocidad": 11,
+      "texto": "Sur 11 km/h"
+    },
+    "presion": 919.2
+  },
+  "SAN MARTÍN (MZA)": {
+    "nombre": "San Martín (Mza)",
+    "estacion": "San Martín (Mza) (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "12-octubre-2026",
+    "hora": "21:00",
+    "tiempo": "Parcialmente nublado con relámpagos sin truenos",
+    "visibilidad": "15 km",
+    "temperatura": 15.7,
+    "sensacionTermica": null,
+    "humedad": 72,
+    "viento": {
+      "direccion": "Sur",
+      "velocidad": 13,
+      "texto": "Sur 13 km/h"
+    },
+    "presion": 934.9
+  },
+  "SAN RAFAEL": {
+    "nombre": "San Rafael",
+    "estacion": "San Rafael (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "13-octubre-2026",
+    "hora": "08:00",
+    "tiempo": "Cubierto con lluvia",
+    "visibilidad": "1.0 km",
+    "temperatura": 8.4,
+    "sensacionTermica": 7.8,
+    "humedad": 100,
+    "viento": {
+      "direccion": "Sur",
+      "velocidad": 5,
+      "texto": "Sur 5 km/h"
+    },
+    "presion": 929
+  },
+  "USPALLATA": {
+    "nombre": "Uspallata",
+    "estacion": "Uspallata (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "12-octubre-2026",
+    "hora": "21:00",
+    "tiempo": "Parcialmente nublado",
+    "visibilidad": "15 km",
+    "temperatura": 7.9,
+    "sensacionTermica": null,
+    "humedad": 87,
+    "viento": {
+      "direccion": "Calma",
+      "velocidad": 0,
+      "texto": "Calma"
+    },
+    "presion": 806
+  },
+  "BERNARDO DE IRIGOYEN": {
+    "nombre": "Bernardo De Irigoyen",
+    "estacion": "Bernardo De Irigoyen (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "12-octubre-2026",
+    "hora": "21:00",
+    "tiempo": "Nublado con relámpagos sin truenos",
+    "visibilidad": "20 km",
+    "temperatura": 14.6,
+    "sensacionTermica": null,
+    "humedad": 100,
+    "viento": {
+      "direccion": "Sudeste",
+      "velocidad": 3,
+      "texto": "Sudeste 3 km/h"
+    },
+    "presion": 918.1
+  },
+  "IGUAZÚ": {
+    "nombre": "Iguazú",
+    "estacion": "Iguazú (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "13-octubre-2026",
+    "hora": "08:00",
+    "tiempo": "Cubierto",
+    "visibilidad": "20 km",
+    "temperatura": 18,
+    "sensacionTermica": null,
+    "humedad": 98,
+    "viento": {
+      "direccion": "Oeste",
+      "velocidad": 3,
+      "texto": "Oeste 3 km/h"
+    },
+    "presion": 978.8
+  },
+  "OBERÁ": {
+    "nombre": "Oberá",
+    "estacion": "Oberá (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "12-octubre-2026",
+    "hora": "21:00",
+    "tiempo": "Cubierto con lluvia",
+    "visibilidad": "10 km",
+    "temperatura": 17.8,
+    "sensacionTermica": null,
+    "humedad": 98,
+    "viento": {
+      "direccion": "Sur",
+      "velocidad": 3,
+      "texto": "Sur 3 km/h"
+    },
+    "presion": 975.4
+  },
+  "POSADAS": {
+    "nombre": "Posadas",
+    "estacion": "Posadas (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "13-octubre-2026",
+    "hora": "08:00",
+    "tiempo": "Cubierto",
+    "visibilidad": "20 km",
+    "temperatura": 18.3,
+    "sensacionTermica": null,
+    "humedad": 98,
+    "viento": {
+      "direccion": "Este",
+      "velocidad": 9,
+      "texto": "Este 9 km/h"
+    },
+    "presion": 994.5
+  },
+  "CHAPELCO": {
+    "nombre": "Chapelco",
+    "estacion": "Chapelco (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "13-octubre-2026",
+    "hora": "08:00",
+    "tiempo": "Cubierto",
+    "visibilidad": "15 km",
+    "temperatura": 9,
+    "sensacionTermica": null,
+    "humedad": 92,
+    "viento": {
+      "direccion": "Calma",
+      "velocidad": 0,
+      "texto": "Calma"
+    },
+    "presion": 925.3
+  },
+  "NEUQUÉN": {
+    "nombre": "Neuquén",
+    "estacion": "Neuquén (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "13-octubre-2026",
+    "hora": "08:00",
+    "tiempo": "Nublado",
+    "visibilidad": "15 km",
+    "temperatura": 12.9,
+    "sensacionTermica": null,
+    "humedad": 86,
+    "viento": {
+      "direccion": "Este",
+      "velocidad": 9,
+      "texto": "Este 9 km/h"
+    },
+    "presion": 985.3
+  },
+  "BARILOCHE": {
+    "nombre": "Bariloche",
+    "estacion": "Bariloche (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "13-octubre-2026",
+    "hora": "08:00",
+    "tiempo": "Parcialmente nublado",
+    "visibilidad": "10 km",
+    "temperatura": 8.1,
+    "sensacionTermica": 5.6,
+    "humedad": 83,
+    "viento": {
+      "direccion": "Sudeste",
+      "velocidad": 14,
+      "texto": "Sudeste 14 km/h"
+    },
+    "presion": 920.2
+  },
+  "CIPOLLETTI": {
+    "nombre": "Cipolletti",
+    "estacion": "Cipolletti (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "12-octubre-2026",
+    "hora": "21:00",
+    "tiempo": "Cubierto",
+    "visibilidad": "25 km",
+    "temperatura": 15.4,
+    "sensacionTermica": null,
+    "humedad": 73,
+    "viento": {
+      "direccion": "Noreste",
+      "velocidad": 7,
+      "texto": "Noreste 7 km/h"
+    },
+    "presion": 984.3
+  },
+  "EL BOLSÓN": {
+    "nombre": "El Bolsón",
+    "estacion": "El Bolsón (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "12-octubre-2026",
+    "hora": "21:00",
+    "tiempo": "Parcialmente nublado",
+    "visibilidad": "30 km",
+    "temperatura": 14.3,
+    "sensacionTermica": null,
+    "humedad": 81,
+    "viento": {
+      "direccion": "Calma",
+      "velocidad": 0,
+      "texto": "Calma"
+    },
+    "presion": 974.8
+  },
+  "MAQUINCHAO": {
+    "nombre": "Maquinchao",
+    "estacion": "Maquinchao (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "13-octubre-2026",
+    "hora": "08:00",
+    "tiempo": "Parcialmente nublado",
+    "visibilidad": "40 km",
+    "temperatura": 8.4,
+    "sensacionTermica": null,
+    "humedad": 94,
+    "viento": {
+      "direccion": "Este",
+      "velocidad": 3,
+      "texto": "Este 3 km/h"
+    },
+    "presion": 915.4
+  },
+  "RÍO COLORADO": {
+    "nombre": "Río Colorado",
+    "estacion": "Río Colorado (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "12-octubre-2026",
+    "hora": "09:00",
+    "tiempo": "Nublado",
+    "visibilidad": "15 km",
+    "temperatura": 12.8,
+    "sensacionTermica": null,
+    "humedad": 90,
+    "viento": {
+      "direccion": "Noreste",
+      "velocidad": 9,
+      "texto": "Noreste 9 km/h"
+    },
+    "presion": 1009.2
+  },
+  "SAN ANTONIO OESTE": {
+    "nombre": "San Antonio Oeste",
+    "estacion": "San Antonio Oeste (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "12-octubre-2026",
+    "hora": "21:00",
+    "tiempo": "Nublado",
+    "visibilidad": "25 km",
+    "temperatura": 14.5,
+    "sensacionTermica": null,
+    "humedad": 81,
+    "viento": {
+      "direccion": "Norte",
+      "velocidad": 9,
+      "texto": "Norte 9 km/h"
+    },
+    "presion": 1016.6
+  },
+  "VIEDMA": {
+    "nombre": "Viedma",
+    "estacion": "Viedma (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "13-octubre-2026",
+    "hora": "08:00",
+    "tiempo": "Parcialmente nublado con neblina",
+    "visibilidad": "30 km",
+    "temperatura": 10,
+    "sensacionTermica": 8.8,
+    "humedad": 92,
+    "viento": {
+      "direccion": "Noreste",
+      "velocidad": 9,
+      "texto": "Noreste 9 km/h"
+    },
+    "presion": 1020.1
+  },
+  "METÁN": {
+    "nombre": "Metán",
+    "estacion": "Metán (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "12-octubre-2026",
+    "hora": "21:00",
+    "tiempo": "Cubierto con lluvia",
+    "visibilidad": "3.5 km",
+    "temperatura": 13.3,
+    "sensacionTermica": null,
+    "humedad": 97,
+    "viento": {
+      "direccion": "Sudeste",
+      "velocidad": 3,
+      "texto": "Sudeste 3 km/h"
+    },
+    "presion": 915.4
+  },
+  "ORÁN": {
+    "nombre": "Orán",
+    "estacion": "Orán (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "13-octubre-2026",
+    "hora": "08:00",
+    "tiempo": "Nublado con llovizna",
+    "visibilidad": "500 mts",
+    "temperatura": 16.9,
+    "sensacionTermica": null,
+    "humedad": 98,
+    "viento": {
+      "direccion": "Calma",
+      "velocidad": 0,
+      "texto": "Calma"
+    },
+    "presion": 970
+  },
+  "RIVADAVIA": {
+    "nombre": "Rivadavia",
+    "estacion": "Rivadavia (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "12-octubre-2026",
+    "hora": "21:00",
+    "tiempo": "Cubierto",
+    "visibilidad": "20 km",
+    "temperatura": 20.2,
+    "sensacionTermica": null,
+    "humedad": 74,
+    "viento": {
+      "direccion": "Calma",
+      "velocidad": 0,
+      "texto": "Calma"
+    },
+    "presion": 985.2
+  },
+  "SALTA": {
+    "nombre": "Salta",
+    "estacion": "Salta (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "13-octubre-2026",
+    "hora": "08:00",
+    "tiempo": "Parcialmente nublado",
+    "visibilidad": "15 km",
+    "temperatura": 12,
+    "sensacionTermica": null,
+    "humedad": 90,
+    "viento": {
+      "direccion": "Calma",
+      "velocidad": 0,
+      "texto": "Calma"
+    },
+    "presion": 875.4
+  },
+  "TARTAGAL": {
+    "nombre": "Tartagal",
+    "estacion": "Tartagal (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "12-octubre-2026",
+    "hora": "21:00",
+    "tiempo": "Nublado",
+    "visibilidad": "10 km",
+    "temperatura": 19.5,
+    "sensacionTermica": null,
+    "humedad": 81,
+    "viento": {
+      "direccion": "Oeste",
+      "velocidad": 3,
+      "texto": "Oeste 3 km/h"
+    },
+    "presion": 957.8
+  },
+  "JACHAL": {
+    "nombre": "Jachal",
+    "estacion": "Jachal (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "12-octubre-2026",
+    "hora": "21:00",
+    "tiempo": "Parcialmente nublado",
+    "visibilidad": "15 km",
+    "temperatura": 17.6,
+    "sensacionTermica": null,
+    "humedad": 37,
+    "viento": {
+      "direccion": "Sur",
+      "velocidad": 14,
+      "texto": "Sur 14 km/h"
+    },
+    "presion": 878.2
+  },
+  "SAN JUAN": {
+    "nombre": "San Juan",
+    "estacion": "San Juan (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "13-octubre-2026",
+    "hora": "08:00",
+    "tiempo": "Parcialmente nublado",
+    "visibilidad": "15 km",
+    "temperatura": 12.6,
+    "sensacionTermica": null,
+    "humedad": 82,
+    "viento": {
+      "direccion": "Sur",
+      "velocidad": 29,
+      "texto": "Sur 29 km/h"
+    },
+    "presion": 944.5
+  },
+  "SAN LUIS": {
+    "nombre": "San Luis",
+    "estacion": "San Luis (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "13-octubre-2026",
+    "hora": "08:00",
+    "tiempo": "Cubierto",
+    "visibilidad": "20 km",
+    "temperatura": 11.5,
+    "sensacionTermica": null,
+    "humedad": 87,
+    "viento": {
+      "direccion": "Noroeste",
+      "velocidad": 14,
+      "texto": "Noroeste 14 km/h"
+    },
+    "presion": 930.9
+  },
+  "SANTA ROSA DEL CONLARA": {
+    "nombre": "Santa Rosa del Conlara",
+    "estacion": "Santa Rosa del Conlara (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "13-octubre-2026",
+    "hora": "08:00",
+    "tiempo": "Cubierto",
+    "visibilidad": "20 km",
+    "temperatura": 11.7,
+    "sensacionTermica": null,
+    "humedad": 91,
+    "viento": {
+      "direccion": "Calma",
+      "velocidad": 0,
+      "texto": "Calma"
+    },
+    "presion": 941.7
+  },
+  "VILLA REYNOLDS": {
+    "nombre": "Villa Reynolds",
+    "estacion": "Villa Reynolds (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "13-octubre-2026",
+    "hora": "08:00",
+    "tiempo": "Nublado",
+    "visibilidad": "10 km",
+    "temperatura": 11.7,
+    "sensacionTermica": null,
+    "humedad": 91,
+    "viento": {
+      "direccion": "Este",
+      "velocidad": 18,
+      "texto": "Este 18 km/h"
+    },
+    "presion": 957.7
+  },
+  "EL CALAFATE": {
+    "nombre": "El Calafate",
+    "estacion": "El Calafate (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "13-octubre-2026",
+    "hora": "08:00",
+    "tiempo": "Parcialmente nublado",
+    "visibilidad": "30 km",
+    "temperatura": 4.4,
+    "sensacionTermica": 2.1,
+    "humedad": 74,
+    "viento": {
+      "direccion": "Sudeste",
+      "velocidad": 9,
+      "texto": "Sudeste 9 km/h"
+    },
+    "presion": 996.6
+  },
+  "GOBERNADOR GREGORES": {
+    "nombre": "Gobernador Gregores",
+    "estacion": "Gobernador Gregores (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "12-octubre-2026",
+    "hora": "21:00",
+    "tiempo": "Parcialmente nublado",
+    "visibilidad": "45 km",
+    "temperatura": 12.5,
+    "sensacionTermica": null,
+    "humedad": 38,
+    "viento": {
+      "direccion": "Oeste",
+      "velocidad": 27,
+      "texto": "Oeste 27 km/h"
+    },
+    "presion": 970.7
+  },
+  "PERITO MORENO": {
+    "nombre": "Perito Moreno",
+    "estacion": "Perito Moreno (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "13-octubre-2026",
+    "hora": "08:00",
+    "tiempo": "Algo nublado",
+    "visibilidad": "50 km",
+    "temperatura": 5.8,
+    "sensacionTermica": null,
+    "humedad": 77,
+    "viento": {
+      "direccion": "Calma",
+      "velocidad": 0,
+      "texto": "Calma"
+    },
+    "presion": 969.2
+  },
+  "PUERTO DESEADO": {
+    "nombre": "Puerto Deseado",
+    "estacion": "Puerto Deseado (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "12-octubre-2026",
+    "hora": "21:00",
+    "tiempo": "Cubierto con niebla",
+    "visibilidad": "500 mts",
+    "temperatura": 8.8,
+    "sensacionTermica": 4.1,
+    "humedad": 97,
+    "viento": {
+      "direccion": "Norte",
+      "velocidad": 44,
+      "texto": "Norte 44 km/h"
+    },
+    "presion": 1002.8
+  },
+  "RÍO GALLEGOS": {
+    "nombre": "Río Gallegos",
+    "estacion": "Río Gallegos (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "13-octubre-2026",
+    "hora": "08:00",
+    "tiempo": "Parcialmente nublado",
+    "visibilidad": "30 km",
+    "temperatura": 6.2,
+    "sensacionTermica": 3.6,
+    "humedad": 88,
+    "viento": {
+      "direccion": "Oeste",
+      "velocidad": 13,
+      "texto": "Oeste 13 km/h"
+    },
+    "presion": 1016.3
+  },
+  "SAN JULIÁN": {
+    "nombre": "San Julián",
+    "estacion": "San Julián (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "12-octubre-2026",
+    "hora": "21:00",
+    "tiempo": "Despejado",
+    "visibilidad": "30 km",
+    "temperatura": 10.6,
+    "sensacionTermica": null,
+    "humedad": 79,
+    "viento": {
+      "direccion": "Sur",
+      "velocidad": 33,
+      "texto": "Sur 33 km/h"
+    },
+    "presion": 1006.6
+  },
+  "SANTA CRUZ": {
+    "nombre": "Santa Cruz",
+    "estacion": "Santa Cruz (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "12-octubre-2026",
+    "hora": "21:00",
+    "tiempo": "Algo nublado",
+    "visibilidad": "30 km",
+    "temperatura": 8.9,
+    "sensacionTermica": 4.7,
+    "humedad": 78,
+    "viento": {
+      "direccion": "Sur",
+      "velocidad": 37,
+      "texto": "Sur 37 km/h"
+    },
+    "presion": 999.8
+  },
+  "CERES": {
+    "nombre": "Ceres",
+    "estacion": "Ceres (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "12-octubre-2026",
+    "hora": "21:00",
+    "tiempo": "Cubierto",
+    "visibilidad": "15 km",
+    "temperatura": 14.5,
+    "sensacionTermica": null,
+    "humedad": 86,
+    "viento": {
+      "direccion": "Sudeste",
+      "velocidad": 3,
+      "texto": "Sudeste 3 km/h"
+    },
+    "presion": 1002.5
+  },
+  "RAFAELA": {
+    "nombre": "Rafaela",
+    "estacion": "Rafaela (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "13-octubre-2026",
+    "hora": "06:00",
+    "tiempo": "Parcialmente nublado",
+    "visibilidad": "10 km",
+    "temperatura": 12,
+    "sensacionTermica": null,
+    "humedad": 95,
+    "viento": {
+      "direccion": "Sur",
+      "velocidad": 11,
+      "texto": "Sur 11 km/h"
+    },
+    "presion": 1001.2
+  },
+  "RECONQUISTA": {
+    "nombre": "Reconquista",
+    "estacion": "Reconquista (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "13-octubre-2026",
+    "hora": "08:00",
+    "tiempo": "Parcialmente nublado con neblina",
+    "visibilidad": "10 km",
+    "temperatura": 15,
+    "sensacionTermica": null,
+    "humedad": 87,
+    "viento": {
+      "direccion": "Sudeste",
+      "velocidad": 18,
+      "texto": "Sudeste 18 km/h"
+    },
+    "presion": 1005.4
+  },
+  "ROSARIO": {
+    "nombre": "Rosario",
+    "estacion": "Rosario (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "13-octubre-2026",
+    "hora": "08:00",
+    "tiempo": "Cubierto",
+    "visibilidad": "15 km",
+    "temperatura": 13.6,
+    "sensacionTermica": null,
+    "humedad": 88,
+    "viento": {
+      "direccion": "Este",
+      "velocidad": 11,
+      "texto": "Este 11 km/h"
+    },
+    "presion": 1012.2
+  },
+  "SANTA FE": {
+    "nombre": "Santa Fe",
+    "estacion": "Santa Fe (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "13-octubre-2026",
+    "hora": "08:00",
+    "tiempo": "Algo nublado",
+    "visibilidad": "12 km",
+    "temperatura": 13.1,
+    "sensacionTermica": null,
+    "humedad": 95,
+    "viento": {
+      "direccion": "Sur",
+      "velocidad": 11,
+      "texto": "Sur 11 km/h"
+    },
+    "presion": 1012
+  },
+  "SUNCHALES": {
+    "nombre": "Sunchales",
+    "estacion": "Sunchales (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "13-octubre-2026",
+    "hora": "08:00",
+    "tiempo": "Parcialmente nublado",
+    "visibilidad": "15 km",
+    "temperatura": 13.5,
+    "sensacionTermica": null,
+    "humedad": 85,
+    "viento": {
+      "direccion": "Sur",
+      "velocidad": 14,
+      "texto": "Sur 14 km/h"
+    },
+    "presion": 1002.9
+  },
+  "VENADO TUERTO": {
+    "nombre": "Venado Tuerto",
+    "estacion": "Venado Tuerto (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "13-octubre-2026",
+    "hora": "08:00",
+    "tiempo": "Cubierto con neblina",
+    "visibilidad": "3.0 km",
+    "temperatura": 11,
+    "sensacionTermica": null,
+    "humedad": 96,
+    "viento": {
+      "direccion": "Este",
+      "velocidad": 11,
+      "texto": "Este 11 km/h"
+    },
+    "presion": 1002.8
+  },
+  "TERMAS DE RIO HONDO": {
+    "nombre": "Termas de Rio Hondo",
+    "estacion": "Termas de Rio Hondo (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "12-octubre-2026",
+    "hora": "21:00",
+    "tiempo": "Cubierto",
+    "visibilidad": "10 km",
+    "temperatura": 15.4,
+    "sensacionTermica": null,
+    "humedad": 89,
+    "viento": {
+      "direccion": "Este",
+      "velocidad": 7,
+      "texto": "Este 7 km/h"
+    },
+    "presion": 979.6
+  },
+  "SANTIAGO DEL ESTERO": {
+    "nombre": "Santiago del Estero",
+    "estacion": "Santiago del Estero (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "13-octubre-2026",
+    "hora": "08:00",
+    "tiempo": "Cubierto con llovizna en la hora anterior",
+    "visibilidad": "10 km",
+    "temperatura": 14,
+    "sensacionTermica": null,
+    "humedad": 97,
+    "viento": {
+      "direccion": "Este",
+      "velocidad": 5,
+      "texto": "Este 5 km/h"
+    },
+    "presion": 989
+  },
+  "RÍO GRANDE B.A.": {
+    "nombre": "Río Grande B.A.",
+    "estacion": "Río Grande B.A. (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "13-octubre-2026",
+    "hora": "08:00",
+    "tiempo": "Nublado con llovizna",
+    "visibilidad": "9 km",
+    "temperatura": 6.4,
+    "sensacionTermica": 2.8,
+    "humedad": 90,
+    "viento": {
+      "direccion": "Oeste",
+      "velocidad": 20,
+      "texto": "Oeste 20 km/h"
+    },
+    "presion": 1012.1
+  },
+  "USHUAIA": {
+    "nombre": "Ushuaia",
+    "estacion": "Ushuaia (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "13-octubre-2026",
+    "hora": "08:00",
+    "tiempo": "Nublado con lluvia",
+    "visibilidad": "7 km",
+    "temperatura": 5.6,
+    "sensacionTermica": 0.7,
+    "humedad": 89,
+    "viento": {
+      "direccion": "Sudoeste",
+      "velocidad": 31,
+      "texto": "Sudoeste 31 km/h"
+    },
+    "presion": 1006.8
+  },
+  "TUCUMÁN": {
+    "nombre": "Tucumán",
+    "estacion": "Tucumán (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "13-octubre-2026",
+    "hora": "08:00",
+    "tiempo": "Cubierto con llovizna en la hora anterior",
+    "visibilidad": "6 km",
+    "temperatura": 13.9,
+    "sensacionTermica": null,
+    "humedad": 96,
+    "viento": {
+      "direccion": "Este",
+      "velocidad": 11,
+      "texto": "Este 11 km/h"
+    },
+    "presion": 959.8
+  },
+  "BASE BELGRANO II": {
+    "nombre": "Base Belgrano II",
+    "estacion": "Base Belgrano II (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "13-octubre-2026",
+    "hora": "06:00",
+    "tiempo": "Nublado",
+    "visibilidad": "20 km",
+    "temperatura": -17.2,
+    "sensacionTermica": null,
+    "humedad": 54,
+    "viento": {
+      "direccion": "Sudeste",
+      "velocidad": 3,
+      "texto": "Sudeste 3 km/h"
+    },
+    "presion": 973.2
+  },
+  "BASE ESPERANZA": {
+    "nombre": "Base Esperanza",
+    "estacion": "Base Esperanza (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "13-octubre-2026",
+    "hora": "06:00",
+    "tiempo": "Parcialmente nublado",
+    "visibilidad": "10 km",
+    "temperatura": -2.1,
+    "sensacionTermica": -8.2,
+    "humedad": 89,
+    "viento": {
+      "direccion": "Noreste",
+      "velocidad": 22,
+      "texto": "Noreste 22 km/h"
+    },
+    "presion": 1015.2
+  },
+  "BASE CARLINI": {
+    "nombre": "Base Carlini",
+    "estacion": "Base Carlini (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "13-octubre-2026",
+    "hora": "06:00",
+    "tiempo": "Parcialmente nublado",
+    "visibilidad": "10 km",
+    "temperatura": -2.9,
+    "sensacionTermica": -5.1,
+    "humedad": 97,
+    "viento": {
+      "direccion": "Norte",
+      "velocidad": 5,
+      "texto": "Norte 5 km/h"
+    },
+    "presion": 1017.4
+  },
+  "BASE MARAMBIO": {
+    "nombre": "Base Marambio",
+    "estacion": "Base Marambio (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "13-octubre-2026",
+    "hora": "08:00",
+    "tiempo": "Parcialmente nublado",
+    "visibilidad": "15 km",
+    "temperatura": 0.1,
+    "sensacionTermica": -8.3,
+    "humedad": 66,
+    "viento": {
+      "direccion": "Noroeste",
+      "velocidad": 55,
+      "texto": "Noroeste 55 km/h"
+    },
+    "presion": 989
+  },
+  "BASE ORCADAS": {
+    "nombre": "Base Orcadas",
+    "estacion": "Base Orcadas (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "13-octubre-2026",
+    "hora": "06:00",
+    "tiempo": "Cubierto con neblina",
+    "visibilidad": "2.5 km",
+    "temperatura": -5.6,
+    "sensacionTermica": null,
+    "humedad": 97,
+    "viento": {
+      "direccion": "Norte",
+      "velocidad": 3,
+      "texto": "Norte 3 km/h"
+    },
+    "presion": 1024
+  },
+  "BASE SAN MARTÍN": {
+    "nombre": "Base San Martín",
+    "estacion": "Base San Martín (Aero)",
+    "fuente": "Servicio Meteorológico Nacional (SMN)",
+    "fecha": "13-octubre-2026",
+    "hora": "06:00",
+    "tiempo": "Nublado",
+    "visibilidad": "20 km",
+    "temperatura": -1.8,
+    "sensacionTermica": -5.7,
+    "humedad": 82,
+    "viento": {
+      "direccion": "Sur",
+      "velocidad": 11,
+      "texto": "Sur 11 km/h"
+    },
+    "presion": 1010.9
+  }
+}

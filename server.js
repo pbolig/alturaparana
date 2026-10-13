@@ -7,8 +7,6 @@ const axios = require("axios");
 const HOST = process.env.HOST || "0.0.0.0";
 const PORT = Number(process.env.PORT) || 8788;
 const ROOT = __dirname;
-const SMN_HOST = "https://ws2.smn.gob.ar";
-const SMN_API = "https://ws1.smn.gob.ar/v1";
 
 // Configurar axios con mejor manejo de HTTPS
 const axiosClient = axios.create({
@@ -103,40 +101,23 @@ const server = http.createServer(async (req, res) => {
   }
 
   if (requestUrl.pathname === "/api/smn/pronostico" || requestUrl.pathname === "/api/smn/alertas") {
-    const remoteUrl = `${SMN_HOST}${requestUrl.pathname.replace("/api/smn", "")}`;
-    try {
-      const remote = await fetch(remoteUrl, {
-        headers: { "User-Agent": "Mira-del-Parana/1.0" },
-      });
-      let body = await remote.text();
-      if (remote.ok && /<head\b/i.test(body)) {
-        body = body.replace(/<head\b[^>]*>/i, "$&<base href=\"https://ws2.smn.gob.ar/\">");
-      }
-      responder(res, remote.status, body, remote.headers.get("content-type") || "text/html; charset=utf-8");
-    } catch (error) {
-      responder(res, 502, `No se pudo consultar el SMN: ${error.message}`);
-    }
+    const destino = requestUrl.pathname === "/api/smn/alertas" ? "https://www.smn.gob.ar/alertas" : "https://www.smn.gob.ar/pronostico";
+    res.writeHead(302, { Location: destino });
+    res.end();
     return;
   }
 
   if (requestUrl.pathname === "/api/smn/data") {
     try {
-      const page = await fetch(`${SMN_HOST}/pronostico`);
-      const pageHtml = await page.text();
-      const token = pageHtml.match(/localStorage\.setItem\(['"]token['"],\s*['"]([^'"]+)/i)?.[1];
-      if (!token) throw new Error("No se encontró el token del SMN");
-      const authorization = { Authorization: `JWT ${token}` };
-      const nombre = requestUrl.searchParams.get("name") || "Rosario";
-      const lugares = await fetch(`${SMN_API}/georef/location/search?name=${encodeURIComponent(nombre)}`, { headers: authorization }).then(r => r.json());
-      const lugar = lugares.find(item => item[1]?.toUpperCase() === nombre.toUpperCase() && item[3] === "Santa Fe") || lugares.find(item => item[1]?.toUpperCase() === nombre.toUpperCase()) || lugares[0];
-      if (!lugar) throw new Error(`No se encontró la localidad ${nombre}`);
-      const [pronostico, alertas] = await Promise.all([
-        fetch(`${SMN_API}/forecast/location/${lugar[0]}`, { headers: authorization }).then(r => r.json()),
-        fetch(`${SMN_API}/warning/alert/area?mode=alert&compact=true`, { headers: authorization }).then(r => r.json()),
-      ]);
-      responder(res, 200, JSON.stringify({ lugar: { id: lugar[0], nombre: lugar[1], provincia: lugar[3] }, pronostico, alertas }), "application/json; charset=utf-8");
+      const filePath = path.join(ROOT, "data", "smn-data-280.json");
+      if (fs.existsSync(filePath)) {
+        const content = fs.readFileSync(filePath, "utf-8");
+        responder(res, 200, content, "application/json; charset=utf-8");
+        return;
+      }
+      responder(res, 404, JSON.stringify({ error: "Datos del SMN no encontrados" }), "application/json; charset=utf-8");
     } catch (error) {
-      responder(res, 502, JSON.stringify({ error: `No se pudo consultar el SMN: ${error.message}` }), "application/json; charset=utf-8");
+      responder(res, 500, JSON.stringify({ error: `Error interno: ${error.message}` }), "application/json; charset=utf-8");
     }
     return;
   }
