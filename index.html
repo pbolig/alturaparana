@@ -144,20 +144,111 @@
   }
   .dia-pronostico{
     background:var(--surface-2); border:1px solid var(--line); border-radius:10px;
-    padding:12px 10px; min-width:0;
+    padding:12px 10px; min-width:0; cursor:pointer; position:relative;
+    transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+    user-select:none;
+  }
+  .dia-pronostico:hover{
+    transform: translateY(-2px);
+    border-color: var(--clay-bright);
+    box-shadow: 0 4px 14px rgba(0,0,0,0.3);
+  }
+  .dia-pronostico.seleccionado{
+    border-color: var(--clay-bright);
+    background: rgba(224, 160, 102, 0.14);
+    box-shadow: 0 0 0 1.5px var(--clay-bright), 0 6px 18px rgba(224,160,102,0.22);
   }
   .dia-nombre{ color:var(--clay-bright); font-family:'Fraunces', serif; font-size:18px; font-weight:600; }
-  .dia-fecha{ color:var(--foam-dim); font-family:'IBM Plex Mono', monospace; font-size:11px; margin:2px 0 12px; }
-  .temperaturas{ font-family:'Fraunces', serif; font-size:25px; color:var(--foam); margin-bottom:12px; }
+  .dia-fecha{ color:var(--foam-dim); font-family:'IBM Plex Mono', monospace; font-size:11px; margin:2px 0 6px; }
+  .dia-clima-icono{ font-size:22px; line-height:1; margin-bottom:6px; }
+  .temperaturas{ font-family:'Fraunces', serif; font-size:25px; color:var(--foam); margin-bottom:10px; }
   .temperaturas strong{ color:var(--clay-bright); }
   .temperaturas span{ color:var(--foam-dim); font-size:19px; }
-  .dia-dato{ color:var(--foam-dim); font-family:'IBM Plex Mono', monospace; font-size:10.5px; line-height:1.5; margin-top:7px; }
+  .dia-dato{ color:var(--foam-dim); font-family:'IBM Plex Mono', monospace; font-size:10.5px; line-height:1.5; margin-top:6px; }
   .dia-dato b{ color:var(--foam); font-weight:500; }
+  .dia-hint{
+    margin-top:10px; padding-top:7px; border-top:1px dashed rgba(205,216,209,0.2);
+    font-family:'IBM Plex Mono', monospace; font-size:10px; color:var(--clay-bright);
+    text-align:center; transition:color 0.18s ease;
+  }
+  .dia-pronostico:hover .dia-hint{ color:#f0bc7d; }
+  .dia-pronostico.seleccionado .dia-hint{ color:var(--foam); font-weight:600; }
   .flecha-direccion{ display:inline-block; color:var(--clay-bright); font-family:Arial, sans-serif; font-size:18px; line-height:1; }
+
+  /* Detalle hora por hora (Open-Meteo) */
+  .detalle-dia-panel{
+    margin-top:14px; background:rgba(22,60,57,0.7); border:1px solid var(--clay-bright);
+    border-radius:12px; padding:16px; box-shadow:0 8px 24px rgba(0,0,0,0.35);
+    animation: fadeInSlide 0.25s ease-out;
+  }
+  @keyframes fadeInSlide{
+    from{ opacity:0; transform:translateY(-6px); }
+    to{ opacity:1; transform:translateY(0); }
+  }
+  .detalle-dia-header{
+    display:flex; align-items:center; justify-content:space-between;
+    flex-wrap:wrap; gap:10px; margin-bottom:12px; padding-bottom:12px;
+    border-bottom:1px solid var(--line);
+  }
+  .detalle-dia-titulo-wrap{ display:flex; align-items:baseline; gap:10px; flex-wrap:wrap; }
+  .detalle-dia-titulo{
+    font-family:'Fraunces', serif; font-size:18px; font-weight:600;
+    color:var(--foam); margin:0;
+  }
+  .detalle-dia-subtitulo{
+    font-family:'IBM Plex Mono', monospace; font-size:11px;
+    color:var(--clay-bright); text-transform:uppercase; letter-spacing:0.04em;
+  }
+  .detalle-dia-resumen{ display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
+  .detalle-chip{
+    display:inline-flex; align-items:center; gap:5px;
+    background:var(--surface-2); border:1px solid var(--line); border-radius:6px;
+    padding:4px 8px; font-family:'IBM Plex Mono', monospace; font-size:11px;
+    color:var(--foam);
+  }
+  .detalle-chip b{ color:var(--clay-bright); font-weight:600; }
+  .detalle-cerrar-btn{
+    background:var(--surface-2); border:1px solid var(--line); color:var(--foam-dim);
+    border-radius:6px; padding:5px 10px; cursor:pointer;
+    font-family:'IBM Plex Mono', monospace; font-size:11px;
+    transition:all 0.15s ease;
+  }
+  .detalle-cerrar-btn:hover{ border-color:var(--alert); color:#ffd9d5; }
+  .detalle-tabla-wrap{
+    max-height:420px; overflow:auto; border-radius:8px;
+    border:1px solid var(--line); background:var(--surface);
+  }
+  .detalle-tabla-wrap table{ width:100%; border-collapse:collapse; min-width:680px; }
+  .detalle-tabla-wrap th{
+    position:sticky; top:0; background:var(--surface-2);
+    color:var(--clay-bright); font-weight:600; font-size:10.5px;
+    text-transform:uppercase; letter-spacing:0.04em; padding:8px 6px;
+    z-index:2; box-shadow:0 1px 0 var(--line);
+  }
+  .detalle-tabla-wrap td{
+    padding:7px 6px; border-bottom:1px solid rgba(42,84,80,0.5);
+    text-align:center; color:var(--foam); font-size:11.5px;
+  }
+  .detalle-tabla-wrap tr:hover td{ background:rgba(224,160,102,0.06); }
+  .detalle-tabla-wrap tr.es-hora-actual td{
+    background:rgba(127,176,105,0.18); font-weight:500;
+  }
+  .badge-ahora{
+    display:inline-block; background:var(--ok); color:#0d2421;
+    font-size:9px; font-weight:700; padding:1px 4px; border-radius:3px;
+    text-transform:uppercase; margin-left:4px; vertical-align:middle;
+  }
+  .prob-alta{ color:#64b5f6; font-weight:600; }
+  .prob-media{ color:#90caf9; }
+  .lluvia-badge{ color:#90caf9; font-weight:600; }
+  .racha-destacada{ color:var(--clay-bright); font-weight:600; }
 
   @media (max-width: 760px){
     .umbrales{ flex-direction:column; align-items:flex-start; gap:7px; }
     .pronostico-7-dias{ grid-template-columns:repeat(2, minmax(0, 1fr)); }
+    .detalle-dia-header{ flex-direction:column; align-items:flex-start; }
+    .detalle-dia-resumen{ width:100%; }
+    .detalle-cerrar-btn{ margin-left:auto; }
   }
 
   iframe{ width:100%; height:520px; border:none; border-radius:12px; display:block; }
@@ -310,10 +401,11 @@
     </div>
   </div>
 
-  <div class="card">
-    <div class="fuente">Fuente: Open-Meteo.com</div>
+  <div class="card" id="cardPronostico7Dias">
+    <div class="fuente">Fuente: Open-Meteo.com · Hacé clic en cualquier día para ver el detalle hora por hora</div>
     <h2>Pronóstico · próximos 7 días</h2>
     <div id="pronostico7Dias" class="pronostico-7-dias"></div>
+    <div id="detalleDiaPronostico" style="display:none;"></div>
   </div>
 
   <div class="card" id="cardGraficoHidrografia">
@@ -388,6 +480,8 @@ let zonaActual = "Rosario";
 let unidadActual = "kmh"; // 'kmh' | 'kn'
 let vientoCrudo = null; // guarda datos en km/h para poder convertir sin refetch
 let pronosticoDiario = null;
+let diaSeleccionadoPronostico = null;
+let pronosticoHorarioPorDia = new Map();
 let umbralAlerta = 5;
 let umbralEvacuacion = 5.3;
 let avisosPorCategoria = new Map();
@@ -902,7 +996,34 @@ async function cargarHistoricoHidrografia() {
   }
 }
 
-// --- Viento ---
+// --- Viento y Clima ---
+function descripcionTiempoWMO(codigo) {
+  if (codigo === null || codigo === undefined) return { texto: "Variable", icono: "🌤️" };
+  switch (codigo) {
+    case 0: return { texto: "Despejado", icono: "☀️" };
+    case 1: return { texto: "Mayormente claro", icono: "🌤️" };
+    case 2: return { texto: "Parcialmente nublado", icono: "⛅" };
+    case 3: return { texto: "Nublado", icono: "☁️" };
+    case 45: case 48: return { texto: "Niebla / Neblina", icono: "🌫️" };
+    case 51: return { texto: "Llovizna leve", icono: "🌦️" };
+    case 53: return { texto: "Llovizna moderada", icono: "🌦️" };
+    case 55: return { texto: "Llovizna densa", icono: "🌧️" };
+    case 56: case 57: return { texto: "Llovizna helada", icono: "🌧️" };
+    case 61: return { texto: "Lluvia leve", icono: "🌧️" };
+    case 63: return { texto: "Lluvia moderada", icono: "🌧️" };
+    case 65: return { texto: "Lluvia fuerte", icono: "🌧️" };
+    case 66: case 67: return { texto: "Lluvia helada", icono: "🌧️" };
+    case 71: case 73: case 75: case 77: return { texto: "Nieve", icono: "🌨️" };
+    case 80: return { texto: "Chaparrones leves", icono: "🌦️" };
+    case 81: return { texto: "Chaparrones", icono: "🌦️" };
+    case 82: return { texto: "Chaparrones fuertes", icono: "⛈️" };
+    case 85: case 86: return { texto: "Chubascos de nieve", icono: "🌨️" };
+    case 95: return { texto: "Tormenta eléctrica", icono: "⛈️" };
+    case 96: case 99: return { texto: "Tormenta con granizo", icono: "⛈️" };
+    default: return { texto: "Nuboso", icono: "⛅" };
+  }
+}
+
 function direccionCardinal(deg) {
   const puntos = ["N","NNE","NE","ENE","E","ESE","SE","SSE","S","SSO","SO","OSO","O","ONO","NO","NNO"];
   const idx = Math.round(deg / 22.5) % 16;
@@ -923,9 +1044,9 @@ async function cargarViento() {
   ocultarError("vientoError");
   try {
     const url = `https://api.open-meteo.com/v1/forecast?latitude=${ubicacionActual.latitud}&longitude=${ubicacionActual.longitud}` +
-      `&hourly=precipitation_probability` +
+      `&hourly=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation_probability,precipitation,weather_code,wind_speed_10m,wind_direction_10m,wind_gusts_10m` +
       `&minutely_15=temperature_2m,precipitation,wind_speed_10m,wind_direction_10m,wind_gusts_10m&wind_speed_unit=kmh` +
-      `&daily=temperature_2m_max,temperature_2m_min,precipitation_probability_max,precipitation_sum,wind_speed_10m_min,wind_speed_10m_max` +
+      `&daily=temperature_2m_max,temperature_2m_min,precipitation_probability_max,precipitation_sum,wind_speed_10m_min,wind_speed_10m_max,weather_code` +
       `&timezone=auto&forecast_minutely_15=96`;
     const res = await fetch(url);
     if (!res.ok) throw new Error("HTTP " + res.status);
@@ -936,6 +1057,31 @@ async function cargarViento() {
     ));
     vientoCrudo = { ...json.minutely_15, probabilidadPorHora, probabilidadHoraria };
     pronosticoDiario = json.daily;
+
+    pronosticoHorarioPorDia.clear();
+    if (json.hourly && json.hourly.time) {
+      for (let i = 0; i < json.hourly.time.length; i++) {
+        const tiempoIso = json.hourly.time[i];
+        const fecha = tiempoIso.slice(0, 10);
+        if (!pronosticoHorarioPorDia.has(fecha)) {
+          pronosticoHorarioPorDia.set(fecha, []);
+        }
+        pronosticoHorarioPorDia.get(fecha).push({
+          time: tiempoIso,
+          hora: tiempoIso.slice(11, 16),
+          temp: json.hourly.temperature_2m[i],
+          sensacion: json.hourly.apparent_temperature ? json.hourly.apparent_temperature[i] : null,
+          humedad: json.hourly.relative_humidity_2m ? json.hourly.relative_humidity_2m[i] : null,
+          probLluvia: json.hourly.precipitation_probability[i],
+          lluviaMm: json.hourly.precipitation[i],
+          vientoKmh: json.hourly.wind_speed_10m[i],
+          rachaKmh: json.hourly.wind_gusts_10m[i],
+          dirDeg: json.hourly.wind_direction_10m[i],
+          weatherCode: json.hourly.weather_code ? json.hourly.weather_code[i] : null
+        });
+      }
+    }
+
     renderViento();
     renderPronosticoDiario();
   } catch (e) {
@@ -949,15 +1095,145 @@ function renderPronosticoDiario() {
   const nombresDias = ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"];
   const tarjetas = pronosticoDiario.time.map((fecha, indice) => {
     const dia = new Date(`${fecha}T12:00:00`).getDay();
-    return `<article class="dia-pronostico">
+    const esSeleccionado = diaSeleccionadoPronostico === fecha;
+    const weatherCode = pronosticoDiario.weather_code ? pronosticoDiario.weather_code[indice] : null;
+    const clima = descripcionTiempoWMO(weatherCode);
+
+    return `<article class="dia-pronostico ${esSeleccionado ? "seleccionado" : ""}"
+      tabindex="0" role="button" aria-expanded="${esSeleccionado}"
+      onclick="toggleDetalleDiaPronostico('${fecha}')"
+      onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleDetalleDiaPronostico('${fecha}');}"
+      title="Clic para ver detalle hora por hora de este día">
       <div class="dia-nombre">${indice === 0 ? "Hoy" : nombresDias[dia]}</div>
       <div class="dia-fecha">${fecha.slice(8, 10)}/${fecha.slice(5, 7)}</div>
+      <div class="dia-clima-icono" title="${clima.texto}">${clima.icono}</div>
       <div class="temperaturas"><strong>${pronosticoDiario.temperature_2m_max[indice].toFixed(0)}°</strong> <span>${pronosticoDiario.temperature_2m_min[indice].toFixed(0)}°</span></div>
       <div class="dia-dato"><b>Lluvia</b> ${pronosticoDiario.precipitation_probability_max[indice]}% · ${pronosticoDiario.precipitation_sum[indice].toFixed(1)} mm</div>
       <div class="dia-dato"><b>Viento</b> ${formatearVelocidad(pronosticoDiario.wind_speed_10m_min[indice])}–${formatearVelocidad(pronosticoDiario.wind_speed_10m_max[indice])}</div>
+      <div class="dia-hint">${esSeleccionado ? "Cerrar detalle ▴" : "Ver hora por hora ▾"}</div>
     </article>`;
   }).join("");
   document.getElementById("pronostico7Dias").innerHTML = tarjetas;
+
+  if (diaSeleccionadoPronostico) {
+    renderDetalleDiaPronostico(diaSeleccionadoPronostico);
+  } else {
+    const detalleEl = document.getElementById("detalleDiaPronostico");
+    if (detalleEl) detalleEl.style.display = "none";
+  }
+}
+
+function toggleDetalleDiaPronostico(fecha) {
+  if (diaSeleccionadoPronostico === fecha) {
+    diaSeleccionadoPronostico = null;
+  } else {
+    diaSeleccionadoPronostico = fecha;
+  }
+  renderPronosticoDiario();
+  if (diaSeleccionadoPronostico) {
+    const el = document.getElementById("detalleDiaPronostico");
+    if (el) {
+      setTimeout(() => {
+        el.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      }, 50);
+    }
+  }
+}
+
+function cerrarDetallePronostico() {
+  diaSeleccionadoPronostico = null;
+  renderPronosticoDiario();
+}
+
+function renderDetalleDiaPronostico(fecha) {
+  const detalleEl = document.getElementById("detalleDiaPronostico");
+  if (!detalleEl) return;
+  const horas = pronosticoHorarioPorDia.get(fecha);
+  if (!horas || horas.length === 0) {
+    detalleEl.style.display = "none";
+    return;
+  }
+  detalleEl.style.display = "block";
+
+  const idxDia = pronosticoDiario ? pronosticoDiario.time.indexOf(fecha) : -1;
+  const tempMax = idxDia >= 0 ? pronosticoDiario.temperature_2m_max[idxDia].toFixed(0) : "s/d";
+  const tempMin = idxDia >= 0 ? pronosticoDiario.temperature_2m_min[idxDia].toFixed(0) : "s/d";
+  const lluviaProbMax = idxDia >= 0 ? pronosticoDiario.precipitation_probability_max[idxDia] : "s/d";
+  const lluviaTotal = idxDia >= 0 ? pronosticoDiario.precipitation_sum[idxDia].toFixed(1) : "0.0";
+  const vientoMin = idxDia >= 0 ? formatearVelocidad(pronosticoDiario.wind_speed_10m_min[idxDia]) : "";
+  const vientoMax = idxDia >= 0 ? formatearVelocidad(pronosticoDiario.wind_speed_10m_max[idxDia]) : "";
+  const maxRacha = Math.max(...horas.map(h => h.rachaKmh || 0));
+
+  const partes = fecha.split("-");
+  const fechaObj = new Date(parseInt(partes[0]), parseInt(partes[1]) - 1, parseInt(partes[2]), 12, 0, 0);
+  const diasCompletos = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
+  const meses = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"];
+  const nombreDia = diasCompletos[fechaObj.getDay()];
+
+  const ahora = new Date();
+  const fechaHoyStr = `${ahora.getFullYear()}-${String(ahora.getMonth() + 1).padStart(2, "0")}-${String(ahora.getDate()).padStart(2, "0")}`;
+  const esHoy = fecha === fechaHoyStr;
+  const tituloFecha = esHoy 
+    ? `Hoy · ${nombreDia} ${parseInt(partes[2], 10)} de ${meses[fechaObj.getMonth()]}`
+    : `${nombreDia} ${parseInt(partes[2], 10)} de ${meses[fechaObj.getMonth()]}`;
+
+  const horaActualStr = String(ahora.getHours()).padStart(2, "0") + ":00";
+
+  let filas = "";
+  for (const h of horas) {
+    const esHoraActual = esHoy && h.hora === horaActualStr;
+    const clima = descripcionTiempoWMO(h.weatherCode);
+    const probClass = h.probLluvia >= 50 ? "prob-alta" : h.probLluvia >= 25 ? "prob-media" : "";
+    const lluviaTexto = h.lluviaMm > 0 ? `<span class="lluvia-badge">💧 ${h.lluviaMm.toFixed(1)} mm</span>` : "0 mm";
+    const rachaClass = h.rachaKmh >= 35 ? "racha-destacada" : "";
+
+    filas += `<tr class="${esHoraActual ? "es-hora-actual" : ""}">
+      <td><strong>${h.hora}</strong>${esHoraActual ? '<span class="badge-ahora">Ahora</span>' : ""}</td>
+      <td title="${clima.texto}">${clima.icono} <span style="font-size:11px">${clima.texto}</span></td>
+      <td><strong>${h.temp.toFixed(1)} °C</strong>${h.sensacion != null ? `<br><small style="color:var(--foam-dim);font-size:10px">ST ${h.sensacion.toFixed(1)}°</small>` : ""}</td>
+      <td class="${probClass}">${h.probLluvia}%</td>
+      <td>${lluviaTexto}</td>
+      <td>${formatearVelocidad(h.vientoKmh)}</td>
+      <td class="${rachaClass}">${formatearVelocidad(h.rachaKmh)}</td>
+      <td>${flechaDireccion(h.dirDeg)} ${direccionCardinal(h.dirDeg)} <small style="color:var(--foam-dim)">(${h.dirDeg}°)</small></td>
+    </tr>`;
+  }
+
+  detalleEl.innerHTML = `
+    <div class="detalle-dia-panel">
+      <div class="detalle-dia-header">
+        <div class="detalle-dia-titulo-wrap">
+          <h3 class="detalle-dia-titulo">📅 ${tituloFecha}</h3>
+          <span class="detalle-dia-subtitulo">Detalle hora por hora (24 hs)</span>
+        </div>
+        <div class="detalle-dia-resumen">
+          <div class="detalle-chip">🌡️ <b>${tempMax}°</b> / ${tempMin}°</div>
+          <div class="detalle-chip">💧 <b>${lluviaTotal} mm</b> (${lluviaProbMax}%)</div>
+          <div class="detalle-chip">💨 <b>${vientoMin}–${vientoMax}</b> (Racha máx ${formatearVelocidad(maxRacha)})</div>
+          <button type="button" class="detalle-cerrar-btn" onclick="cerrarDetallePronostico()">✕ Cerrar detalle</button>
+        </div>
+      </div>
+      <div class="detalle-tabla-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Hora</th>
+              <th>Cielo / Estado</th>
+              <th>Temp. / Sens.</th>
+              <th>Prob. Lluvia</th>
+              <th>Cantidad</th>
+              <th>Viento</th>
+              <th>Racha</th>
+              <th>Dirección</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${filas}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  `;
 }
 
 function renderViento() {
